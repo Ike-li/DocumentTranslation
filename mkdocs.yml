@@ -136,3 +136,42 @@ nav:
     - 第 16 周 · 2026 年 4 月 13-17 日: claude-code/zh/whats-new/2026-w16.md
     - 第 20 周 · 2026 年 5 月 11-15 日: claude-code/zh/whats-new/2026-w20.md
     - 零数据保留: claude-code/zh/zero-data-retention.md
+  - OpenAI Codex:
+    - Codex: openai-codex/zh/overview.md
+    - 快速入门: openai-codex/zh/quickstart.md
+    - Codex App Server: openai-codex/zh/app-server.md
+    - Codex 应用: openai-codex/zh/app.md
+    - Codex CLI: openai-codex/zh/cli.md
+    - Codex Web: openai-codex/zh/cloud.md
+    - Codex IDE 扩展: openai-codex/zh/ide.md
+    - Codex GitHub Action: openai-codex/zh/github-action.md
+    - Codex SDK: openai-codex/zh/sdk.md
+    - 认证: openai-codex/zh/auth.md
+    - 权限: openai-codex/zh/permissions.md
+    - 代理审批与安全: openai-codex/zh/agent-approvals-security.md
+    - Codex 安全: openai-codex/zh/security.md
+    - 配置基础: openai-codex/zh/config-basic.md
+    - 高级配置: openai-codex/zh/config-advanced.md
+    - 配置参考: openai-codex/zh/config-reference.md
+    - 配置示例: openai-codex/zh/config-sample.md
+    - 环境变量: openai-codex/zh/environment-variables.md
+    - 钩子: openai-codex/zh/hooks.md
+    - 插件: openai-codex/zh/plugins.md
+    - 代理技能: openai-codex/zh/skills.md
+    - 子代理: openai-codex/zh/subagents.md
+    - 工作流: openai-codex/zh/workflows.md
+    - 提示词: openai-codex/zh/prompting.md
+    - 自定义提示词: openai-codex/zh/custom-prompts.md
+    - 规则: openai-codex/zh/rules.md
+    - 非交互模式: openai-codex/zh/noninteractive.md
+    - 远程连接: openai-codex/zh/remote-connections.md
+    - Codex 模型: openai-codex/zh/models.md
+    - OpenAI Codex 定价: openai-codex/zh/pricing.md
+    - 功能成熟度: openai-codex/zh/feature-maturity.md
+    - 速度: openai-codex/zh/speed.md
+    - 记忆: openai-codex/zh/memories.md
+    - 迁移到 Codex: openai-codex/zh/migrate.md
+    - 开源: openai-codex/zh/open-source.md
+    - Appshots: openai-codex/zh/appshots.md
+    - 视频: openai-codex/zh/videos.md
+    - Windows: openai-codex/zh/windows.md
