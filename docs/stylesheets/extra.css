@@ -1,0 +1,82 @@
+:root {
+  --md-primary-fg-color: #6366f1;
+  --md-accent-fg-color: #8b5cf6;
+}
+
+/* Mintlify 风格的 callout/admonition */
+.md-typeset .admonition,
+.md-typeset details {
+  border-left: 4px solid;
+  border-radius: 0.2rem;
+  box-shadow: 0 0.2rem 0.5rem rgba(0,0,0,.05);
+  padding: 0.8rem 1.2rem;
+  margin: 1.5625em 0;
+}
+
+.md-typeset .admonition.note,
+.md-typeset details.note {
+  border-left-color: #448aff;
+  background-color: rgba(68, 138, 255, 0.05);
+}
+
+.md-typeset .admonition.tip,
+.md-typeset details.tip {
+  border-left-color: #00bfa5;
+  background-color: rgba(0, 191, 165, 0.05);
+}
+
+.md-typeset .admonition.warning,
+.md-typeset details.warning {
+  border-left-color: #ff9100;
+  background-color: rgba(255, 145, 0, 0.05);
+}
+
+/* 代码块样式优化 */
+.md-typeset pre > code {
+  border-radius: 0.4rem;
+  padding: 1rem;
+}
+
+/* 行内代码 */
+.md-typeset code {
+  background-color: rgba(99, 102, 241, 0.08);
+  color: #6366f1;
+  padding: 0.1em 0.4em;
+  border-radius: 0.25rem;
+  font-size: 0.85em;
+}
+
+/* 表格样式 */
+.md-typeset table:not([class]) {
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius: 0.4rem;
+  overflow: hidden;
+}
+
+.md-typeset table:not([class]) th {
+  background-color: rgba(99, 102, 241, 0.05);
+  font-weight: 600;
+}
+
+/* 链接样式 */
+.md-typeset a {
+  color: #6366f1;
+  text-decoration: none;
+}
+
+.md-typeset a:hover {
+  text-decoration: underline;
+}
+
+/* 标题样式 */
+.md-typeset h1 {
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.md-typeset h2 {
+  font-weight: 600;
+  color: #334155;
+  border-bottom: 1px solid rgba(0,0,0,.08);
+  padding-bottom: 0.3em;
+}

@@ -9,13 +9,13 @@ theme:
   palette:
     - scheme: default
       primary: indigo
-      accent: indigo
+      accent: purple
       toggle:
         icon: material/brightness-7
         name: 切换到深色模式
     - scheme: slate
       primary: indigo
-      accent: indigo
+      accent: purple
       toggle:
         icon: material/brightness-4
         name: 切换到浅色模式
@@ -26,9 +26,17 @@ theme:
     - navigation.sections
     - navigation.expand
     - navigation.top
+    - navigation.indexes
     - search.suggest
     - search.highlight
     - content.code.copy
+    - content.code.annotate
+  font:
+    text: Inter
+    code: JetBrains Mono
+
+extra_css:
+  - stylesheets/extra.css
 
 plugins:
   - search:
