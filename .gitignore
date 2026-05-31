@@ -1,0 +1,25 @@
+# 依赖
+node_modules/
+
+# 环境变量（含 API 密钥，绝不提交）
+.env
+.env.local
+*.local
+
+# 构建产物
+site/.vitepress/dist/
+site/.vitepress/cache/
+site/dist/
+dist/
+
+# 日志
+*.log
+logs/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 编辑器
+.vscode/
+.idea/

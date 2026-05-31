@@ -1,0 +1,27 @@
+{
+  "name": "dev-docs-zh",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "多源开发者文档简体中文翻译系统（Claude Code / OpenAI Codex ...）",
+  "scripts": {
+    "fetch-docs": "tsx scripts/fetch-docs.ts",
+    "detect-changes": "tsx scripts/detect-changes.ts",
+    "translate": "tsx scripts/translate.ts",
+    "sync": "tsx scripts/sync.ts",
+    "sanitize": "tsx scripts/sanitize-zh.ts",
+    "dev": "source .venv/bin/activate && mkdocs serve",
+    "build": "source .venv/bin/activate && mkdocs build",
+    "preview": "source .venv/bin/activate && mkdocs serve -a 127.0.0.1:4173",
+    "typecheck": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vitepress": "^1.6.4"
+  }
+}

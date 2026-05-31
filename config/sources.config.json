@@ -1,0 +1,26 @@
+{
+  "$schema": "./sources.schema.json",
+  "sources": [
+    {
+      "id": "claude-code",
+      "name": "Claude Code",
+      "name_zh": "Claude Code 文档",
+      "indexUrl": "https://code.claude.com/llms.txt",
+      "docUrlPattern": "https://code.claude.com/docs/en/{slug}.md",
+      "docUrlPrefix": "https://code.claude.com/docs/en/",
+      "navOrder": 1,
+      "enabled": true
+    },
+    {
+      "id": "openai-codex",
+      "name": "OpenAI Codex",
+      "name_zh": "OpenAI Codex 文档",
+      "indexUrl": "https://developers.openai.com/codex/llms.txt",
+      "docUrlPattern": "https://developers.openai.com/codex/{slug}.md",
+      "docUrlPrefix": "https://developers.openai.com/codex/",
+      "navOrder": 2,
+      "enabled": true,
+      "excludeSlugs": ["codex-manual"]
+    }
+  ]
+}

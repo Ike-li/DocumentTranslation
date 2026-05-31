@@ -1,0 +1,24 @@
+{
+  "_comment": "通用术语表：翻译时注入 system prompt，保证术语一致。键=英文，值=期望的中文（留空或等于英文表示保持原样）",
+  "terms": {
+    "Claude Code": "Claude Code",
+    "Agent SDK": "Agent SDK",
+    "subagent": "子代理",
+    "hook": "钩子",
+    "hooks": "钩子",
+    "MCP": "MCP",
+    "slash command": "斜杠命令",
+    "prompt": "提示词",
+    "token": "token",
+    "checkpoint": "检查点",
+    "sandbox": "沙箱",
+    "worktree": "工作树",
+    "skill": "技能",
+    "permission": "权限",
+    "session": "会话",
+    "streaming": "流式",
+    "repository": "仓库",
+    "commit": "提交",
+    "deploy": "部署"
+  }
+}
