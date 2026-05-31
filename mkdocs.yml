@@ -70,62 +70,65 @@ markdown_extensions:
 nav:
   - 首页: index.md
   - Claude Code:
-    - Set up Claude Code for your organization: claude-code/zh/admin-setup.md
-    - How the agent loop works: claude-code/zh/agent-sdk/agent-loop.md
-    - Use Claude Code features in the SDK: claude-code/zh/agent-sdk/claude-code-features.md
-    - Track cost and usage: claude-code/zh/agent-sdk/cost-tracking.md
-    - Give Claude custom tools: claude-code/zh/agent-sdk/custom-tools.md
-    - Rewind file changes with checkpointing: claude-code/zh/agent-sdk/file-checkpointing.md
-    - Intercept and control agent behavior with hooks: claude-code/zh/agent-sdk/hooks.md
-    - Hosting the Agent SDK: claude-code/zh/agent-sdk/hosting.md
-    - Connect to external tools with MCP: claude-code/zh/agent-sdk/mcp.md
-    - Migrate to Claude Agent SDK: claude-code/zh/agent-sdk/migration-guide.md
-    - Modifying system prompts: claude-code/zh/agent-sdk/modifying-system-prompts.md
-    - Observability with OpenTelemetry: claude-code/zh/agent-sdk/observability.md
-    - Agent SDK overview: claude-code/zh/agent-sdk/overview.md
-    - Configure permissions: claude-code/zh/agent-sdk/permissions.md
-    - Plugins in the SDK: claude-code/zh/agent-sdk/plugins.md
-    - Agent SDK reference - Python: claude-code/zh/agent-sdk/python.md
-    - Quickstart: claude-code/zh/agent-sdk/quickstart.md
-    - Securely deploying AI agents: claude-code/zh/agent-sdk/secure-deployment.md
-    - Persist sessions to external storage: claude-code/zh/agent-sdk/session-storage.md
-    - Work with sessions: claude-code/zh/agent-sdk/sessions.md
-    - Agent Skills in the SDK: claude-code/zh/agent-sdk/skills.md
-    - Slash Commands in the SDK: claude-code/zh/agent-sdk/slash-commands.md
-    - Stream responses in real-time: claude-code/zh/agent-sdk/streaming-output.md
-    - Streaming Input: claude-code/zh/agent-sdk/streaming-vs-single-mode.md
-    - Get structured output from agents: claude-code/zh/agent-sdk/structured-outputs.md
-    - Subagents in the SDK: claude-code/zh/agent-sdk/subagents.md
-    - Todo Lists: claude-code/zh/agent-sdk/todo-tracking.md
-    - Scale to many tools with tool search: claude-code/zh/agent-sdk/tool-search.md
-    - Agent SDK reference - TypeScript: claude-code/zh/agent-sdk/typescript.md
-    - TypeScript SDK V2 session API (removed): claude-code/zh/agent-sdk/typescript-v2-preview.md
-    - Handle approvals and user input: claude-code/zh/agent-sdk/user-input.md
-    - Orchestrate teams of Claude Code sessions: claude-code/zh/agent-teams.md
-    - Manage multiple agents with agent view: claude-code/zh/agent-view.md
-    - Run agents in parallel: claude-code/zh/agents.md
-    - Claude Code on Amazon Bedrock: claude-code/zh/amazon-bedrock.md
-    - Track team usage with analytics: claude-code/zh/analytics.md
-    - Authentication: claude-code/zh/authentication.md
-    - Configure auto mode: claude-code/zh/auto-mode-config.md
-    - Best practices for Claude Code: claude-code/zh/best-practices.md
-    - Champion kit: claude-code/zh/champion-kit.md
-    - Push events into a running session with channels: claude-code/zh/channels.md
-    - Channels reference: claude-code/zh/channels-reference.md
-    - Checkpointing: claude-code/zh/checkpointing.md
-    - Use Claude Code with Chrome (beta): claude-code/zh/chrome.md
-    - Use Claude Code on the web: claude-code/zh/claude-code-on-the-web.md
-    - CLI reference: claude-code/zh/cli-reference.md
-    - Common workflows: claude-code/zh/common-workflows.md
-    - Hooks reference: claude-code/zh/hooks.md
-    - JetBrains IDEs: claude-code/zh/jetbrains.md
-    - Connect Claude Code to tools via MCP: claude-code/zh/mcp.md
-    - How Claude remembers your project: claude-code/zh/memory.md
-    - Overview: claude-code/zh/overview.md
-    - Quickstart: claude-code/zh/quickstart.md
-    - Advanced setup: claude-code/zh/setup.md
-    - Plan in the cloud with ultraplan: claude-code/zh/ultraplan.md
-    - Week 16 · April 13–17, 2026: claude-code/zh/whats-new/2026-w16.md
-    - Week 20 · May 11–15, 2026: claude-code/zh/whats-new/2026-w20.md
-    - Zero data retention: claude-code/zh/zero-data-retention.md
-
+    - 为您的组织设置 Claude Code: claude-code/zh/admin-setup.md
+    - 代理循环的工作原理: claude-code/zh/agent-sdk/agent-loop.md
+    - 在 SDK 中使用 Claude Code 功能: claude-code/zh/agent-sdk/claude-code-features.md
+    - 跟踪成本和使用情况: claude-code/zh/agent-sdk/cost-tracking.md
+    - 为 Claude 提供自定义工具: claude-code/zh/agent-sdk/custom-tools.md
+    - 通过检查点回退文件更改: claude-code/zh/agent-sdk/file-checkpointing.md
+    - 使用钩子拦截和控制代理行为: claude-code/zh/agent-sdk/hooks.md
+    - 托管 Agent SDK: claude-code/zh/agent-sdk/hosting.md
+    - 通过 MCP 连接外部工具: claude-code/zh/agent-sdk/mcp.md
+    - 迁移到 Claude Agent SDK: claude-code/zh/agent-sdk/migration-guide.md
+    - 修改系统提示: claude-code/zh/agent-sdk/modifying-system-prompts.md
+    - 使用 OpenTelemetry 实现可观测性: claude-code/zh/agent-sdk/observability.md
+    - Agent SDK 概览: claude-code/zh/agent-sdk/overview.md
+    - 配置权限: claude-code/zh/agent-sdk/permissions.md
+    - SDK 中的插件: claude-code/zh/agent-sdk/plugins.md
+    - Agent SDK 参考 - Python: claude-code/zh/agent-sdk/python.md
+    - 快速开始: claude-code/zh/agent-sdk/quickstart.md
+    - 安全部署 AI 代理: claude-code/zh/agent-sdk/secure-deployment.md
+    - 将会话持久化到外部存储: claude-code/zh/agent-sdk/session-storage.md
+    - 使用会话: claude-code/zh/agent-sdk/sessions.md
+    - SDK 中的 Agent Skills: claude-code/zh/agent-sdk/skills.md
+    - SDK 中的斜杠命令: claude-code/zh/agent-sdk/slash-commands.md
+    - 实时流式响应: claude-code/zh/agent-sdk/streaming-output.md
+    - 流式输入: claude-code/zh/agent-sdk/streaming-vs-single-mode.md
+    - 从代理获取结构化输出: claude-code/zh/agent-sdk/structured-outputs.md
+    - SDK 中的子代理: claude-code/zh/agent-sdk/subagents.md
+    - 待办事项列表: claude-code/zh/agent-sdk/todo-tracking.md
+    - 通过工具搜索扩展到多个工具: claude-code/zh/agent-sdk/tool-search.md
+    - Agent SDK 参考 - TypeScript: claude-code/zh/agent-sdk/typescript.md
+    - TypeScript SDK V2 会话 API（已移除）: claude-code/zh/agent-sdk/typescript-v2-preview.md
+    - 处理审批和用户输入: claude-code/zh/agent-sdk/user-input.md
+    - 编排 Claude Code 会话团队: claude-code/zh/agent-teams.md
+    - 使用代理视图管理多个代理: claude-code/zh/agent-view.md
+    - 并行运行代理: claude-code/zh/agents.md
+    - Amazon Bedrock 上的 Claude Code: claude-code/zh/amazon-bedrock.md
+    - 通过分析跟踪团队使用情况: claude-code/zh/analytics.md
+    - 身份验证: claude-code/zh/authentication.md
+    - 配置自动模式: claude-code/zh/auto-mode-config.md
+    - Claude Code 最佳实践: claude-code/zh/best-practices.md
+    - 推广工具包: claude-code/zh/champion-kit.md
+    - 更新日志: claude-code/zh/changelog.md
+    - 通过通道向运行中的会话推送事件: claude-code/zh/channels.md
+    - 通道参考: claude-code/zh/channels-reference.md
+    - 检查点: claude-code/zh/checkpointing.md
+    - 在 Chrome 中使用 Claude Code（测试版）: claude-code/zh/chrome.md
+    - 在 Web 上使用 Claude Code: claude-code/zh/claude-code-on-the-web.md
+    - 探索 .claude 目录: claude-code/zh/claude-directory.md
+    - AWS 上 Claude 平台的 Claude Code: claude-code/zh/claude-platform-on-aws.md
+    - CLI 参考: claude-code/zh/cli-reference.md
+    - 代码审查: claude-code/zh/code-review.md
+    - 常见工作流: claude-code/zh/common-workflows.md
+    - 钩子参考: claude-code/zh/hooks.md
+    - JetBrains IDE: claude-code/zh/jetbrains.md
+    - 通过 MCP 将 Claude Code 连接到工具: claude-code/zh/mcp.md
+    - Claude 如何记住您的项目: claude-code/zh/memory.md
+    - 概览: claude-code/zh/overview.md
+    - 快速开始: claude-code/zh/quickstart.md
+    - 高级设置: claude-code/zh/setup.md
+    - 使用 ultraplan 在云端规划: claude-code/zh/ultraplan.md
+    - 第 16 周 · 2026 年 4 月 13-17 日: claude-code/zh/whats-new/2026-w16.md
+    - 第 20 周 · 2026 年 5 月 11-15 日: claude-code/zh/whats-new/2026-w20.md
+    - 零数据保留: claude-code/zh/zero-data-retention.md
