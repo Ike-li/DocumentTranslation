@@ -67,7 +67,7 @@ function query({
 
 #### 返回值
 
-返回一个 [`Query`](#query-object) 对象，它扩展了 `AsyncGenerator<`[`SDKMessage`](#sdkmessage)`, void>` 并附加了额外方法。
+返回一个 [`Query`](#query-对象) 对象，它扩展了 `AsyncGenerator<`[`SDKMessage`](#sdkmessage)`, void>` 并附加了额外方法。
 
 ### `startup()`
 
@@ -270,7 +270,7 @@ function getSessionInfo(
 | `sessionId`   | `string` | required    | 要查找的会话 UUID                                                      |
 | `options.dir` | `string` | `undefined` | 项目目录路径。省略时将搜索所有项目目录                                 |
 
-返回 [`SDKSessionInfo`](#return-type-sdksessioninfo)，若会话未找到则返回 `undefined`。
+返回 [`SDKSessionInfo`](#返回类型sdksessioninfo)，若会话未找到则返回 `undefined`。
 
 ### `renameSession()`
 
@@ -328,7 +328,7 @@ function resolveSettings(
 | :---------------------------- | :------------------------------------ | :-------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `options.cwd`                 | `string`                              | `process.cwd()` | 用于解析项目和本地设置的相对目录                                                                                                                                                                                                                                                                                                                         |
 | `options.settingSources`      | [`SettingSource`](#settingsource)`[]` | 所有源          | 要加载哪些文件系统源。传递 `[]` 以跳过用户、项目和本地设置。托管策略设置在任何情况下都会加载                                                                                                                                                                                                                                                             |
-| `options.managedSettings`     | `Settings`                            | `undefined`     | 由嵌入宿主提供的限制性策略层设置。默认情况下，当存在管理员部署的托管层时会被丢弃；当 [`parentSettingsBehavior`](/en/settings#available-settings) 为 `"merge"` 时，会在该层下合并。非限制性键（如 `model`）会被静默丢弃，因此此选项只能收紧托管策略，不能放松。                                                                                              |
+| `options.managedSettings`     | `Settings`                            | `undefined`     | 由嵌入宿主提供的限制性策略层设置。默认情况下，当存在管理员部署的托管层时会被丢弃；当 [`parentSettingsBehavior`](/zh/settings#available-settings) 为 `"merge"` 时，会在该层下合并。非限制性键（如 `model`）会被静默丢弃，因此此选项只能收紧托管策略，不能放松。                                                                                              |
 | `options.serverManagedSettings` | `Settings`                            | `undefined`     | 来自 `/api/claude_code/settings` 的服务器托管设置负载。非限制性键会不经过滤地传递。                                                                                                                                                                                                                                                                      |
 
 #### 返回类型：`ResolvedSettings`
@@ -366,20 +366,20 @@ console.log(`Set by: ${provenance.cleanupPeriodDays?.source}`);
 | `abortController` | `AbortController` | `new AbortController()` | 用于取消操作的控制器 |
 | `additionalDirectories` | `string[]` | `[]` | Claude 可以访问的额外目录 |
 | `agent` | `string` | `undefined` | 主线程的代理名称。代理必须在 `agents` 选项或设置中定义 |
-| `agents` | `Record<string, [`AgentDefinition`](#agentdefinition)>` | `undefined` | 以编程方式定义子代理 |
+| `agents` | `Record<string, [`AgentDefinition`](#代理定义)>` | `undefined` | 以编程方式定义子代理 |
 | `agentProgressSummaries` | `boolean` | `false` | 当为 `true` 时，为子代理生成单行进度摘要，并通过 [`task_progress`](#sdktaskprogressmessage) 事件的 `summary` 字段进行转发。适用于前台和后台子代理 |
 | `allowDangerouslySkipPermissions` | `boolean` | `false` | 启用绕过权限。当使用 `permissionMode: 'bypassPermissions'` 时必须设置此项 |
-| `allowedTools` | `string[]` | `[]` | 自动批准而无需提示的工具。这并不限制 Claude 只能使用这些工具；未列出的工具将遵循 `permissionMode` 和 `canUseTool`。使用 `disallowedTools` 来阻止工具。参见 [权限](/en/agent-sdk/permissions#allow-and-deny-rules) |
+| `allowedTools` | `string[]` | `[]` | 自动批准而无需提示的工具。这并不限制 Claude 只能使用这些工具；未列出的工具将遵循 `permissionMode` 和 `canUseTool`。使用 `disallowedTools` 来阻止工具。参见 [权限](/zh/agent-sdk/permissions#allow-and-deny-rules) |
 | `betas` | [`SdkBeta`](#sdkbeta)`[]` | `[]` | 启用 Beta 功能 |
 | `canUseTool` | [`CanUseTool`](#canusetool) | `undefined` | 用于工具使用的自定义权限函数 |
 | `continue` | `boolean` | `false` | 继续最近的对话 |
 | `cwd` | `string` | `process.cwd()` | 当前工作目录 |
 | `debug` | `boolean` | `false` | 为 Claude Code 进程启用调试模式 |
 | `debugFile` | `string` | `undefined` | 将调试日志写入指定的文件路径。隐式启用调试模式 |
-| `disallowedTools` | `string[]` | `[]` | 要拒绝的工具。像 `"Bash"` 这样的纯名称会从 Claude 的上下文中移除该工具。像 `"Bash(rm *)"` 这样的作用域规则会让该工具保持可用，并在所有权限模式（包括 `bypassPermissions`）中拒绝匹配的调用。参见 [权限](/en/agent-sdk/permissions#allow-and-deny-rules) |
+| `disallowedTools` | `string[]` | `[]` | 要拒绝的工具。像 `"Bash"` 这样的纯名称会从 Claude 的上下文中移除该工具。像 `"Bash(rm *)"` 这样的作用域规则会让该工具保持可用，并在所有权限模式（包括 `bypassPermissions`）中拒绝匹配的调用。参见 [权限](/zh/agent-sdk/permissions#allow-and-deny-rules) |
 | `effort` | `'low' \| 'medium' \| 'high' \| 'xhigh' \| 'max'` | `'high'` | 控制 Claude 在其响应中投入多少努力。与自适应思维配合使用以指导思考深度 |
-| `enableFileCheckpointing` | `boolean` | `false` | 启用用于回退的文件更改跟踪。参见 [文件检查点](/en/agent-sdk/file-checkpointing) |
-| `env` | `Record<string, string \| undefined>` | `process.env` | 环境变量。设置时，它会替换子进程环境，而不是与 `process.env` 合并，因此请传递 `{ ...process.env, YOUR_VAR: 'value' }` 以保留像 `PATH` 这样的继承变量。有关此模式的示例，请参见 [处理缓慢或停滞的 API 响应](#handle-slow-or-stalled-api-responses)，有关底层 CLI 读取的变量，请参见 [环境变量](/en/env-vars)。设置 `CLAUDE_AGENT_SDK_CLIENT_APP` 以在 User-Agent 标头中标识您的应用 |
+| `enableFileCheckpointing` | `boolean` | `false` | 启用用于回退的文件更改跟踪。参见 [文件检查点](/zh/agent-sdk/file-checkpointing) |
+| `env` | `Record<string, string \| undefined>` | `process.env` | 环境变量。设置时，它会替换子进程环境，而不是与 `process.env` 合并，因此请传递 `{ ...process.env, YOUR_VAR: 'value' }` 以保留像 `PATH` 这样的继承变量。有关此模式的示例，请参见 [处理缓慢或停滞的 API 响应](#处理缓慢或停滞的-api-响应)，有关底层 CLI 读取的变量，请参见 [环境变量](/zh/env-vars)。设置 `CLAUDE_AGENT_SDK_CLIENT_APP` 以在 User-Agent 标头中标识您的应用 |
 | `executable` | `'bun' \| 'deno' \| 'node'` | 自动检测 | 要使用的 JavaScript 运行时 |
 | `executableArgs` | `string[]` | `[]` | 传递给可执行文件的参数 |
 | `extraArgs` | `Record<string, string \| null>` | `{}` | 附加参数 |
@@ -391,34 +391,34 @@ console.log(`Set by: ${provenance.cleanupPeriodDays?.source}`);
 | `includePartialMessages` | `boolean` | `false` | 包含部分消息事件 |
 | `loadTimeoutMs` | `number` | `60000` | *Alpha。* 恢复实体化期间，对每个 `sessionStore.load()` 和 `sessionStore.listSubkeys()` 调用的超时时间（毫秒）。如果适配器在此时间窗口内未完成，则查询失败而不是挂起。当未设置 `sessionStore` 时忽略 |
 | `managedSettings` | `Settings` | `undefined` | 由生成父进程提供的策略层设置。如果机器上已存在 IT 控制的托管设置层，则会被丢弃，除非管理员选择 `parentSettingsBehavior: 'merge'`。无论怎样，都会过滤为仅限限制性的键 |
-| `maxBudgetUsd` | `number` | `undefined` | 当客户端成本估算达到此美元值时停止查询。与 `total_cost_usd` 的相同估算值进行比较；有关准确性的注意事项，请参见 [跟踪成本和使用情况](/en/agent-sdk/cost-tracking) |
+| `maxBudgetUsd` | `number` | `undefined` | 当客户端成本估算达到此美元值时停止查询。与 `total_cost_usd` 的相同估算值进行比较；有关准确性的注意事项，请参见 [跟踪成本和使用情况](/zh/agent-sdk/cost-tracking) |
 | `maxThinkingTokens` | `number` | `undefined` | *已弃用：* 请使用 `thinking` 代替。思考过程的最大 token 数 |
 | `maxTurns` | `number` | `undefined` | 最大的智能体回合数（工具使用的往返次数） |
 | `mcpServers` | `Record<string, [`McpServerConfig`](#mcpserverconfig)>` | `{}` | MCP 服务器配置 |
 | `model` | `string` | 来自 CLI 的默认值 | 要使用的 Claude 模型 |
 | `onElicitation` | `(request: ElicitationRequest, options: { signal: AbortSignal }) => Promise<ElicitationResult>` | `undefined` | 处理 MCP 引导请求的回调。当 MCP 服务器请求用户输入且没有钩子首先处理时调用。如果未提供，未处理的引导请求将被自动拒绝 |
-| `outputFormat` | `{ type: 'json_schema', schema: JSONSchema }` | `undefined` | 定义代理结果的输出格式。详情请参见 [结构化输出](/en/agent-sdk/structured-outputs) |
-| `outputStyle` | `string` | `undefined` | 不是 `Options` 字段。请在内联 [`settings`](/en/settings) 对象或设置文件中设置 `outputStyle`。参见 [激活输出样式](/en/agent-sdk/modifying-system-prompts#activate-an-output-style) |
+| `outputFormat` | `{ type: 'json_schema', schema: JSONSchema }` | `undefined` | 定义代理结果的输出格式。详情请参见 [结构化输出](/zh/agent-sdk/structured-outputs) |
+| `outputStyle` | `string` | `undefined` | 不是 `Options` 字段。请在内联 [`settings`](/zh/settings) 对象或设置文件中设置 `outputStyle`。参见 [激活输出样式](/zh/agent-sdk/modifying-system-prompts#activate-an-output-style) |
 | `pathToClaudeCodeExecutable` | `string` | 从捆绑的原生二进制文件自动解析 | Claude Code 可执行文件的路径。仅在安装期间跳过了可选依赖项或您的平台不在支持集中时才需要 |
 | `permissionMode` | [`PermissionMode`](#permissionmode) | `'default'` | 会话的权限模式 |
 | `permissionPromptToolName` | `string` | `undefined` | 用于权限提示的 MCP 工具名称 |
 | `persistSession` | `boolean` | `true` | 当为 `false` 时，禁用将会话持久化到磁盘。会话将无法在以后恢复 |
 | `planModeInstructions` | `string` | `undefined` | 计划模式的自定义工作流指令。当 `permissionMode` 为 `'plan'` 时，此字符串替换默认的计划模式工作流正文。CLI 仍会用只读强制前言和 ExitPlanMode 协议页脚来包装它 |
-| `plugins` | [`SdkPluginConfig`](#sdkpluginconfig)`[]` | `[]` | 从本地路径加载自定义插件。详情请参见 [插件](/en/agent-sdk/plugins) |
+| `plugins` | [`SdkPluginConfig`](#sdkpluginconfig)`[]` | `[]` | 从本地路径加载自定义插件。详情请参见 [插件](/zh/agent-sdk/plugins) |
 | `promptSuggestions` | `boolean` | `false` | 启用提示建议。在每轮对话后发出一个 `prompt_suggestion` 消息，包含预测的下一个用户提示 |
 | `resume` | `string` | `undefined` | 要恢复的会话 ID |
 | `resumeSessionAt` | `string` | `undefined` | 在特定的消息 UUID 处恢复会话 |
 | `sandbox` | [`SandboxSettings`](#sandboxsettings) | `undefined` | 以编程方式配置沙箱行为。详情请参见 [沙箱设置](#sandboxsettings) |
 | `sessionId` | `string` | 自动生成 | 使用特定的 UUID 作为会话 ID，而不是自动生成 |
-| `sessionStore` | [`SessionStore`](/en/agent-sdk/session-storage#the-sessionstore-interface) | `undefined` | 将会话转录镜像到外部后端，以便任何主机都可以恢复它们。参见 [将会话持久化到外部存储](/en/agent-sdk/session-storage) |
+| `sessionStore` | [`SessionStore`](/zh/agent-sdk/session-storage#the-sessionstore-interface) | `undefined` | 将会话转录镜像到外部后端，以便任何主机都可以恢复它们。参见 [将会话持久化到外部存储](/zh/agent-sdk/session-storage) |
 | `sessionStoreFlush` | `'batched' \| 'eager'` | `'batched'` | *Alpha。* `sessionStore` 的刷新模式。当未设置 `sessionStore` 时忽略 |
-| `settings` | `string \| Settings` | `undefined` | 内联 [设置](/en/settings) 对象或设置文件路径。填充 [优先顺序](/en/settings#settings-precedence) 中的标志设置层。通过 [`applyFlagSettings()`](#applyflagsettings) 在运行时更改 |
-| `settingSources` | [`SettingSource`](#settingsource)`[]` | CLI 默认值（所有来源） | 控制要加载哪些文件系统设置。传递 `[]` 以禁用用户、项目和本地设置。托管策略设置无论如何都会加载。参见 [使用 Claude Code 功能](/en/agent-sdk/claude-code-features#what-settingsources-does-not-control) |
-| `skills` | `string[] \| 'all'` | `undefined` | 会话可用的技能。传递 `'all'` 以启用所有已发现的技能，或技能名称列表。设置后，SDK 会自动启用技能工具，而无需将其列在 `allowedTools` 中。参见 [技能](/en/agent-sdk/skills) |
+| `settings` | `string \| Settings` | `undefined` | 内联 [设置](/zh/settings) 对象或设置文件路径。填充 [优先顺序](/zh/settings#settings-precedence) 中的标志设置层。通过 [`applyFlagSettings()`](#applyflagsettings) 在运行时更改 |
+| `settingSources` | [`SettingSource`](#settingsource)`[]` | CLI 默认值（所有来源） | 控制要加载哪些文件系统设置。传递 `[]` 以禁用用户、项目和本地设置。托管策略设置无论如何都会加载。参见 [使用 Claude Code 功能](/zh/agent-sdk/claude-code-features#what-settingsources-does-not-control) |
+| `skills` | `string[] \| 'all'` | `undefined` | 会话可用的技能。传递 `'all'` 以启用所有已发现的技能，或技能名称列表。设置后，SDK 会自动启用技能工具，而无需将其列在 `allowedTools` 中。参见 [技能](/zh/agent-sdk/skills) |
 | `spawnClaudeCodeProcess` | `(options: SpawnOptions) => SpawnedProcess` | `undefined` | 用于生成 Claude Code 进程的自定义函数。用于在虚拟机、容器或远程环境中运行 Claude Code |
 | `stderr` | `(data: string) => void` | `undefined` | 处理 stderr 输出的回调 |
 | `strictMcpConfig` | `boolean` | `false` | 仅使用 `mcpServers` 中传入的服务器，并忽略项目的 `.mcp.json`、用户设置和插件提供的 MCP 服务器 |
-| `systemPrompt` | `string \| { type: 'preset'; preset: 'claude_code'; append?: string; excludeDynamicSections?: boolean }` | `undefined` (最小提示词) | 系统提示词配置。传递字符串作为自定义提示词，或传递 `{ type: 'preset', preset: 'claude_code' }` 以使用 Claude Code 的系统提示词。当使用预设对象形式时，添加 `append` 以扩展它并附加指令，并设置 `excludeDynamicSections: true` 以将每次会话的上下文移到第一条用户消息中，以实现 [跨机器更好的提示缓存重用](/en/agent-sdk/modifying-system-prompts#improve-prompt-caching-across-users-and-machines) |
+| `systemPrompt` | `string \| { type: 'preset'; preset: 'claude_code'; append?: string; excludeDynamicSections?: boolean }` | `undefined` (最小提示词) | 系统提示词配置。传递字符串作为自定义提示词，或传递 `{ type: 'preset', preset: 'claude_code' }` 以使用 Claude Code 的系统提示词。当使用预设对象形式时，添加 `append` 以扩展它并附加指令，并设置 `excludeDynamicSections: true` 以将每次会话的上下文移到第一条用户消息中，以实现 [跨机器更好的提示缓存重用](/zh/agent-sdk/modifying-system-prompts#improve-prompt-caching-across-users-and-machines) |
 | `taskBudget` | `{ total: number }` | `undefined` | *Alpha。* API 端的任务 token 预算。设置后，模型会被告知其剩余的 token 预算，以便它可以调整工具使用并在限制前完成任务 |
 | `thinking` | [`ThinkingConfig`](#thinkingconfig) | 支持的模型为 `{ type: 'adaptive' }` | 控制 Claude 的思考/推理行为。有关选项，请参见 [`ThinkingConfig`](#thinkingconfig) |
 | `title` | `string` | `undefined` | 会话的显示标题。当通过 `resume` 或 `continue` 恢复时，恢复的会话的持久化标题优先；使用 [`renameSession()`](#renamesession) 为现有会话重命名 |
@@ -480,7 +480,7 @@ interface Query extends AsyncGenerator<SDKMessage, void> {
 | 方法                                 | 描述                                                                                                                                                                                                   |
 | :------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `interrupt()`                          | 中断查询（仅在流式输入模式下可用）                                                                                                                                                 |
-| `rewindFiles(userMessageId, options?)` | 将文件恢复到指定用户消息时的状态。传入 `{ dryRun: true }` 可预览更改。需要 `enableFileCheckpointing: true`。参见 [文件检查点](/en/agent-sdk/file-checkpointing) |
+| `rewindFiles(userMessageId, options?)` | 将文件恢复到指定用户消息时的状态。传入 `{ dryRun: true }` 可预览更改。需要 `enableFileCheckpointing: true`。参见 [文件检查点](/zh/agent-sdk/file-checkpointing) |
 | `setPermissionMode()`                  | 更改权限模式（仅在流式输入模式下可用）                                                                                                                                          |
 | `setModel()`                           | 更改模型（仅在流式输入模式下可用）                                                                                                                                                    |
 | `setMaxThinkingTokens()`               | *已弃用：*请改用 `thinking` 选项。更改最大思考 token 数                                                                                                                          |
@@ -500,14 +500,14 @@ interface Query extends AsyncGenerator<SDKMessage, void> {
 
 #### `applyFlagSettings()`
 
-在不重启查询的情况下更改正在运行的会话[设置](/en/settings)。当某个没有专用设置器的设置需要在会话中途更改时使用此函数，例如在代理读取不可信输入后收紧 `permissions`。`setModel()` 和 `setPermissionMode()` 是针对这两个键的专用设置器；`applyFlagSettings()` 是接受任何设置键子集的通用形式，在此处传递 `model` 的效果与 `setModel()` 相同。
+在不重启查询的情况下更改正在运行的会话[设置](/zh/settings)。当某个没有专用设置器的设置需要在会话中途更改时使用此函数，例如在代理读取不可信输入后收紧 `permissions`。`setModel()` 和 `setPermissionMode()` 是针对这两个键的专用设置器；`applyFlagSettings()` 是接受任何设置键子集的通用形式，在此处传递 `model` 的效果与 `setModel()` 相同。
 
 只有部分键在会话中途生效：
 
 * **在下一轮生效**：`model`、`effortLevel`、`ultracode`、`permissions`、`hooks`、`skillOverrides`、`fastMode`、`awaySummaryEnabled`
 * **在会话中途无效**：`agent` 和系统提示词选项。这些在启动时解析一次，因此运行中的会话始终保持原始值，即使调用成功。要更改它们，请启动一个新会话。
 
-这些值被写入标志设置层，这与 `query()` 的内联 `settings` 选项在启动时填充的是同一层。标志设置位于[设置优先级顺序](/en/settings#settings-precedence)的较高层：它们覆盖用户、项目和本地设置，只有托管策略设置才能覆盖它们。这与[页面内优先级部分](#settings-precedence)所称的程序化选项属于同一层级。
+这些值被写入标志设置层，这与 `query()` 的内联 `settings` 选项在启动时填充的是同一层。标志设置位于[设置优先级顺序](/zh/settings#settings-precedence)的较高层：它们覆盖用户、项目和本地设置，只有托管策略设置才能覆盖它们。这与[页面内优先级部分](#设置优先级)所称的程序化选项属于同一层级。
 
 后续调用会浅合并顶层键。第二次调用时使用 `{ permissions: {...} }` 将替换先前调用中的整个 `permissions` 对象，而不是与其深度合并。要从标志层中清除某个键并回退到优先级较低的来源，请为该键传递 `null`。传递 `undefined` 无效，因为 JSON 序列化会丢弃它。
 
@@ -540,7 +540,7 @@ interface WarmQuery extends AsyncDisposable {
 
 | 方法            | 描述                                                                                                               |
 | :-------------- | :----------------------------------------------------------------------------------------------------------------- |
-| `query(prompt)` | 将提示词发送到预热的子进程并返回一个 [`Query`](#query-object)。每个 `WarmQuery` 实例只能调用一次                   |
+| `query(prompt)` | 将提示词发送到预热的子进程并返回一个 [`Query`](#query-对象)。每个 `WarmQuery` 实例只能调用一次                   |
 | `close()`       | 关闭子进程但不发送提示词。可用于丢弃不再需要的预热查询                                                             |
 
 `WarmQuery` 实现了 `AsyncDisposable` 接口，因此可以与 `await using` 一起使用以实现自动清理。
@@ -619,7 +619,7 @@ type SettingSource = "user" | "project" | "local";
 
 #### 默认行为
 
-当 `settingSources` 省略或为 `undefined` 时，`query()` 会加载与 Claude Code 命令行相同的文件系统设置：用户设置、项目设置和本地设置。托管策略设置在所有情况下都会加载。关于无论此选项如何都会读取的输入以及如何禁用它们，请参阅 [settingSources 不控制什么](/en/agent-sdk/claude-code-features#what-settingsources-does-not-control)。
+当 `settingSources` 省略或为 `undefined` 时，`query()` 会加载与 Claude Code 命令行相同的文件系统设置：用户设置、项目设置和本地设置。托管策略设置在所有情况下都会加载。关于无论此选项如何都会读取的输入以及如何禁用它们，请参阅 [settingSources 不控制什么](/zh/agent-sdk/claude-code-features#what-settingsources-does-not-control)。
 
 #### 为何使用 settingSources
 
@@ -734,7 +734,7 @@ type CanUseTool = (
 | 选项             | 类型                                        | 描述                                                                                                                                                                                                                                                                                                    |
 | :--------------- | :------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `signal`         | `AbortSignal`                               | 如果操作应被中止，则发出信号                                                                                                                                                                                                                                                                            |
-| `suggestions`    | [`PermissionUpdate`](#permissionupdate)`[]` | 建议的权限更新，以便用户无需再次为此工具进行提示。Bash 提示包含带有 `localSettings` [目标](#permissionupdatedestination) 的建议，因此在 `updatedPermissions` 中返回它会将规则写入 `.claude/settings.local.json` 并在会话间持久保存。 |
+| `suggestions`    | [`PermissionUpdate`](#permissionupdate)`[]` | 建议的权限更新，以便用户无需再次为此工具进行提示。Bash 提示包含带有 `localSettings` [目标](#权限规则值) 的建议，因此在 `updatedPermissions` 中返回它会将规则写入 `.claude/settings.local.json` 并在会话间持久保存。 |
 | `blockedPath`    | `string`                                    | 触发权限请求的文件路径（如果适用）                                                                                                                                                                                                                                                                      |
 | `decisionReason` | `string`                                    | 解释触发此权限请求的原因                                                                                                                                                                                                                                                                                |
 | `toolUseID`      | `string`                                    | 助手消息中此特定工具调用的唯一标识符                                                                                                                                                                                                                                                                    |
@@ -770,7 +770,7 @@ type ToolConfig = {
 ```
 | 字段 | 类型 | 描述 |
 | :--- | :--- | :--- |
-| `askUserQuestion.previewFormat` | `'markdown' \| 'html'` | 启用 [`AskUserQuestion`](/en/agent-sdk/user-input#question-format) 选项中的 `preview` 字段，并设置其内容格式。未设置时，Claude 不会生成预览 |
+| `askUserQuestion.previewFormat` | `'markdown' \| 'html'` | 启用 [`AskUserQuestion`](/zh/agent-sdk/user-input#question-format) 选项中的 `preview` 字段，并设置其内容格式。未设置时，Claude 不会生成预览 |
 
 ### `McpServerConfig`
 
@@ -844,7 +844,7 @@ plugins: [
   { type: "local", path: "/absolute/path/to/plugin" }
 ];
 ```
-有关创建和使用插件的完整信息，请参阅 [插件](/en/agent-sdk/plugins)。
+有关创建和使用插件的完整信息，请参阅 [插件](/zh/agent-sdk/plugins)。
 
 ## 消息类型
 
@@ -996,7 +996,7 @@ type SDKResultMessage =
 
 `origin` 字段转发了触发此结果的用户消息的 [`SDKMessageOrigin`](#sdkmessageorigin)。当后台任务完成且 SDK 注入一个合成的后续轮次时，生成的 `SDKResultMessage` 会携带 `origin: { kind: "task-notification" }`。检查此字段以区分是响应您提示词的结果，还是为后台任务后续步骤发出的结果，以便您可以路由或抑制后者。对于在任何用户轮次之前发出的结果（例如启动错误），此字段缺失。
 
-当 `PreToolUse` 钩子返回 `permissionDecision: "defer"` 时，结果将具有 `stop_reason: "tool_deferred"`，并且 `deferred_tool_use` 携带待处理工具的 `id`、`name` 和 `input`。读取此字段以在您自己的 UI 中显示请求，然后使用相同的 `session_id` 恢复以继续。完整的往返过程请参阅 [延后工具调用](/en/hooks#defer-a-tool-call-for-later)。
+当 `PreToolUse` 钩子返回 `permissionDecision: "defer"` 时，结果将具有 `stop_reason: "tool_deferred"`，并且 `deferred_tool_use` 携带待处理工具的 `id`、`name` 和 `input`。读取此字段以在您自己的 UI 中显示请求，然后使用相同的 `session_id` 恢复以继续。完整的往返过程请参阅 [延后工具调用](/zh/hooks#defer-a-tool-call-for-later)。
 
 ### `SDKSystemMessage`
 
@@ -1054,7 +1054,7 @@ type SDKCompactBoundaryMessage = {
 ```
 ### `SDKPluginInstallMessage`
 
-插件安装进度事件。当设置 [`CLAUDE_CODE_SYNC_PLUGIN_INSTALL`](/en/env-vars) 时触发，使你的 Agent SDK 应用能在首次对话前跟踪插件市场的安装过程。`started` 和 `completed` 状态标志整体安装过程的开始和结束，而 `installed` 和 `failed` 状态则报告各个插件市场的安装情况，并包含 `name`（插件名称）。
+插件安装进度事件。当设置 [`CLAUDE_CODE_SYNC_PLUGIN_INSTALL`](/zh/env-vars) 时触发，使你的 Agent SDK 应用能在首次对话前跟踪插件市场的安装过程。`started` 和 `completed` 状态标志整体安装过程的开始和结束，而 `installed` 和 `failed` 状态则报告各个插件市场的安装情况，并包含 `name`（插件名称）。
 ```typescript
 type SDKPluginInstallMessage = {
   type: "system";
@@ -1118,14 +1118,14 @@ type SDKMessageOrigin =
 | `kind`              | 含义                                                                                                                                 |
 | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
 | `human`             | 终端用户的直接输入。在用户消息中，若缺少 `origin` 也表示人类输入。                                                                            |
-| `channel`           | 来自[频道](/en/channels)的消息。`server` 是源 MCP 服务器名称。                                                  |
+| `channel`           | 来自[频道](/zh/channels)的消息。`server` 是源 MCP 服务器名称。                                                  |
 | `peer`              | 通过 `SendMessage` 来自其他代理会话的消息。`from` 为发送方地址；`name` 为可用时发送方的显示名称。 |
 | `task-notification` | 后台任务完成后注入的合成回合。参见 [`SDKTaskNotificationMessage`](#sdktasknotificationmessage)。              |
-| `coordinator`       | 来自[代理团队](/en/agent-teams)中团队协调员的消息。                                                                    |
+| `coordinator`       | 来自[代理团队](/zh/agent-teams)中团队协调员的消息。                                                                    |
 
 ## 钩子类型
 
-有关使用钩子的完整指南，包含示例和常见模式，请参阅[钩子指南](/en/agent-sdk/hooks)。
+有关使用钩子的完整指南，包含示例和常见模式，请参阅[钩子指南](/zh/agent-sdk/hooks)。
 
 ### `HookEvent`
 
@@ -1577,7 +1577,7 @@ type AskUserQuestionInput = {
   }>;
 };
 ```
-在执行期间向用户提出澄清性问题。有关用法详情，请参阅[处理审批和用户输入](/en/agent-sdk/user-input#handle-clarifying-questions)。
+在执行期间向用户提出澄清性问题。有关用法详情，请参阅[处理审批和用户输入](/zh/agent-sdk/user-input#handle-clarifying-questions)。
 
 ### Bash
 
@@ -1604,7 +1604,7 @@ type MonitorInput = {
   persistent?: boolean;
 };
 ```
-运行后台脚本，并将每行标准输出作为事件发送给 Claude，以便其无需轮询即可响应。设置 `persistent: true` 可实现会话级监控，例如日志尾随。监控遵循与 Bash 相同的权限规则。有关行为和提供商可用性，请参阅 [监控工具参考](/en/tools-reference#monitor-tool)。
+运行后台脚本，并将每行标准输出作为事件发送给 Claude，以便其无需轮询即可响应。设置 `persistent: true` 可实现会话级监控，例如日志尾随。监控遵循与 Bash 相同的权限规则。有关行为和提供商可用性，请参阅 [监控工具参考](/zh/tools-reference#monitor-tool)。
 
 ### TaskOutput
 
@@ -1748,7 +1748,7 @@ type WorkflowInput = {
   resumeFromRunId?: string;
 };
 ```
-运行一个[动态工作流](/en/workflows)：一个在后台编排多个子代理并返回一个整合结果的脚本。`Workflow` 工具在 Agent SDK v0.3.149 及更高版本中可用。`script`、`name` 或 `scriptPath` 中至少需要提供一个。
+运行一个[动态工作流](/zh/workflows)：一个在后台编排多个子代理并返回一个整合结果的脚本。`Workflow` 工具在 Agent SDK v0.3.149 及更高版本中可用。`script`、`name` 或 `scriptPath` 中至少需要提供一个。
 
 | 字段              | 类型      | 描述                                                                                                                                                                                                                                  |
 | ----------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -2539,7 +2539,7 @@ type AccountInfo = {
 ```
 ### `ModelUsage`
 
-在结果消息中返回的按模型划分的使用统计。`costUSD` 值为客户端估算。请参阅[跟踪成本和使用情况](/en/agent-sdk/cost-tracking)了解计费注意事项。
+在结果消息中返回的按模型划分的使用统计。`costUSD` 值为客户端估算。请参阅[跟踪成本和使用情况](/zh/agent-sdk/cost-tracking)了解计费注意事项。
 ```typescript
 type ModelUsage = {
   inputTokens: number;
@@ -2588,7 +2588,7 @@ type Usage = {
 
 ### `CallToolResult`
 
-MCP 工具结果类型（来自 `@modelcontextprotocol/sdk/types.js`）。`structuredContent` 是一个可与 `content` 一起返回的 JSON 对象，支持包含图片块。请参阅 [返回结构化数据](/en/agent-sdk/custom-tools#return-structured-data)。
+MCP 工具结果类型（来自 `@modelcontextprotocol/sdk/types.js`）。`structuredContent` 是一个可与 `content` 一起返回的 JSON 对象，支持包含图片块。请参阅 [返回结构化数据](/zh/agent-sdk/custom-tools#return-structured-data)。
 ```typescript
 type CallToolResult = {
   content: Array<{
@@ -2943,7 +2943,7 @@ type SandboxSettings = {
 | `failIfUnavailable`           | `boolean`                                             | `true`      | 若 `enabled` 为 `true` 但沙箱无法启动，则在启动时停止。设置为 `false` 可回退到无沙箱执行，并在 stderr 上显示警告                                                                                                                        |
 | `autoAllowBashIfSandboxed`    | `boolean`                                             | `true`      | 沙箱启用时自动批准 bash 命令                                                                                                                                                                                                            |
 | `excludedCommands`            | `string[]`                                            | `[]`        | 始终绕过沙箱限制的命令（例如 `['docker']`）。这些命令将自动以无沙箱模式运行，无需模型参与                                                                                                                                              |
-| `allowUnsandboxedCommands`    | `boolean`                                             | `true`      | 允许模型请求在沙箱外运行命令。当为 `true` 时，模型可在工具输入中设置 `dangerouslyDisableSandbox`，这将回退到[权限系统](#针对无沙箱命令的权限回退机制)                                                                                      |
+| `allowUnsandboxedCommands`    | `boolean`                                             | `true`      | 允许模型请求在沙箱外运行命令。当为 `true` 时，模型可在工具输入中设置 `dangerouslyDisableSandbox`，这将回退到[权限系统](#未沙箱化命令的权限回退)                                                                                      |
 | `network`                     | [`SandboxNetworkConfig`](#sandboxnetworkconfig)       | `undefined` | 特定于网络的沙箱配置                                                                                                                                                                                                                   |
 | `filesystem`                  | [`SandboxFilesystemConfig`](#sandboxfilesystemconfig) | `undefined` | 特定于文件系统的沙箱配置，用于读写限制                                                                                                                                                                                                 |
 | `ignoreViolations`            | `Record<string, string[]>`                            | `undefined` | 违规类别到忽略模式的映射（例如 `{ file: ['/tmp/*'], network: ['localhost'] }`）                                                                                                                                                          |
@@ -2996,14 +2996,14 @@ type SandboxNetworkConfig = {
 | :------------------------ | :--------- | :---------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `allowedDomains`          | `string[]` | `[]`        | 沙箱进程可访问的域名                                                                                                                                                                                                                                           |
 | `deniedDomains`           | `string[]` | `[]`        | 沙箱进程不可访问的域名。优先级高于 `allowedDomains`                                                                                                                                                                                                            |
-| `allowManagedDomainsOnly` | `boolean`  | `false`     | 仅限托管设置。在[托管设置](/en/permissions#managed-settings)中设定后，仅生效托管设置中的 `allowedDomains` 条目，用户、项目或本地设置中的条目将被忽略。通过 SDK 选项设置时无效                                                                                      |
+| `allowManagedDomainsOnly` | `boolean`  | `false`     | 仅限托管设置。在[托管设置](/zh/permissions#managed-settings)中设定后，仅生效托管设置中的 `allowedDomains` 条目，用户、项目或本地设置中的条目将被忽略。通过 SDK 选项设置时无效                                                                                      |
 | `allowLocalBinding`       | `boolean`  | `false`     | 允许进程绑定到本地端口（例如用于开发服务器）                                                                                                                                                                                                                   |
 | `allowUnixSockets`        | `string[]` | `[]`        | 进程可访问的 Unix socket 路径（例如 Docker socket）                                                                                                                                                                                                           |
 | `allowAllUnixSockets`     | `boolean`  | `false`     | 允许访问所有 Unix socket                                                                                                                                                                                                                                       |
 | `httpProxyPort`           | `number`   | `undefined` | 网络请求的 HTTP 代理端口                                                                                                                                                                                                                                       |
 | `socksProxyPort`          | `number`   | `undefined` | 网络请求的 SOCKS 代理端口                                                                                                                                                                                                                                      |
 
-  内置的沙箱代理根据请求的主机名强制执行 `allowedDomains`，不会终止或检查 TLS 流量，因此诸如 [域前置](https://en.wikipedia.org/wiki/Domain_fronting) 等技术可能绕过它。详情请参阅 [沙箱安全限制](/en/sandboxing#security-limitations)，以及 [安全部署](/en/agent-sdk/secure-deployment#traffic-forwarding) 以了解如何配置 TLS 终止代理。
+  内置的沙箱代理根据请求的主机名强制执行 `allowedDomains`，不会终止或检查 TLS 流量，因此诸如 [域前置](https://en.wikipedia.org/wiki/Domain_fronting) 等技术可能绕过它。详情请参阅 [沙箱安全限制](/zh/sandboxing#security-limitations)，以及 [安全部署](/zh/agent-sdk/secure-deployment#traffic-forwarding) 以了解如何配置 TLS 终止代理。
 
 ### `SandboxFilesystemConfig`
 
@@ -3075,7 +3075,7 @@ for await (const message of query({
 
 ## 另请参阅
 
-* [SDK概述](/en/agent-sdk/overview) - 通用SDK概念
-* [Python SDK参考](/en/agent-sdk/python) - Python SDK文档
-* [CLI参考](/en/cli-reference) - 命令行界面
-* [常见工作流程](/en/common-workflows) - 分步指南
+* [SDK概述](/zh/agent-sdk/overview) - 通用SDK概念
+* [Python SDK参考](/zh/agent-sdk/python) - Python SDK文档
+* [CLI参考](/zh/cli-reference) - 命令行界面
+* [常见工作流程](/zh/common-workflows) - 分步指南

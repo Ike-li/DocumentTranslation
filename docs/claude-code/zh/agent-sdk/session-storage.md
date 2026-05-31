@@ -231,21 +231,21 @@ SDK 绝不会自行删除您存储中的数据。保留策略由适配器负责�
 
 以下 SDK 函数接受 `sessionStore` 选项，并在提供时针对存储层（而非本地文件系统）操作：
 
-* [`query()`](/en/agent-sdk/typescript#query)
-* [`startup()`](/en/agent-sdk/typescript#startup)
-* [`listSessions()`](/en/agent-sdk/typescript#listsessions)
-* [`getSessionInfo()`](/en/agent-sdk/typescript#getsessioninfo)
-* [`getSessionMessages()`](/en/agent-sdk/typescript#getsessionmessages)
-* [`renameSession()`](/en/agent-sdk/typescript#renamesession)
-* [`tagSession()`](/en/agent-sdk/typescript#tagsession)
-* [`deleteSession()`](/en/agent-sdk/typescript)
-* [`forkSession()`](/en/agent-sdk/typescript)
-* [`listSubagents()`](/en/agent-sdk/typescript)
-* [`getSubagentMessages()`](/en/agent-sdk/typescript)
+* [`query()`](/zh/agent-sdk/typescript#query)
+* [`startup()`](/zh/agent-sdk/typescript#startup)
+* [`listSessions()`](/zh/agent-sdk/typescript#listsessions)
+* [`getSessionInfo()`](/zh/agent-sdk/typescript#getsessioninfo)
+* [`getSessionMessages()`](/zh/agent-sdk/typescript#getsessionmessages)
+* [`renameSession()`](/zh/agent-sdk/typescript#renamesession)
+* [`tagSession()`](/zh/agent-sdk/typescript#tagsession)
+* [`deleteSession()`](/zh/agent-sdk/typescript)
+* [`forkSession()`](/zh/agent-sdk/typescript)
+* [`listSubagents()`](/zh/agent-sdk/typescript)
+* [`getSubagentMessages()`](/zh/agent-sdk/typescript)
 
 ## 相关资源
 
-* [使用会话](/en/agent-sdk/sessions)：无需自定义存储层即可继续、恢复和分叉会话
-* [托管 SDK](/en/agent-sdk/hosting)：多主机环境的部署模式
-* [TypeScript `Options`](/en/agent-sdk/typescript#options)：完整选项参考
+* [使用会话](/zh/agent-sdk/sessions)：无需自定义存储层即可继续、恢复和分叉会话
+* [托管 SDK](/zh/agent-sdk/hosting)：多主机环境的部署模式
+* [TypeScript `Options`](/zh/agent-sdk/typescript#options)：完整选项参考
 * [`examples/session-stores/`](https://github.com/anthropics/claude-agent-sdk-typescript/tree/main/examples/session-stores)：可运行的 S3、Redis 和 Postgres 参考适配器

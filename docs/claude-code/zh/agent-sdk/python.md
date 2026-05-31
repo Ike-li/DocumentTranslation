@@ -51,7 +51,7 @@ Python SDK 提供了两种与 Claude Code 交互的方式：
 
 ### `query()`
 
-默认情况下，为与 Claude Code 的每次交互创建一个新会话。返回一个异步迭代器，消息到达时逐条生成。除非您在 [`ClaudeAgentOptions`](#claudeagentoptions) 中传递 `continue_conversation=True` 或 `resume`，否则每次调用 `query()` 都会从头开始，不会记住先前的交互。请参阅[会话](/en/agent-sdk/sessions)。
+默认情况下，为与 Claude Code 的每次交互创建一个新会话。返回一个异步迭代器，消息到达时逐条生成。除非您在 [`ClaudeAgentOptions`](#claudeagentoptions) 中传递 `continue_conversation=True` 或 `resume`，否则每次调用 `query()` 都会从头开始，不会记住先前的交互。请参阅[会话](/zh/agent-sdk/sessions)。
 ```python
 async def query(
     *,
@@ -314,7 +314,7 @@ def get_session_info(
 | `session_id`   | `str`           | 必填     | 要查找的会话的 UUID                                                   |
 | `directory`    | `str \| None`   | `None`   | 项目目录路径。省略时，将搜索所有项目目录                               |
 
-返回 [`SDKSessionInfo`](#return-type-sdksessioninfo)，如果未找到会话则返回 `None`。
+返回 [`SDKSessionInfo`](#返回类型sdksessioninfo)，如果未找到会话则返回 `None`。
 
 #### 示例
 
@@ -348,7 +348,7 @@ def rename_session(
 
 #### 示例
 
-重命名最近的会话以便日后查找。后续读取时，新标题将显示在 [`SDKSessionInfo.custom_title`](#return-type-sdksessioninfo) 中。
+重命名最近的会话以便日后查找。后续读取时，新标题将显示在 [`SDKSessionInfo.custom_title`](#返回类型sdksessioninfo) 中。
 ```python
 from claude_agent_sdk import list_sessions, rename_session
 
@@ -356,6 +356,8 @@ sessions = list_sessions(directory="/path/to/project", limit=1)
 if sessions:
     rename_session(sessions[0].session_id, "Refactor auth module")
 ```
+
+### `tag_session()`
 
 ```python
 def tag_session(
@@ -432,7 +434,7 @@ class ClaudeSDKClient:
 | `interrupt()`                             | 发送中断信号（仅在流式模式下有效）                                                                                                                          |
 | `set_permission_mode(mode)`               | 更改当前会话的权限模式                                                                                                                                      |
 | `set_model(model)`                        | 更改当前会话使用的模型。传递 `None` 可重置为默认设置                                                                                                        |
-| `rewind_files(user_message_id)`           | 将文件恢复至指定用户消息时的状态。需要设置 `enable_file_checkpointing=True`。详见 [文件检查点](/en/agent-sdk/file-checkpointing)                             |
+| `rewind_files(user_message_id)`           | 将文件恢复至指定用户消息时的状态。需要设置 `enable_file_checkpointing=True`。详见 [文件检查点](/zh/agent-sdk/file-checkpointing)                             |
 | `get_mcp_status()`                        | 获取所有已配置 MCP 服务器的状态。返回 [`McpStatusResponse`](#mcpstatusresponse)                                                                              |
 | `reconnect_mcp_server(server_name)`       | 重试连接失败或已断开的 MCP 服务器                                                                                                                           |
 | `toggle_mcp_server(server_name, enabled)` | 在会话中途启用或禁用某个 MCP 服务器。禁用将移除其工具                                                                                                       |
@@ -738,7 +740,7 @@ class ClaudeAgentOptions:
 | 属性                          | 类型                                                                                  | 默认值                               | 描述                                                                                                                                                                                                                                                                                                    |
 | :---------------------------- | :------------------------------------------------------------------------------------ | :----------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `tools`                       | `list[str] \| ToolsPreset \| None`                                                    | `None`                               | 工具配置。使用 `{"type": "preset", "preset": "claude_code"}` 来获取 Claude Code 的默认工具                                                                                                                                                                                                             |
-| `allowed_tools`               | `list[str]`                                                                           | `[]`                                 | 自动批准而无需提示的工具。这并不会将 Claude 限制为只能使用这些工具；未列出的工具将回退到 `permission_mode` 和 `can_use_tool` 处理。使用 `disallowed_tools` 来阻止工具。参见 [权限](/en/agent-sdk/permissions#allow-and-deny-rules)                                                                            |
+| `allowed_tools`               | `list[str]`                                                                           | `[]`                                 | 自动批准而无需提示的工具。这并不会将 Claude 限制为只能使用这些工具；未列出的工具将回退到 `permission_mode` 和 `can_use_tool` 处理。使用 `disallowed_tools` 来阻止工具。参见 [权限](/zh/agent-sdk/permissions#allow-and-deny-rules)                                                                            |
 | `system_prompt`               | `str \| SystemPromptPreset \| None`                                                   | `None`                               | 系统提示词配置。传入一个字符串作为自定义提示词，或使用 `{"type": "preset", "preset": "claude_code"}` 来获取 Claude Code 的系统提示词。添加 `"append"` 以扩展预设内容                                                                                                                                 |
 | `mcp_servers`                 | `dict[str, McpServerConfig] \| str \| Path`                                           | `{}`                                 | MCP 服务器配置或配置文件路径                                                                                                                                                                                                                                                                           |
 | `strict_mcp_config`           | `bool`                                                                                | `False`                              | 当设为 `True` 时，仅使用 `mcp_servers` 中传入的服务器，并忽略项目的 `.mcp.json`、用户设置和插件提供的 MCP 服务器。对应 CLI 的 `--strict-mcp-config` 标志                                                                                                                                                |
@@ -746,19 +748,19 @@ class ClaudeAgentOptions:
 | `continue_conversation`       | `bool`                                                                                | `False`                              | 继续最近一次对话                                                                                                                                                                                                                                                                                       |
 | `resume`                      | `str \| None`                                                                         | `None`                               | 要恢复的会话 ID                                                                                                                                                                                                                                                                                        |
 | `max_turns`                   | `int \| None`                                                                         | `None`                               | 最大代理轮次（工具使用往返次数）                                                                                                                                                                                                                                                                       |
-| `max_budget_usd`              | `float \| None`                                                                       | `None`                               | 当客户端成本估算达到此美元值时停止查询。与 `total_cost_usd` 使用相同的估算进行比较；关于准确性说明，请参阅[追踪成本和使用情况](/en/agent-sdk/cost-tracking)                                                                                                                                             |
-| `disallowed_tools`            | `list[str]`                                                                           | `[]`                                 | 要拒绝的工具。一个裸名称如 `"Bash"` 会从 Claude 的上下文中移除该工具。一个带范围的规则如 `"Bash(rm *)"` 会使工具保持可用，但在所有权限模式下（包括 `bypassPermissions`）拒绝匹配的调用。参见[权限](/en/agent-sdk/permissions#allow-and-deny-rules)                                                        |
-| `enable_file_checkpointing`   | `bool`                                                                                | `False`                              | 启用用于回溯的文件更改跟踪。参见[文件检查点](/en/agent-sdk/file-checkpointing)                                                                                                                                                                                                                          |
+| `max_budget_usd`              | `float \| None`                                                                       | `None`                               | 当客户端成本估算达到此美元值时停止查询。与 `total_cost_usd` 使用相同的估算进行比较；关于准确性说明，请参阅[追踪成本和使用情况](/zh/agent-sdk/cost-tracking)                                                                                                                                             |
+| `disallowed_tools`            | `list[str]`                                                                           | `[]`                                 | 要拒绝的工具。一个裸名称如 `"Bash"` 会从 Claude 的上下文中移除该工具。一个带范围的规则如 `"Bash(rm *)"` 会使工具保持可用，但在所有权限模式下（包括 `bypassPermissions`）拒绝匹配的调用。参见[权限](/zh/agent-sdk/permissions#allow-and-deny-rules)                                                        |
+| `enable_file_checkpointing`   | `bool`                                                                                | `False`                              | 启用用于回溯的文件更改跟踪。参见[文件检查点](/zh/agent-sdk/file-checkpointing)                                                                                                                                                                                                                          |
 | `model`                       | `str \| None`                                                                         | `None`                               | 要使用的 Claude 模型                                                                                                                                                                                                                                                                                   |
 | `fallback_model`              | `str \| None`                                                                         | `None`                               | 当主模型失败时使用的备用模型                                                                                                                                                                                                                                                                           |
 | `betas`                       | `list[SdkBeta]`                                                                       | `[]`                                 | 要启用的测试版功能。参见 [`SdkBeta`](#sdkbeta) 了解可用选项                                                                                                                                                                                                                                            |
-| `output_format`               | `dict[str, Any] \| None`                                                              | `None`                               | 结构化响应的输出格式（例如，`{"type": "json_schema", "schema": {...}}`）。详情参见[结构化输出](/en/agent-sdk/structured-outputs)                                                                                                                                                                         |
+| `output_format`               | `dict[str, Any] \| None`                                                              | `None`                               | 结构化响应的输出格式（例如，`{"type": "json_schema", "schema": {...}}`）。详情参见[结构化输出](/zh/agent-sdk/structured-outputs)                                                                                                                                                                         |
 | `permission_prompt_tool_name` | `str \| None`                                                                         | `None`                               | 用于权限提示的 MCP 工具名称                                                                                                                                                                                                                                                                            |
 | `cwd`                         | `str \| Path \| None`                                                                 | `None`                               | 当前工作目录                                                                                                                                                                                                                                                                                           |
 | `cli_path`                    | `str \| Path \| None`                                                                 | `None`                               | Claude Code CLI 可执行文件的自定义路径                                                                                                                                                                                                                                                                 |
 | `settings`                    | `str \| None`                                                                         | `None`                               | 设置文件路径                                                                                                                                                                                                                                                                                           |
 | `add_dirs`                    | `list[str \| Path]`                                                                   | `[]`                                 | Claude 可以访问的其他目录                                                                                                                                                                                                                                                                              |
-| `env`                         | `dict[str, str]`                                                                      | `{}`                                 | 合并到继承的进程环境之上的环境变量。参见[环境变量](/en/env-vars)了解底层 CLI 读取的变量，以及[处理缓慢或停滞的 API 响应](#handle-slow-or-stalled-api-responses)了解超时相关变量                                                                                                                         |
+| `env`                         | `dict[str, str]`                                                                      | `{}`                                 | 合并到继承的进程环境之上的环境变量。参见[环境变量](/zh/env-vars)了解底层 CLI 读取的变量，以及[处理缓慢或停滞的 API 响应](#systempromptpreset)了解超时相关变量                                                                                                                         |
 | `extra_args`                  | `dict[str, str \| None]`                                                              | `{}`                                 | 直接传递给 CLI 的其他 CLI 参数                                                                                                                                                                                                                                                                         |
 | `max_buffer_size`             | `int \| None`                                                                         | `None`                               | 缓冲 CLI 标准输出时的最大字节数                                                                                                                                                                                                                                                                        |
 | `debug_stderr`                | `Any`                                                                                 | `sys.stderr`                         | *已弃用* - 用于调试输出的类文件对象。请使用 `stderr` 回调代替                                                                                                                                                                                                                                           |
@@ -770,14 +772,14 @@ class ClaudeAgentOptions:
 | `include_hook_events`         | `bool`                                                                                | `False`                              | 在消息流中包含钩子生命周期事件，作为 `HookEventMessage` 对象                                                                                                                                                                                                                                           |
 | `fork_session`                | `bool`                                                                                | `False`                              | 使用 `resume` 恢复时，复刻到一个新的会话 ID，而不是继续原会话                                                                                                                                                                                                                                          |
 | `agents`                      | `dict[str, AgentDefinition] \| None`                                                  | `None`                               | 以编程方式定义的子代理                                                                                                                                                                                                                                                                                 |
-| `plugins`                     | `list[SdkPluginConfig]`                                                               | `[]`                                 | 从本地路径加载自定义插件。详情参见[插件](/en/agent-sdk/plugins)                                                                                                                                                                                                                                         |
+| `plugins`                     | `list[SdkPluginConfig]`                                                               | `[]`                                 | 从本地路径加载自定义插件。详情参见[插件](/zh/agent-sdk/plugins)                                                                                                                                                                                                                                         |
 | `sandbox`                     | [`SandboxSettings`](#sandboxsettings) ` \| None`                                      | `None`                               | 以编程方式配置沙箱行为。详情参见[沙箱设置](#sandboxsettings)                                                                                                                                                                                                                                            |
-| `setting_sources`             | `list[SettingSource] \| None`                                                         | `None`（CLI 默认值：所有来源）       | 控制要加载哪些文件系统设置。传入 `[]` 可禁用用户、项目和本地设置。托管策略设置无论如何都会加载。参见[使用 Claude Code 功能](/en/agent-sdk/claude-code-features#what-settingSources-does-not-control)                                                                                                      |
-| `skills`                      | `list[str] \| Literal["all"] \| None`                                                 | `None`                               | 会话可用的技能。传入 `"all"` 以启用所有发现的技能，或传入技能名称列表。设置后，SDK 会自动启用技能工具，而无需将其列在 `allowed_tools` 中。参见[技能](/en/agent-sdk/skills)                                                                                                                               |
+| `setting_sources`             | `list[SettingSource] \| None`                                                         | `None`（CLI 默认值：所有来源）       | 控制要加载哪些文件系统设置。传入 `[]` 可禁用用户、项目和本地设置。托管策略设置无论如何都会加载。参见[使用 Claude Code 功能](/zh/agent-sdk/claude-code-features#what-settingSources-does-not-control)                                                                                                      |
+| `skills`                      | `list[str] \| Literal["all"] \| None`                                                 | `None`                               | 会话可用的技能。传入 `"all"` 以启用所有发现的技能，或传入技能名称列表。设置后，SDK 会自动启用技能工具，而无需将其列在 `allowed_tools` 中。参见[技能](/zh/agent-sdk/skills)                                                                                                                               |
 | `max_thinking_tokens`         | `int \| None`                                                                         | `None`                               | *已弃用* - 思考块的最大 token 数。请使用 `thinking` 代替                                                                                                                                                                                                                                               |
 | `thinking`                    | [`ThinkingConfig`](#thinkingconfig) ` \| None`                                        | `None`                               | 控制扩展思考行为。优先于 `max_thinking_tokens`                                                                                                                                                                                                                                                         |
 | `effort`                      | [`EffortLevel`](#effortlevel) ` \| None`                                              | `None`                               | 思考深度的努力等级                                                                                                                                                                                                                                                                                     |
-| `session_store`               | [`SessionStore`](/en/agent-sdk/session-storage#the-sessionstore-interface) ` \| None` | `None`                               | 将会话转录镜像到外部后端，以便任何主机都可以恢复它们。参见[将会话持久化到外部存储](/en/agent-sdk/session-storage)                                                                                                                                                                                        |
+| `session_store`               | [`SessionStore`](/zh/agent-sdk/session-storage#the-sessionstore-interface) ` \| None` | `None`                               | 将会话转录镜像到外部后端，以便任何主机都可以恢复它们。参见[将会话持久化到外部存储](/zh/agent-sdk/session-storage)                                                                                                                                                                                        |
 | `session_store_flush`         | `Literal["batched", "eager"]`                                                         | `"batched"`                          | 何时将镜像的转录条目刷新到 `session_store`。`"batched"` 在每轮次或缓冲区填满时刷新一次；`"eager"` 在每帧后触发后台刷新。当 `session_store` 为 `None` 时忽略                                                                                                                                            |
 
 #### 处理缓慢或停滞的 API 响应
@@ -822,7 +824,7 @@ class SystemPromptPreset(TypedDict):
 | `type`                       | 是   | 必须为 `"preset"` 以使用预设系统提示词                                                                                                                                                                                                                                                                                       |
 | `preset`                     | 是   | 必须为 `"claude_code"` 以使用 Claude Code 的系统提示词                                                                                                                                                                                                                                                                       |
 | `append`                     | 否   | 要附加到预设系统提示词的额外指令                                                                                                                                                                                                                                                                                             |
-| `exclude_dynamic_sections`   | 否   | 将每会话上下文（如工作目录、git-repo 标志和自动记忆路径）从系统提示词移至第一条用户消息。这可以提升跨用户和机器的提示词缓存复用率。参见 [修改系统提示词](/en/agent-sdk/modifying-system-prompts#improve-prompt-caching-across-users-and-machines) |
+| `exclude_dynamic_sections`   | 否   | 将每会话上下文（如工作目录、git-repo 标志和自动记忆路径）从系统提示词移至第一条用户消息。这可以提升跨用户和机器的提示词缓存复用率。参见 [修改系统提示词](/zh/agent-sdk/modifying-system-prompts#improve-prompt-caching-across-users-and-machines) |
 
 ### `SettingSource`
 
@@ -969,7 +971,7 @@ class AgentDefinition:
 | `maxTurns`        | 否   | 代理停止前的最大代理轮次次数                                                                                                                                   |
 | `background`      | 否   | 调用时将此代理作为非阻塞后台任务运行                                                                                                                           |
 | `effort`          | 否   | 此代理的推理努力程度级别。接受命名级别或整数。参见 [`EffortLevel`](#effortlevel)                                                                                |
-| `permissionMode`  | 否   | 此代理内工具执行的权限模式。参见 [`PermissionMode`](#permissionmode)                                                                                           |
+| `permissionMode`  | 否   | 此代理内工具执行的权限模式。参见 [`PermissionMode`](#canusetool)                                                                                           |
 
   `AgentDefinition` 字段名称使用驼峰命名法，例如 `disallowedTools`、`permissionMode` 和 `maxTurns`。这些名称直接映射到与 TypeScript SDK 共享的在线格式。这与 `ClaudeAgentOptions` 不同，后者对等效的顶层字段（如 `disallowed_tools` 和 `permission_mode`）使用 Python 的蛇形命名法。由于 `AgentDefinition` 是一个数据类，传递蛇形命名法的关键词会在构造时引发 `TypeError`。
 
@@ -1217,7 +1219,7 @@ class McpHttpServerConfig(TypedDict):
 ```
 ### `McpServerStatusConfig`
 
-由 [`get_mcp_status()`](#methods) 方法报告的 MCP 服务器配置。它是所有 [`McpServerConfig`](#mcpserverconfig) 传输变体的联合，外加一个仅输出的 `claudeai-proxy` 变体，用于通过 claude.ai 代理的服务器。
+由 [`get_mcp_status()`](#上下文管理器支持) 方法报告的 MCP 服务器配置。它是所有 [`McpServerConfig`](#mcpserverconfig) 传输变体的联合，外加一个仅输出的 `claudeai-proxy` 变体，用于通过 claude.ai 代理的服务器。
 ```python
 McpServerStatusConfig = (
     McpStdioServerConfig
@@ -1231,7 +1233,7 @@ McpServerStatusConfig = (
 
 ### `McpStatusResponse`
 
-来自 [`ClaudeSDKClient.get_mcp_status()`](#methods) 的响应。在 `mcpServers` 键下封装了服务器状态列表。
+来自 [`ClaudeSDKClient.get_mcp_status()`](#上下文管理器支持) 的响应。在 `mcpServers` 键下封装了服务器状态列表。
 ```python
 class McpStatusResponse(TypedDict):
     mcpServers: list[McpServerStatus]
@@ -1279,7 +1281,7 @@ plugins = [
     {"type": "local", "path": "/absolute/path/to/plugin"},
 ]
 ```
-有关创建和使用插件的完整信息，请参阅 [Plugins](/en/agent-sdk/plugins)。
+有关创建和使用插件的完整信息，请参阅 [Plugins](/zh/agent-sdk/plugins)。
 
 ## 消息类型
 
@@ -1392,7 +1394,7 @@ class ResultMessage:
 | `cache_creation_input_tokens`   | `int` | 用于创建新缓存条目的 token。 |
 | `cache_read_input_tokens`       | `int` | 从现有缓存条目读取的 token。 |
 
-`model_usage` 字典将模型名称映射到每个模型的使用量。内层字典的键使用驼峰式命名，因为其值是直接从底层 CLI 进程传递过来的，与 TypeScript 的 [`ModelUsage`](/en/agent-sdk/typescript#modelusage) 类型一致：
+`model_usage` 字典将模型名称映射到每个模型的使用量。内层字典的键使用驼峰式命名，因为其值是直接从底层 CLI 进程传递过来的，与 TypeScript 的 [`ModelUsage`](/zh/agent-sdk/typescript#modelusage) 类型一致：
 
 | 键                           | 类型    | 描述                                                                                             |
 | ---------------------------- | ------- | ------------------------------------------------------------------------------------------------ |
@@ -1401,7 +1403,7 @@ class ResultMessage:
 | `cacheReadInputTokens`       | `int`   | 此模型的缓存读取 token。                                                                         |
 | `cacheCreationInputTokens`   | `int`   | 此模型的缓存创建 token。                                                                         |
 | `webSearchRequests`          | `int`   | 此模型发起的网页搜索请求。                                                                       |
-| `costUSD`                    | `float` | 此模型的估算费用（美元），由客户端计算。有关计费注意事项，请参见[跟踪成本和使用量](/en/agent-sdk/cost-tracking)。 |
+| `costUSD`                    | `float` | 此模型的估算费用（美元），由客户端计算。有关计费注意事项，请参见[跟踪成本和使用量](/zh/agent-sdk/cost-tracking)。 |
 | `contextWindow`              | `int`   | 此模型的上下文窗口大小。                                                                         |
 | `maxOutputTokens`            | `int`   | 此模型的最大输出 token 限制。                                                                    |
 
@@ -1652,7 +1654,7 @@ class CLIJSONDecodeError(ClaudeSDKError):
 ```
 ## 钩子类型
 
-有关使用钩子及常见模式的完整指南，请参阅[钩子指南](/en/agent-sdk/hooks)。
+有关使用钩子及常见模式的完整指南，请参阅[钩子指南](/zh/agent-sdk/hooks)。
 
 ### `HookEvent`
 支持的钩子事件类型。
@@ -1957,7 +1959,7 @@ class SyncHookJSONOutput(TypedDict):
 
 #### `HookSpecificOutput`
 
-包含钩子事件名称和事件特定字段的 `TypedDict`。具体结构取决于 `hookEventName` 的值。有关每个钩子事件可用字段的完整详情，请参阅[使用钩子控制执行](/en/agent-sdk/hooks#outputs)。
+包含钩子事件名称和事件特定字段的 `TypedDict`。具体结构取决于 `hookEventName` 的值。有关每个钩子事件可用字段的完整详情，请参阅[使用钩子控制执行](/zh/agent-sdk/hooks#outputs)。
 
 这是一个由事件特定输出类型构成的可区分联合。`hookEventName` 字段决定了哪些字段是有效的。
 ```python
@@ -2117,7 +2119,7 @@ async for message in query(prompt="Analyze this codebase", options=options):
 
 **工具名称：** `AskUserQuestion`
 
-在执行过程中向用户提出澄清问题。有关使用详情，请参阅[处理审批和用户输入](/en/agent-sdk/user-input#handle-clarifying-questions)。
+在执行过程中向用户提出澄清问题。有关使用详情，请参阅[处理审批和用户输入](/zh/agent-sdk/user-input#handle-clarifying-questions)。
 
 **输入：**
 ```python
@@ -2211,7 +2213,7 @@ async for message in query(prompt="Analyze this codebase", options=options):
 
 **工具名称:** `Monitor`
 
-运行后台脚本，并将每个标准输出行作为事件传递给 Claude，以便其无需轮询即可做出反应。Monitor 遵循与 Bash 相同的权限规则。有关行为和提供程序可用性，请参阅 [Monitor 工具参考](/en/tools-reference#monitor-tool)。
+运行后台脚本，并将每个标准输出行作为事件传递给 Claude，以便其无需轮询即可做出反应。Monitor 遵循与 Bash 相同的权限规则。有关行为和提供程序可用性，请参阅 [Monitor 工具参考](/zh/tools-reference#monitor-tool)。
 
 **输入:**
 ```python
@@ -2540,7 +2542,7 @@ async for message in query(prompt="Analyze this codebase", options=options):
 
 **工具名称：** `TodoWrite`
 
-  自 Claude Code v2.1.142 版本起，`TodoWrite` 默认禁用。请改用 `TaskCreate`、`TaskGet`、`TaskUpdate` 和 `TaskList`。请参阅[迁移至任务工具](/en/agent-sdk/todo-tracking#migrate-to-task-tools)以更新您的监控代码，或设置 `CLAUDE_CODE_ENABLE_TASKS=0` 以恢复使用 `TodoWrite`。
+  自 Claude Code v2.1.142 版本起，`TodoWrite` 默认禁用。请改用 `TaskCreate`、`TaskGet`、`TaskUpdate` 和 `TaskList`。请参阅[迁移至任务工具](/zh/agent-sdk/todo-tracking#migrate-to-task-tools)以更新您的监控代码，或设置 `CLAUDE_CODE_ENABLE_TASKS=0` 以恢复使用 `TodoWrite`。
 
 请提供需要翻译的英文 Markdown 片段。
 ```python
@@ -3260,7 +3262,7 @@ class SandboxSettings(TypedDict, total=False):
 | `enabled`               | `bool`                                                | `False` | 为命令执行启用沙箱模式                                                                                                                                                                                                           |
 | `autoAllowBashIfSandboxed` | `bool`                                            | `True`  | 沙箱启用时自动批准 bash 命令                                                                                                                                                                                                     |
 | `excludedCommands`      | `list[str]`                                           | `[]`    | 始终绕过沙箱限制的命令（例如 `["docker"]`）。这些命令会自动在非沙箱环境下运行，无需模型介入                                                                                                                                      |
-| `allowUnsandboxedCommands` | `bool`                                            | `True`  | 允许模型请求在沙箱外运行命令。当设为 `True` 时，模型可以在工具输入中设置 `dangerouslyDisableSandbox`，这会回退到[权限系统](#permissions-fallback-for-unsandboxed-commands)                                                        |
+| `allowUnsandboxedCommands` | `bool`                                            | `True`  | 允许模型请求在沙箱外运行命令。当设为 `True` 时，模型可以在工具输入中设置 `dangerouslyDisableSandbox`，这会回退到[权限系统](#非沙箱命令的权限回退)                                                        |
 | `network`               | [`SandboxNetworkConfig`](#sandboxnetworkconfig)       | `None`  | 网络相关的沙箱配置                                                                                                                                                                                                               |
 | `ignoreViolations`      | [`SandboxIgnoreViolations`](#sandboxignoreviolations) | `None`  | 配置忽略哪些沙箱违规行为                                                                                                                                                                                                         |
 | `enableWeakerNestedSandbox` | `bool`                                            | `False` | 为兼容性启用更宽松的嵌套沙箱                                                                                                                                                                                                     |
@@ -3316,7 +3318,7 @@ class SandboxNetworkConfig(TypedDict, total=False):
 | `httpProxyPort`           | `int`       | `None`  | 用于网络请求的 HTTP 代理端口                                                                                                                         |
 | `socksProxyPort`          | `int`       | `None`  | 用于网络请求的 SOCKS 代理端口                                                                                                                        |
 
-  内置沙箱代理根据请求的主机名强制执行网络白名单，并且不会终止或检查 TLS 流量，因此诸如[域前置](https://en.wikipedia.org/wiki/Domain_fronting)等技术可能会绕过它。详情请参见[沙箱安全限制](/en/sandboxing#security-limitations)，关于配置 TLS 终止代理，请参见[安全部署](/en/agent-sdk/secure-deployment#traffic-forwarding)。
+  内置沙箱代理根据请求的主机名强制执行网络白名单，并且不会终止或检查 TLS 流量，因此诸如[域前置](https://en.wikipedia.org/wiki/Domain_fronting)等技术可能会绕过它。详情请参见[沙箱安全限制](/zh/sandboxing#security-limitations)，关于配置 TLS 终止代理，请参见[安全部署](/zh/agent-sdk/secure-deployment#traffic-forwarding)。
 
 ### `SandboxIgnoreViolations`
 
@@ -3407,7 +3409,7 @@ async def main():
 
 ## 另请参阅
 
-* [SDK 概述](/en/agent-sdk/overview) - 通用 SDK 概念
-* [TypeScript SDK 参考](/en/agent-sdk/typescript) - TypeScript SDK 文档
-* [CLI 参考](/en/cli-reference) - 命令行界面
-* [常见工作流程](/en/common-workflows) - 分步指南
+* [SDK 概述](/zh/agent-sdk/overview) - 通用 SDK 概念
+* [TypeScript SDK 参考](/zh/agent-sdk/typescript) - TypeScript SDK 文档
+* [CLI 参考](/zh/cli-reference) - 命令行界面
+* [常见工作流程](/zh/common-workflows) - 分步指南

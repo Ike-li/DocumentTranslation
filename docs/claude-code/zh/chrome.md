@@ -6,7 +6,7 @@
 
 > 将Claude Code连接到您的Chrome浏览器，以测试Web应用、使用控制台日志进行调试、自动填写表单以及从网页中提取数据。
 
-Claude Code与[Chrome浏览器中的Claude扩展程序](https://chromewebstore.google.com/detail/claude/fcoeoabgfenejglbffodgkkbkcdhcgfn)集成，为您提供从CLI或[VS Code扩展](/en/vs-code#automate-browser-tasks-with-chrome)控制浏览器自动化的能力。构建代码后，无需切换上下文即可在浏览器中进行测试和调试。
+Claude Code与[Chrome浏览器中的Claude扩展程序](https://chromewebstore.google.com/detail/claude/fcoeoabgfenejglbffodgkkbkcdhcgfn)集成，为您提供从CLI或[VS Code扩展](/zh/vs-code#automate-browser-tasks-with-chrome)控制浏览器自动化的能力。构建代码后，无需切换上下文即可在浏览器中进行测试和调试。
 
 Claude会为浏览器任务打开新标签页，并共享您浏览器的登录状态，因此它可以访问您已登录的任何网站。浏览器操作会在一个可见的Chrome窗口中实时运行。当Claude遇到登录页面或验证码时，它会暂停并请求您手动处理。
 
@@ -30,7 +30,7 @@ Claude会为浏览器任务打开新标签页，并共享您浏览器的登录�
 
 * [Google Chrome](https://www.google.com/chrome/) 或 [Microsoft Edge](https://www.microsoft.com/edge) 浏览器
 * [Claude in Chrome 扩展](https://chromewebstore.google.com/detail/claude/fcoeoabgfenejglbffodgkkbkcdhcgfn) 1.0.36 或更高版本，这两款浏览器均可在 Chrome 应用商店获取
-* [Claude Code](/en/quickstart#step-1-install-claude-code) 2.0.73 或更高版本
+* [Claude Code](/zh/quickstart#step-1-install-claude-code) 2.0.73 或更高版本
 * 直接的 Anthropic 计划（Pro、Max、Team 或 Enterprise）
 
   Chrome集成功能无法通过第三方提供商（如Amazon Bedrock、Google Cloud Vertex AI或Microsoft Foundry）获得。如果您仅通过第三方提供商访问Claude，则需要单独的claude.ai账户才能使用此功能。
@@ -55,13 +55,13 @@ Claude会为浏览器任务打开新标签页，并共享您浏览器的登录�
 
 随时运行 `/chrome` 可以检查连接状态、管理权限、重新连接扩展，或选择要使用的连接浏览器。如果在启动浏览器操作时连接了多个浏览器，Claude会提示您选择一个。
 
-对于 VS Code，请参阅 [VS Code 中的浏览器自动化](/en/vs-code#automate-browser-tasks-with-chrome)。
+对于 VS Code，请参阅 [VS Code 中的浏览器自动化](/zh/vs-code#automate-browser-tasks-with-chrome)。
 
 ### 默认启用 Chrome
 
 为了避免每次会话都传递 `--chrome`，请运行 `/chrome` 并选择“默认启用”。
 
-在 [VS Code 扩展](/en/vs-code#automate-browser-tasks-with-chrome) 中，只要安装了 Chrome 扩展，Chrome 就可用。无需额外标志。
+在 [VS Code 扩展](/zh/vs-code#automate-browser-tasks-with-chrome) 中，只要安装了 Chrome 扩展，Chrome 就可用。无需额外标志。
 
   在 CLI 中默认启用 Chrome 会增加上下文使用量，因为浏览器工具会始终加载。若您发现上下文消耗增加，请禁用此设置，仅在需要时使用 `--chrome`。
 
@@ -199,9 +199,9 @@ Chrome 扩展的服务工作线程可能会在长时间会话期间进入空闲�
 
 ## 另请参阅
 
-*   [计算机使用](/en/computer-use)：当任务无法在浏览器中完成时控制原生 macOS 应用
-*   [在 VS Code 中使用 Claude Code](/en/vs-code#automate-browser-tasks-with-chrome)：VS Code 扩展中的浏览器自动化
-*   [CLI 参考](/en/cli-reference)：命令行标志，包括 `--chrome`
-*   [常见工作流](/en/common-workflows)：使用 Claude Code 的更多方法
-*   [数据与隐私](/en/data-usage)：Claude Code 如何处理您的数据
+*   [计算机使用](/zh/computer-use)：当任务无法在浏览器中完成时控制原生 macOS 应用
+*   [在 VS Code 中使用 Claude Code](/zh/vs-code#automate-browser-tasks-with-chrome)：VS Code 扩展中的浏览器自动化
+*   [CLI 参考](/zh/cli-reference)：命令行标志，包括 `--chrome`
+*   [常见工作流](/zh/common-workflows)：使用 Claude Code 的更多方法
+*   [数据与隐私](/zh/data-usage)：Claude Code 如何处理您的数据
 *   [在 Chrome 中使用 Claude 入门](https://support.claude.com/en/articles/12012173-getting-started-with-claude-in-chrome)：Chrome 扩展的完整文档，包括快捷键、计划和权限

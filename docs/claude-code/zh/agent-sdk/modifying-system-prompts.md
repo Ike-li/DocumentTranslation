@@ -10,10 +10,10 @@
 
 本页面涵盖：
 
-* [系统提示如何工作](#how-system-prompts-work)，包含一个决策表，用于在预设、带 `append` 的预设和自定义提示之间进行选择
-* [定制代理行为](#customize-agent-behavior)，使用 CLAUDE.md 文件、输出样式、`append` 或自定义字符串
-* [比较四种方法](#compare-the-four-approaches)，从持久性、作用范围和保留内容进行比较
-* [组合方法](#combine-approaches)以分层定制方法
+* [系统提示如何工作](#系统提示如何工作)，包含一个决策表，用于在预设、带 `append` 的预设和自定义提示之间进行选择
+* [定制代理行为](#定制代理行为)，使用 CLAUDE.md 文件、输出样式、`append` 或自定义字符串
+* [比较四种方法](#比较四种方法)，从持久性、作用范围和保留内容进行比较
+* [组合方法](#组合使用方法)以分层定制方法
 
 ## 系统提示如何工作
 
@@ -41,15 +41,15 @@
 * **不同的权限模型**：代理自主运行，无需人类批准每一步，或在有限的资源集上运行。Claude Code 的提示假设有人类参与并拥有完整的工具集。
 * **非编码任务**：Claude Code 的大部分提示是编码指导。对于研究、内容或运营代理，这些指导会与你实际需要的指令相冲突。
 
-[比较表](#compare-the-four-approaches)展示了每种定制方法所保留的内容。
+[比较表](#比较四种方法)展示了每种定制方法所保留的内容。
 
 ## 定制代理行为
 
-输出样式、`append` 和自定义提示字符串都会直接更改系统提示。CLAUDE.md 采用不同的路径：SDK 读取它并将其内容作为项目上下文注入到对话中，而不是注入到系统提示中，因此它会与你选择的任何系统提示一起塑造行为。[技能](/en/agent-sdk/skills)、[钩子](/en/agent-sdk/hooks)和[权限](/en/agent-sdk/permissions)也在系统提示之外塑造行为，它们各自有专门的页面介绍。
+输出样式、`append` 和自定义提示字符串都会直接更改系统提示。CLAUDE.md 采用不同的路径：SDK 读取它并将其内容作为项目上下文注入到对话中，而不是注入到系统提示中，因此它会与你选择的任何系统提示一起塑造行为。[技能](/zh/agent-sdk/skills)、[钩子](/zh/agent-sdk/hooks)和[权限](/zh/agent-sdk/permissions)也在系统提示之外塑造行为，它们各自有专门的页面介绍。
 
 ### 使用 CLAUDE.md 文件提供项目级指令
 
-CLAUDE.md 文件为 Claude 提供持久的项目上下文和指令。SDK 将它们的内容注入到对话中，而不是注入到系统提示中，因此它们与任何系统提示配置一起工作。关于在 CLAUDE.md 中写什么、放在哪里以及如何编写有效指令，请参阅 [Claude 如何记住你的项目](/en/memory)。本节涵盖 SDK 特有的内容：CLAUDE.md 如何加载。
+CLAUDE.md 文件为 Claude 提供持久的项目上下文和指令。SDK 将它们的内容注入到对话中，而不是注入到系统提示中，因此它们与任何系统提示配置一起工作。关于在 CLAUDE.md 中写什么、放在哪里以及如何编写有效指令，请参阅 [Claude 如何记住你的项目](/zh/memory)。本节涵盖 SDK 特有的内容：CLAUDE.md 如何加载。
 
 当匹配的设置源启用时，SDK 会读取 CLAUDE.md：`'project'` 从工作目录加载 `CLAUDE.md` 或 `.claude/CLAUDE.md`，`'user'` 加载 `~/.claude/CLAUDE.md`。默认的 `query()` 选项会启用这两个源，因此 CLAUDE.md 会自动加载。如果你在 TypeScript 中显式设置 `settingSources` 或在 Python 中设置 `setting_sources`，请包含你需要的源。CLAUDE.md 加载受设置源控制，而非 `claude_code` 预设。
 
@@ -106,7 +106,7 @@ CLAUDE.md 跨项目中的所有会话持久化，通过 git 与团队共享，�
 
 #### 创建输出样式
 
-一个输出样式是一个包含[frontmatter](/en/output-styles#frontmatter) 元数据的 Markdown 文件，后跟提示词内容。将其保存到 `~/.claude/output-styles/` 可创建一个用户级别的样式，在所有项目中可用；或保存到你仓库中的 `.claude/output-styles/` 目录，以创建一个可提交并与团队共享的项目级别样式。
+一个输出样式是一个包含[frontmatter](/zh/output-styles#frontmatter) 元数据的 Markdown 文件，后跟提示词内容。将其保存到 `~/.claude/output-styles/` 可创建一个用户级别的样式，在所有项目中可用；或保存到你仓库中的 `.claude/output-styles/` 目录，以创建一个可提交并与团队共享的项目级别样式。
 
 默认情况下，自定义输出样式会用你自己的指示替换 `claude_code` 预设的软件工程指示。要保留它们并将你的指示叠加在上面，请在 frontmatter 中设置 `keep-coding-instructions: true`。当你的代理仍在进行软件工程工作时保留它们。当你完全替换角色时，则不保留。
 
@@ -231,7 +231,7 @@ Python SDK 没有提供以编程方式选择输出样式的选项。对于无法
 
 **权衡取舍：** 工作目录、`git-repo` 标志、平台、活跃的 Shell、操作系统版本以及自动记忆路径仍会传达给 Claude，但它们是作为第一条用户消息的一部分而非系统提示词。用户消息中的指令在推理当前目录或自动记忆路径时，其效力略低于系统提示词中的相同文本。当跨会话缓存复用比获取最权威的环境上下文更重要时，请启用此选项。
 
-关于非交互式 CLI 模式中的等效标志，请参见 [`--exclude-dynamic-system-prompt-sections`](/en/cli-reference)。
+关于非交互式 CLI 模式中的等效标志，请参见 [`--exclude-dynamic-system-prompt-sections`](/zh/cli-reference)。
 
 ### 自定义系统提示词
 
@@ -307,7 +307,7 @@ Python SDK 没有提供以编程方式选择输出样式的选项。对于无法
 
 ### 何时使用 CLAUDE.md
 
-使用 CLAUDE.md 来存放应适用于项目中每个会话（无论该会话使用何种系统提示词）的指令：编码规范、常用命令、架构上下文和团队约定。CLAUDE.md 会被提交到你的仓库，因此它会与其描述的代码保持同步。完整指南请参见 [何时添加到 CLAUDE.md](/en/memory#when-to-add-to-claude-md)。
+使用 CLAUDE.md 来存放应适用于项目中每个会话（无论该会话使用何种系统提示词）的指令：编码规范、常用命令、架构上下文和团队约定。CLAUDE.md 会被提交到你的仓库，因此它会与其描述的代码保持同步。完整指南请参见 [何时添加到 CLAUDE.md](/zh/memory#when-to-add-to-claude-md)。
 
 当 `project` 设置源启用时（对于默认的 `query()` 选项），CLAUDE.md 文件会被加载。如果你在 TypeScript 中显式设置了 `settingSources` 或在 Python 中设置了 `setting_sources`，请包含 `'project'` 以保持加载项目级别的 CLAUDE.md。
 
@@ -342,7 +342,7 @@ Python SDK 没有提供以编程方式选择输出样式的选项。对于无法
 
 ### 何时使用自定义 `systemPrompt`
 
-当你的代理的表面、身份或权限模型与 Claude Code 不同时，使用自定义提示词，如 [确定起点](#decide-on-a-starting-point) 中所述。你定义完整的指令集，包括你的代理所需的任何工具指导和安全规则。
+当你的代理的表面、身份或权限模型与 Claude Code 不同时，使用自定义提示词，如 [确定起点](#确定起点) 中所述。你定义完整的指令集，包括你的代理所需的任何工具指导和安全规则。
 
 **最适合：**
 
@@ -413,8 +413,8 @@ Python SDK 没有提供以编程方式选择输出样式的选项。对于无法
 
 ## 另请参阅
 
-* [输出样式](/en/output-styles)：创建、管理和共享 CLI 的输出样式，包括文件格式和存储位置
-* [Claude 如何记忆您的项目](/en/memory)：在 CLAUDE.md 中应包含什么、放置位置以及如何编写有效的项目指令
-* [TypeScript SDK 参考](/en/agent-sdk/typescript)：完整的 `Options` 类型，包括 `systemPrompt`、`settingSources` 和 `settings`
-* [Python SDK 参考](/en/agent-sdk/python)：完整的 `ClaudeAgentOptions` 类型，包括 `system_prompt` 和 `setting_sources`
-* [设置](/en/settings)：`settings.json` 参考，包括输出样式和其他配置的存储位置
+* [输出样式](/zh/output-styles)：创建、管理和共享 CLI 的输出样式，包括文件格式和存储位置
+* [Claude 如何记忆您的项目](/zh/memory)：在 CLAUDE.md 中应包含什么、放置位置以及如何编写有效的项目指令
+* [TypeScript SDK 参考](/zh/agent-sdk/typescript)：完整的 `Options` 类型，包括 `systemPrompt`、`settingSources` 和 `settings`
+* [Python SDK 参考](/zh/agent-sdk/python)：完整的 `ClaudeAgentOptions` 类型，包括 `system_prompt` 和 `setting_sources`
+* [设置](/zh/settings)：`settings.json` 参考，包括输出样式和其他配置的存储位置

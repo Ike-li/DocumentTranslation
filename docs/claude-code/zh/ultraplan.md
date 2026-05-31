@@ -10,7 +10,7 @@
   Ultraplan 处于研究预览阶段，需要 Claude Code v2.1.91 或更高版本。行为和能力可能会根据反馈调整。
 
 
-Ultraplan 把规划任务从你的本地 CLI 交给一个运行在[计划模式](/en/permission-modes#analyze-before-you-edit-with-plan-mode)下的 [Claude Code on the web](/en/claude-code-on-the-web) 会话。Claude 在云端起草计划的同时，你可以继续在终端工作。当计划准备好后，你可以在浏览器中打开它，对特定章节发表评论、要求修订，并选择在哪里执行。
+Ultraplan 把规划任务从你的本地 CLI 交给一个运行在[计划模式](/zh/permission-modes#analyze-before-you-edit-with-plan-mode)下的 [Claude Code on the web](/zh/claude-code-on-the-web) 会话。Claude 在云端起草计划的同时，你可以继续在终端工作。当计划准备好后，你可以在浏览器中打开它，对特定章节发表评论、要求修订，并选择在哪里执行。
 
 当你需要比终端更丰富的审阅界面时，这一功能很有用：
 
@@ -18,7 +18,7 @@ Ultraplan 把规划任务从你的本地 CLI 交给一个运行在[计划模式]
 * **无人值守起草**：计划在远程生成，你的终端可以继续做其他事
 * **灵活执行**：批准在 Web 端运行计划并打开 PR，或把它发回终端
 
-Ultraplan 需要 [Claude Code on the web](/en/claude-code-on-the-web) 账号和 GitHub 仓库。由于它运行在 Anthropic 的云基础设施上，因此使用 Amazon Bedrock、Google Cloud Vertex AI 或 Microsoft Foundry 时无法使用。云会话运行在你账号的默认[云环境](/en/claude-code-on-the-web#the-cloud-environment)中。如果你还没有云环境，ultraplan 在首次启动时会自动创建一个。
+Ultraplan 需要 [Claude Code on the web](/zh/claude-code-on-the-web) 账号和 GitHub 仓库。由于它运行在 Anthropic 的云基础设施上，因此使用 Amazon Bedrock、Google Cloud Vertex AI 或 Microsoft Foundry 时无法使用。云会话运行在你账号的默认[云环境](/zh/claude-code-on-the-web#the-cloud-environment)中。如果你还没有云环境，ultraplan 在首次启动时会自动创建一个。
 
 ## 从 CLI 启动 ultraplan
 
@@ -34,7 +34,7 @@ Ultraplan 需要 [Claude Code on the web](/en/claude-code-on-the-web) 账号和 
 /ultraplan migrate the auth service from sessions to JWTs
 ```
 
-命令和关键词路径会在启动前打开一个确认对话框。本地计划路径会跳过该对话框，因为这一选择本身已经构成确认。如果 [Remote Control](/en/remote-control) 处于活动状态，ultraplan 启动时会断开连接，因为这两个功能都占用 claude.ai/code 界面，同时只能连接一个。
+命令和关键词路径会在启动前打开一个确认对话框。本地计划路径会跳过该对话框，因为这一选择本身已经构成确认。如果 [Remote Control](/zh/remote-control) 处于活动状态，ultraplan 启动时会断开连接，因为这两个功能都占用 claude.ai/code 界面，同时只能连接一个。
 
 云会话启动后，CLI 的提示输入会显示一个状态指示器，反映远程会话的进展：
 
@@ -62,7 +62,7 @@ Ultraplan 需要 [Claude Code on the web](/en/claude-code-on-the-web) 账号和 
 
 ### 在 Web 端执行
 
-在浏览器中选择 **Approve Claude's plan and start coding**，让 Claude 在同一个 Claude Code on the web 会话中实现它。终端会显示一条确认信息，状态指示器消失，工作在云端继续。实现完成后，从 Web 界面[审阅 diff](/en/claude-code-on-the-web#review-changes) 并创建 PR。
+在浏览器中选择 **Approve Claude's plan and start coding**，让 Claude 在同一个 Claude Code on the web 会话中实现它。终端会显示一条确认信息，状态指示器消失，工作在云端继续。实现完成后，从 Web 界面[审阅 diff](/zh/claude-code-on-the-web#review-changes) 并创建 PR。
 
 ### 把计划送回终端
 
@@ -78,7 +78,7 @@ Ultraplan 需要 [Claude Code on the web](/en/claude-code-on-the-web) 账号和 
 
 ## 相关资源
 
-* [Claude Code on the web](/en/claude-code-on-the-web)：ultraplan 运行的云基础设施
-* [计划模式](/en/permission-modes#analyze-before-you-edit-with-plan-mode)：本地会话中规划的工作方式
-* [用 ultrareview 找 Bug](/en/ultrareview)：与 ultraplan 互补的代码评审能力，用于在合并前发现问题
-* [Remote Control](/en/remote-control)：让 claude.ai/code 界面连接到运行在你自己机器上的会话
+* [Claude Code on the web](/zh/claude-code-on-the-web)：ultraplan 运行的云基础设施
+* [计划模式](/zh/permission-modes#analyze-before-you-edit-with-plan-mode)：本地会话中规划的工作方式
+* [用 ultrareview 找 Bug](/zh/ultrareview)：与 ultraplan 互补的代码评审能力，用于在合并前发现问题
+* [Remote Control](/zh/remote-control)：让 claude.ai/code 界面连接到运行在你自己机器上的会话

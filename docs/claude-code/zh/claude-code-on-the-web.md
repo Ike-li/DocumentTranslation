@@ -10,19 +10,19 @@
 
 Claude Code 网页版在 [claude.ai/code](https://claude.ai/code) 地址基于 Anthropic 托管的云基础设施运行任务。会话在您关闭浏览器后仍会保持，您可以通过 Claude 移动应用进行监控。
 
-  初次接触网页版 Claude Code？请先查看[入门指南](/en/web-quickstart)以连接您的 GitHub 账户并提交第一个任务。
+  初次接触网页版 Claude Code？请先查看[入门指南](/zh/web-quickstart)以连接您的 GitHub 账户并提交第一个任务。
 
 本页涵盖：
 
-* [GitHub 认证选项](#github-authentication-options)：两种连接 GitHub 的方式
-* [云端环境](#the-cloud-environment)：哪些配置会保留、预装了哪些工具，以及如何配置环境
-* [设置脚本](#setup-scripts)与依赖管理
-* [网络访问](#network-access)：访问级别、代理与默认允许列表
-* [在网页端与终端间迁移任务](#move-tasks-between-web-and-terminal)：使用 `--remote` 和 `--teleport` 参数
-* [处理会话](#work-with-sessions)：查看、共享、归档、删除
-* [自动修复 Pull Request](#auto-fix-pull-requests)：自动响应 CI 失败与评审意见
-* [安全与隔离](#security-and-isolation)：会话如何实现隔离
-* [限制](#limitations)：速率限制与平台约束
+* [GitHub 认证选项](#github-认证选项)：两种连接 GitHub 的方式
+* [云端环境](#云环境)：哪些配置会保留、预装了哪些工具，以及如何配置环境
+* [设置脚本](#设置脚本)与依赖管理
+* [网络访问](#网络访问)：访问级别、代理与默认允许列表
+* [在网页端与终端间迁移任务](#在网页与终端间移动任务)：使用 `--remote` 和 `--teleport` 参数
+* [处理会话](#处理会话)：查看、共享、归档、删除
+* [自动修复 Pull Request](#自动修复拉取请求)：自动响应 CI 失败与评审意见
+* [安全与隔离](#安全性与隔离性)：会话如何实现隔离
+* [限制](#限制条件)：速率限制与平台约束
 
 ## GitHub 认证选项
 
@@ -30,18 +30,18 @@ Claude Code 网页版在 [claude.ai/code](https://claude.ai/code) 地址基于 A
 
 | 方法             | 工作原理                                                                                   | 适用场景                                                               |
 | :--------------- | :----------------------------------------------------------------------------------------- | :--------------------------------------------------------------------- |
-| **GitHub App**   | 在[网页端引导流程](/en/web-quickstart)中授权 Claude GitHub App。                           | 浏览器引导场景；希望使用[自动修复](#auto-fix-pull-requests)功能的团队 |
+| **GitHub App**   | 在[网页端引导流程](/zh/web-quickstart)中授权 Claude GitHub App。                           | 浏览器引导场景；希望使用[自动修复](#自动修复拉取请求)功能的团队 |
 | **`/web-setup`** | 在终端运行 `/web-setup` 命令，将本地 `gh` CLI 的令牌同步至您的 Claude 账户。              | 已在使用 `gh` CLI 的个人开发者                                         |
 
-  无论使用哪种方法，云会话均可访问连接 GitHub 账户能看到的所有仓库，而不仅限于安装了 Claude GitHub App 的仓库。应用安装仅用于启用 [Auto-fix](#auto-fix-pull-requests) 的 PR 网络钩子，并非会话级别的访问控制。若要限制团队通过云会话可访问的仓库范围，请直接在 GitHub 上进行权限设置，例如限制已连接 GitHub 账户的团队成员身份或仓库成员权限。
+  无论使用哪种方法，云会话均可访问连接 GitHub 账户能看到的所有仓库，而不仅限于安装了 Claude GitHub App 的仓库。应用安装仅用于启用 [Auto-fix](#自动修复拉取请求) 的 PR 网络钩子，并非会话级别的访问控制。若要限制团队通过云会话可访问的仓库范围，请直接在 GitHub 上进行权限设置，例如限制已连接 GitHub 账户的团队成员身份或仓库成员权限。
 
-两种方式均可。[`/schedule`](/en/routines) 会检查两种访问方式，如果均未配置，会提示您运行 `/web-setup`。关于 `/web-setup` 的操作指南，请参阅[从终端连接](/en/web-quickstart#connect-from-your-terminal)。
+两种方式均可。[`/schedule`](/zh/routines) 会检查两种访问方式，如果均未配置，会提示您运行 `/web-setup`。关于 `/web-setup` 的操作指南，请参阅[从终端连接](/zh/web-quickstart#connect-from-your-terminal)。
 
-GitHub App 是[自动修复](#auto-fix-pull-requests)功能所必需的，该功能通过此 App 接收 PR webhook。若您通过 `/web-setup` 连接，之后又需要自动修复功能，请在相关仓库安装该 App。
+GitHub App 是[自动修复](#自动修复拉取请求)功能所必需的，该功能通过此 App 接收 PR webhook。若您通过 `/web-setup` 连接，之后又需要自动修复功能，请在相关仓库安装该 App。
 
 团队和企业管理员可在 [claude.ai/admin-settings/claude-code](https://claude.ai/admin-settings/claude-code) 页面的“快速 Web 设置”开关处禁用 `/web-setup`。
 
-  启用了[零数据保留](/en/zero-data-retention)功能的组织无法使用 `/web-setup` 或其他云会话功能。
+  启用了[零数据保留](/zh/zero-data-retention)功能的组织无法使用 `/web-setup` 或其他云会话功能。
 
 ## 云环境
 
@@ -58,10 +58,10 @@ GitHub App 是[自动修复](#auto-fix-pull-requests)功能所必需的，该功
 | 你仓库的 `.mcp.json` MCP 服务器 | 是 | 克隆的一部分 |
 | 你仓库的 `.claude/rules/` | 是 | 克隆的一部分 |
 | 你仓库的 `.claude/skills/`、`.claude/agents/`、`.claude/commands/` | 是 | 克隆的一部分 |
-| 在 `.claude/settings.json` 中声明的插件 | 是 | 在会话开始时从你声明的[市场](/en/plugin-marketplaces)安装。需要网络访问以连接市场源 |
+| 在 `.claude/settings.json` 中声明的插件 | 是 | 在会话开始时从你声明的[市场](/zh/plugin-marketplaces)安装。需要网络访问以连接市场源 |
 | 你的用户 `~/.claude/CLAUDE.md` | 否 | 存放在你的本地机器上，不在仓库中 |
 | 仅在用户设置中启用的插件 | 否 | 用户作用域的 `enabledPlugins` 存放在 `~/.claude/settings.json` 中。应改为在仓库的 `.claude/settings.json` 中声明它们 |
-| 使用 `claude mcp add` 添加的 MCP 服务器 | 否 | 这些命令会写入你的本地用户配置，而不是仓库。应在 [`.mcp.json`](/en/mcp#project-scope) 中声明服务器 |
+| 使用 `claude mcp add` 添加的 MCP 服务器 | 否 | 这些命令会写入你的本地用户配置，而不是仓库。应在 [`.mcp.json`](/zh/mcp#project-scope) 中声明服务器 |
 | 静态 API 令牌和凭据 | 否 | 尚无专用的密钥存储。详见下文 |
 | 交互式认证（如 AWS SSO） | 否 | 不支持。SSO 需要基于浏览器的登录，无法在云会话中运行 |
 
@@ -85,22 +85,22 @@ GitHub App 是[自动修复](#auto-fix-pull-requests)功能所必需的，该功
 | **数据库** | PostgreSQL 16、Redis 7.0 |
 | **实用工具** | git、jq、yq、ripgrep、tmux、vim、nano |
 
-¹ Bun 已安装，但在获取包时存在已知的[代理兼容性问题](#install-dependencies-with-a-sessionstart-hook)。
+¹ Bun 已安装，但在获取包时存在已知的[代理兼容性问题](#使用会话开始钩子安装依赖项)。
 
 要获取确切版本，请在云会话中让 Claude 运行 `check-tools`。此命令仅存在于云会话中。
 
 ### 处理 GitHub 问题和拉取请求
 
-云会话包含内置的 GitHub 工具，允许 Claude 读取问题、列出拉取请求、获取差异和发布评论，无需任何设置。这些工具通过 [GitHub 代理](#github-proxy)进行认证，使用你在 [GitHub 认证选项](#github-authentication-options)下配置的方法，因此你的令牌不会进入容器。
+云会话包含内置的 GitHub 工具，允许 Claude 读取问题、列出拉取请求、获取差异和发布评论，无需任何设置。这些工具通过 [GitHub 代理](#github-认证选项)进行认证，使用你在 [GitHub 认证选项](#github-认证选项)下配置的方法，因此你的令牌不会进入容器。
 
 `gh` 命令行工具未预装。如果你需要使用内置工具未涵盖的 `gh` 命令，例如 `gh release` 或 `gh workflow run`，请自行安装并进行认证。
 
 
-    在[安装脚本](#setup-scripts)中添加 `apt update && apt install -y gh`。
+    在[安装脚本](#设置脚本)中添加 `apt update && apt install -y gh`。
 
 
 
-    在[环境设置](#configure-your-environment)中添加一个 `GH_TOKEN` 环境变量，并设置为 GitHub 个人访问令牌。`gh` 会自动读取 `GH_TOKEN`，因此无需 `gh auth login` 步骤。
+    在[环境设置](#配置您的环境)中添加一个 `GH_TOKEN` 环境变量，并设置为 GitHub 个人访问令牌。`gh` 会自动读取 `GH_TOKEN`，因此无需 `gh auth login` 步骤。
 
 
 ### 将工件链接回会话
@@ -123,11 +123,11 @@ service postgresql start
 ```bash
 service redis-server start
 ```
-Docker 可用于运行容器化服务。要求 Claude 运行 `docker compose up` 即可启动项目的服务。拉取镜像的网络访问权限遵循您环境的[访问级别](#access-levels)，且[可信默认配置](#default-allowed-domains)包含 Docker Hub 及其他常用注册表。
+Docker 可用于运行容器化服务。要求 Claude 运行 `docker compose up` 即可启动项目的服务。拉取镜像的网络访问权限遵循您环境的[访问级别](#访问级别)，且[可信默认配置](#默认允许的域名)包含 Docker Hub 及其他常用注册表。
 
-如果镜像体积较大或拉取缓慢，请将 `docker compose pull` 或 `docker compose build` 添加到[设置脚本](#setup-scripts)中。拉取的镜像会保存在[缓存环境](#environment-caching)中，因此每个新会话在磁盘上都有这些镜像。缓存仅存储文件，不保存运行中的进程，因此 Claude 仍需在每次会话中启动容器。
+如果镜像体积较大或拉取缓慢，请将 `docker compose pull` 或 `docker compose build` 添加到[设置脚本](#设置脚本)中。拉取的镜像会保存在[缓存环境](#环境缓存)中，因此每个新会话在磁盘上都有这些镜像。缓存仅存储文件，不保存运行中的进程，因此 Claude 仍需在每次会话中启动容器。
 
-要添加未预装的软件包，请使用[设置脚本](#setup-scripts)。脚本的输出会被[缓存](#environment-caching)，因此在其中安装的软件包可在每次会话开始时直接使用，无需重复安装。您也可以要求 Claude 在会话中途中安装软件包，但这些安装不会延续到其他会话。
+要添加未预装的软件包，请使用[设置脚本](#设置脚本)。脚本的输出会被[缓存](#环境缓存)，因此在其中安装的软件包可在每次会话开始时直接使用，无需重复安装。您也可以要求 Claude 在会话中途中安装软件包，但这些安装不会延续到其他会话。
 
 ### 资源限制
 
@@ -137,11 +137,11 @@ Docker 可用于运行容器化服务。要求 Claude 运行 `docker compose up`
 * 16 GB 内存
 * 30 GB 磁盘
 
-需要显著更多内存的任务（例如大型构建作业或内存密集型测试）可能会失败或被终止。对于超出这些限制的工作负载，请使用[远程控制](/en/remote-control)在您自己的硬件上运行 Claude Code。
+需要显著更多内存的任务（例如大型构建作业或内存密集型测试）可能会失败或被终止。对于超出这些限制的工作负载，请使用[远程控制](/zh/remote-control)在您自己的硬件上运行 Claude Code。
 
 ### 配置您的环境
 
-环境控制[网络访问](#network-access)、环境变量以及在会话开始前运行的[设置脚本](#setup-scripts)。请参阅[已安装工具](#installed-tools)了解无需任何配置即可使用的工具。您可以通过网络界面或终端管理环境：
+环境控制[网络访问](#网络访问)、环境变量以及在会话开始前运行的[设置脚本](#设置脚本)。请参阅[已安装工具](#已安装的工具)了解无需任何配置即可使用的工具。您可以通过网络界面或终端管理环境：
 
 | 操作                             | 方法                                                                                                                                                                                                                      |
 | :----------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -171,15 +171,15 @@ apt update && apt install -y gh
 ```
 如果脚本以非零值退出，会话将无法启动。在非关键命令后追加 `|| true`，可避免间歇性安装失败导致会话阻塞。
 
-请将脚本总运行时间控制在大约五分钟内，以便[环境缓存](#environment-caching)能够建立。使用 `&` 和 `wait` 并行执行独立的安装任务。如果单个下载无法在五分钟限制内完成，请将其移至[会话启动钩子](#setup-scripts-vs-sessionstart-hooks)中后台启动。
+请将脚本总运行时间控制在大约五分钟内，以便[环境缓存](#环境缓存)能够建立。使用 `&` 和 `wait` 并行执行独立的安装任务。如果单个下载无法在五分钟限制内完成，请将其移至[会话启动钩子](#设置脚本与会话开始钩子)中后台启动。
 
-  安装软件包的脚本需要网络访问权限以连接仓库。默认的**受信任**网络访问允许连接至[常见包仓库](#default-allowed-domains)，包括 npm、PyPI、RubyGems 和 crates.io。如果您的环境使用**无**网络访问权限，脚本将无法安装软件包。
+  安装软件包的脚本需要网络访问权限以连接仓库。默认的**受信任**网络访问允许连接至[常见包仓库](#默认允许的域名)，包括 npm、PyPI、RubyGems 和 crates.io。如果您的环境使用**无**网络访问权限，脚本将无法安装软件包。
 
 ### 环境缓存
 
 设置脚本会在您首次在环境中启动会话时运行。完成运行后，Anthropic 会创建文件系统的快照，并将其重用为后续会话的起点。新会话启动时，您的依赖项、工具和 Docker 镜像已预先存在于磁盘上，设置脚本步骤将被跳过。这确保了即使脚本安装了大型工具链或拉取容器镜像，启动速度依然很快。
 
-缓存捕获的是文件，而非正在运行的进程。设置脚本写入磁盘的任何内容都会被保留。它启动的服务或容器不会被保留，因此请通过要求 Claude 或使用[会话开始钩子](#setup-scripts-vs-sessionstart-hooks)在每个会话中启动它们。
+缓存捕获的是文件，而非正在运行的进程。设置脚本写入磁盘的任何内容都会被保留。它启动的服务或容器不会被保留，因此请通过要求 Claude 或使用[会话开始钩子](#设置脚本与会话开始钩子)在每个会话中启动它们。
 
 当您更改环境的设置脚本或允许的网络主机，以及缓存大约在七天后达到过期时间时，设置脚本会重新运行以重建缓存。恢复现有会话时不会重新运行设置脚本。
 
@@ -187,7 +187,7 @@ apt update && apt install -y gh
 
 ### 设置脚本与会话开始钩子
 
-使用设置脚本来安装云环境需要但您本地笔记本已具备的东西，例如语言运行时或 CLI 工具。使用[会话开始钩子](/en/hooks#sessionstart)进行应在所有环境（云环境和本地）运行的项目设置，例如 `npm install`。
+使用设置脚本来安装云环境需要但您本地笔记本已具备的东西，例如语言运行时或 CLI 工具。使用[会话开始钩子](/zh/hooks#sessionstart)进行应在所有环境（云环境和本地）运行的项目设置，例如 `npm install`。
 
 两者都在会话开始时运行，但它们属于不同的位置：
 
@@ -195,7 +195,7 @@ apt update && apt install -y gh
 | ------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
 | 附加到        | 云环境                                                                                       | 您的仓库                                                       |
 | 配置位置      | 云环境 UI                                                                                    | 您仓库中的 `.claude/settings.json`                             |
-| 运行时机      | Claude Code 启动前，且无[缓存环境](#environment-caching)可用时 | Claude Code 启动后，包括恢复的会话在内的每次会话 |
+| 运行时机      | Claude Code 启动前，且无[缓存环境](#环境缓存)可用时 | Claude Code 启动后，包括恢复的会话在内的每次会话 |
 | 作用范围      | 仅限云环境                                                                                   | 本地和云环境均适用                                             |
 
 会话开始钩子也可以在您本地的用户级 `~/.claude/settings.json` 中定义，但用户级设置不会同步到云会话。在云环境中，只有提交到仓库的钩子才会运行。
@@ -235,21 +235,21 @@ exit 0
 SessionStart 钩子在云会话中存在一些限制：
 
 * **无纯云端作用域**：钩子在本地和云端会话中均会运行。如需跳过本地执行，请按上文所示检查 `CLAUDE_CODE_REMOTE` 环境变量。
-* **需要网络访问**：安装命令需要连接包注册表。若您的环境使用 **None** 网络访问级别，这些钩子将失败。**Trusted** 级别的[默认允许列表](#default-allowed-domains)涵盖了 npm、PyPI、RubyGems 和 crates.io。
-* **代理兼容性**：所有出站流量均通过[安全代理](#security-proxy)。部分包管理器与此代理存在兼容性问题，Bun 即为已知案例。
-* **增加启动延迟**：钩子会在每次会话启动或恢复时运行，这与可受益于[环境缓存](#environment-caching)的设置脚本不同。通过检查依赖项是否已存在再行安装，可保持安装脚本高效运行。
+* **需要网络访问**：安装命令需要连接包注册表。若您的环境使用 **None** 网络访问级别，这些钩子将失败。**Trusted** 级别的[默认允许列表](#默认允许的域名)涵盖了 npm、PyPI、RubyGems 和 crates.io。
+* **代理兼容性**：所有出站流量均通过[安全代理](#安全代理)。部分包管理器与此代理存在兼容性问题，Bun 即为已知案例。
+* **增加启动延迟**：钩子会在每次会话启动或恢复时运行，这与可受益于[环境缓存](#环境缓存)的设置脚本不同。通过检查依赖项是否已存在再行安装，可保持安装脚本高效运行。
 
-若要为后续的 Bash 命令持久化环境变量，请写入 `$CLAUDE_ENV_FILE` 文件。详情请参阅 [SessionStart 钩子](/en/hooks#sessionstart)。
+若要为后续的 Bash 命令持久化环境变量，请写入 `$CLAUDE_ENV_FILE` 文件。详情请参阅 [SessionStart 钩子](/zh/hooks#sessionstart)。
 
-目前尚不支持将基础镜像替换为您自定义的 Docker 镜像。请使用设置脚本在[提供的镜像](#installed-tools)基础上安装所需内容，或通过 `docker compose` 将您的镜像作为容器与 Claude 并行运行。
+目前尚不支持将基础镜像替换为您自定义的 Docker 镜像。请使用设置脚本在[提供的镜像](#已安装的工具)基础上安装所需内容，或通过 `docker compose` 将您的镜像作为容器与 Claude 并行运行。
 
 ## 网络访问
 
-网络访问控制云环境的出站连接。每个环境指定一个访问级别，您可通过自定义允许域名进行扩展。默认级别为 **Trusted**，允许包注册表及其他[已列入白名单的域名](#default-allowed-domains)。
+网络访问控制云环境的出站连接。每个环境指定一个访问级别，您可通过自定义允许域名进行扩展。默认级别为 **Trusted**，允许包注册表及其他[已列入白名单的域名](#默认允许的域名)。
 
-如需更改环境的网络访问设置，请[打开编辑界面](#configure-your-environment)并在对话框中使用 **Network access** 选择器。没有单独的“环境”页面。云图标会出现在您启动云会话或配置[例程](/en/routines#environments-and-network-access)的任何位置。
+如需更改环境的网络访问设置，请[打开编辑界面](#配置您的环境)并在对话框中使用 **Network access** 选择器。没有单独的“环境”页面。云图标会出现在您启动云会话或配置[例程](/zh/routines#environments-and-network-access)的任何位置。
 
-  MCP 连接器的流量通过 Anthropic 的服务器进行路由，因此你在会话或例行程序中启用的连接器无需将这些主机添加到 **Allowed domains** 即可正常工作。连接器按会话或例行程序配置；移除任何不需要的连接器，以限制 Claude 可访问的工具范围。此功能依赖于 [安全与隔离](#security-and-isolation) 部分提到的同一 Anthropic 绑定通道。
+  MCP 连接器的流量通过 Anthropic 的服务器进行路由，因此你在会话或例行程序中启用的连接器无需将这些主机添加到 **Allowed domains** 即可正常工作。连接器按会话或例行程序配置；移除任何不需要的连接器，以限制 Claude 可访问的工具范围。此功能依赖于 [安全与隔离](#安全性与隔离性) 部分提到的同一 Anthropic 绑定通道。
 
 ### 访问级别
 
@@ -258,11 +258,11 @@ SessionStart 钩子在云会话中存在一些限制：
 | 级别       | 出站连接                                                                         |
 | :---------- | :------------------------------------------------------------------------------------------- |
 | **无**    | 无出站网络访问权限                                                                   |
-| **受信任** | 仅允许[默认允许的域名](#default-allowed-domains)：软件包注册表、GitHub、云SDK |
+| **受信任** | 仅允许[默认允许的域名](#默认允许的域名)：软件包注册表、GitHub、云SDK |
 | **完全**    | 任何域名                                                                                   |
 | **自定义**  | 您自己的允许列表，可选择包含默认域名                                        |
 
-GitHub 操作使用独立于此设置的[单独代理](#github-proxy)。
+GitHub 操作使用独立于此设置的[单独代理](#github-认证选项)。
 
 ### 允许特定域名
 
@@ -272,7 +272,7 @@ api.example.com
 *.internal.example.com
 registry.example.com
 ```
-使用 `*` 进行通配符子域名匹配。勾选 **同时包含默认常用包管理器列表** 以在自定义条目旁保留[可信域名](#default-allowed-domains)，或取消勾选仅允许您列出的域名。
+使用 `*` 进行通配符子域名匹配。勾选 **同时包含默认常用包管理器列表** 以在自定义条目旁保留[可信域名](#默认允许的域名)，或取消勾选仅允许您列出的域名。
 
 ### GitHub 代理
 
@@ -548,7 +548,7 @@ registry.example.com
 
 ## 在网页与终端间移动任务
 
-这些工作流程需要 [Claude Code CLI](/en/quickstart) 登录同一个 claude.ai 账户。您可以从终端启动新的云端会话，或将云端会话拉取至本地终端继续操作。即使合上笔记本电脑，云端会话也会持续运行，您还可以从任何地方监控它们，包括通过 Claude 移动应用。
+这些工作流程需要 [Claude Code CLI](/zh/quickstart) 登录同一个 claude.ai 账户。您可以从终端启动新的云端会话，或将云端会话拉取至本地终端继续操作。即使合上笔记本电脑，云端会话也会持续运行，您还可以从任何地方监控它们，包括通过 Claude 移动应用。
 
   从命令行界面来看，会话传输是单向的：您可以使用 `--teleport` 将云端会话拉取到本地终端，但无法将现有终端会话推送到网页端。`--remote` 标志会为当前仓库创建一个新的云端会话。桌面应用提供了「继续在...」菜单，可将本地会话发送至网页端。
 
@@ -560,7 +560,7 @@ claude --remote "Fix the authentication bug in src/auth/login.ts"
 ```
 这会在 claude.ai 上创建一个新的云会话。该会话将克隆您当前目录所在 GitHub 远程仓库的当前分支，因此如果您有本地提交，请先推送，因为虚拟机将从 GitHub 而非您的机器进行克隆。`--remote` 一次仅适用于单个仓库。任务将在云端运行，而您可继续在本地工作。
 
-  `--remote` 创建云端会话。`--remote-control` 则无关：它将本地CLI会话暴露出来，以便从Web端监控。详见 [远程控制](/en/remote-control)。
+  `--remote` 创建云端会话。`--remote-control` 则无关：它将本地CLI会话暴露出来，以便从Web端监控。详见 [远程控制](/zh/remote-control)。
 
 使用 Claude Code CLI 中的 `/tasks` 命令来检查进度，或在 claude.ai 或 Claude 移动应用上打开会话进行直接交互。在那里，您可以像进行其他任何对话一样引导 Claude、提供反馈或回答问题。
 
@@ -576,7 +576,7 @@ claude --remote "Execute the migration plan in docs/migration-plan.md"
 ```
 这种模式让您掌控策略制定，同时允许Claude在云端自主执行。
 
-**使用ultraplan在云端规划**：若需在网页会话中起草和审阅计划本身，请使用[ultraplan](/en/ultraplan)。Claude会在网页版Claude Code上生成计划，而您可以继续工作，随后在浏览器中对各部分添加评论，选择远程执行或将计划发回终端。
+**使用ultraplan在云端规划**：若需在网页会话中起草和审阅计划本身，请使用[ultraplan](/zh/ultraplan)。Claude会在网页版Claude Code上生成计划，而您可以继续工作，随后在浏览器中对各部分添加评论，选择远程执行或将计划发回终端。
 
 **并行运行任务**：每个 `--remote` 命令都会创建独立运行的云端会话。您可以启动多个任务，它们将在各自独立的会话中同时运行：
 ```bash
@@ -584,7 +584,7 @@ claude --remote "Fix the flaky test in auth.spec.ts"
 claude --remote "Update the API documentation"
 claude --remote "Refactor the logger to use structured output"
 ```
-通过 Claude Code CLI 中的 `/tasks` 命令监控所有会话。当会话完成后，您可以从网页界面创建 PR 或将会话[传送](#from-web-to-terminal)到终端继续工作。
+通过 Claude Code CLI 中的 `/tasks` 命令监控所有会话。当会话完成后，您可以从网页界面创建 PR 或将会话[传送](#从网页到终端)到终端继续工作。
 
 #### 在没有 GitHub 的情况下发送本地仓库
 
@@ -599,7 +599,7 @@ CCR_FORCE_BUNDLE=1 claude --remote "Run the test suite and fix any failures"
 *   目录必须是一个至少包含一次提交的 Git 仓库。
 *   打包仓库大小必须低于 100 MB。更大的仓库会退回到仅打包当前分支，然后是单次压缩的工作树快照，只有在快照仍然太大时才会失败。
 *   未跟踪的文件不会被包含；请在希望云端会话看到的文件上运行 `git add`。
-*   从打包创建的会话无法推送到远程仓库，除非您同时配置了 [GitHub 认证](#github-authentication-options)。
+*   从打包创建的会话无法推送到远程仓库，除非您同时配置了 [GitHub 认证](#github-认证选项)。
 
 ### 从网页到终端
 
@@ -635,7 +635,7 @@ CCR_FORCE_BUNDLE=1 claude --remote "Run the test suite and fix any failures"
 
 ### 管理上下文
 
-云端会话支持产生文本输出的[内置命令](/en/commands)。打开交互式终端选择器的命令（如 `/model` 或 `/config`）不可用。
+云端会话支持产生文本输出的[内置命令](/zh/commands)。打开交互式终端选择器的命令（如 `/model` 或 `/config`）不可用。
 
 针对上下文管理：
 
@@ -645,13 +645,13 @@ CCR_FORCE_BUNDLE=1 claude --remote "Run the test suite and fix any failures"
 | `/context` | 是               | 显示当前上下文窗口中的内容。                                                                                                   |
 | `/clear`   | 否               | 请改为从侧边栏开始新会话。                                                                                                     |
 
-当上下文窗口接近容量时，自动压缩会自动运行，与 CLI 中相同。要更早触发，请在您的[环境变量](#configure-your-environment)中设置 [`CLAUDE_AUTOCOMPACT_PCT_OVERRIDE`](/en/env-vars)。例如，`CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=70` 会在 70% 容量时压缩，而不是默认的约 95%。要更改压缩计算的有效窗口大小，请使用 [`CLAUDE_CODE_AUTO_COMPACT_WINDOW`](/en/env-vars)。
+当上下文窗口接近容量时，自动压缩会自动运行，与 CLI 中相同。要更早触发，请在您的[环境变量](#配置您的环境)中设置 [`CLAUDE_AUTOCOMPACT_PCT_OVERRIDE`](/zh/env-vars)。例如，`CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=70` 会在 70% 容量时压缩，而不是默认的约 95%。要更改压缩计算的有效窗口大小，请使用 [`CLAUDE_CODE_AUTO_COMPACT_WINDOW`](/zh/env-vars)。
 
-[子代理](/en/sub-agents)的工作方式与本地相同。Claude 可以使用 Task 工具生成子代理，将研究或并行工作卸载到单独的上下文窗口中，使主对话保持轻量。您仓库的 `.claude/agents/` 中定义的子代理会自动被识别。[代理团队](/en/agent-teams)默认禁用，但可以通过在您的[环境变量](#configure-your-environment)中添加 `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` 来启用。
+[子代理](/zh/sub-agents)的工作方式与本地相同。Claude 可以使用 Task 工具生成子代理，将研究或并行工作卸载到单独的上下文窗口中，使主对话保持轻量。您仓库的 `.claude/agents/` 中定义的子代理会自动被识别。[代理团队](/zh/agent-teams)默认禁用，但可以通过在您的[环境变量](#配置您的环境)中添加 `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` 来启用。
 
 ### 审阅更改
 
-每个会话都会显示一个差异指示器，显示添加和删除的行数，例如 `+42 -18`。选择它可打开差异视图，对特定行留下内联评论，并在下一条消息中发送给 Claude。有关包含 PR 创建的完整演练，请参阅[审阅与迭代](/en/web-quickstart#review-and-iterate)。要让 Claude 自动监控 PR 的 CI 失败和审阅评论，请参阅[自动修复拉取请求](#auto-fix-pull-requests)。
+每个会话都会显示一个差异指示器，显示添加和删除的行数，例如 `+42 -18`。选择它可打开差异视图，对特定行留下内联评论，并在下一条消息中发送给 Claude。有关包含 PR 创建的完整演练，请参阅[审阅与迭代](/zh/web-quickstart#review-and-iterate)。要让 Claude 自动监控 PR 的 CI 失败和审阅评论，请参阅[自动修复拉取请求](#自动修复拉取请求)。
 
 ### 共享会话
 
@@ -659,7 +659,7 @@ CCR_FORCE_BUNDLE=1 claude --remote "Run the test suite and fix any failures"
 
 #### 从企业或团队账户共享
 
-对于企业和团队账户，两个可见性选项是**私有**和**团队**。团队可见性使会话对您 claude.ai 组织的其他成员可见。默认启用仓库访问验证，基于连接到收件人账户的 GitHub 账户。您的账户显示名称对所有有访问权限的收件人可见。[Slack 中的 Claude](/en/slack) 会话会自动以团队可见性共享。
+对于企业和团队账户，两个可见性选项是**私有**和**团队**。团队可见性使会话对您 claude.ai 组织的其他成员可见。默认启用仓库访问验证，基于连接到收件人账户的 GitHub 账户。您的账户显示名称对所有有访问权限的收件人可见。[Slack 中的 Claude](/zh/slack) 会话会自动以团队可见性共享。
 
 #### 从 Max 或 Pro 账户共享
 
@@ -688,12 +688,12 @@ CCR_FORCE_BUNDLE=1 claude --remote "Run the test suite and fix any failures"
 
 Claude 可以监控拉取请求并自动响应 CI 失败和审阅评论。Claude 会订阅 PR 上的 GitHub 活动，当检查失败或审阅者留下评论时，Claude 会进行调查，如果有明确的修复方案则推送修复。
 
-  自动修复功能需要将Claude GitHub App安装到您的仓库中。如果尚未安装，请从[GitHub App页面](https://github.com/apps/claude)进行安装，或在[设置](/en/web-quickstart#connect-github-and-create-an-environment)过程中根据提示完成安装。
+  自动修复功能需要将Claude GitHub App安装到您的仓库中。如果尚未安装，请从[GitHub App页面](https://github.com/apps/claude)进行安装，或在[设置](/zh/web-quickstart#connect-github-and-create-an-environment)过程中根据提示完成安装。
 
 根据 PR 来源和所用设备的不同，有几种方式可以开启自动修复：
 
 *   **在网络端 Claude Code 中创建的 PR**：打开 CI 状态栏，然后选择 **Auto-fix**
-*   **在您的终端**：在 PR 的分支上运行 [`/autofix-pr`](/en/commands)。Claude Code 会使用 `gh` 检测到打开的 PR，启动网页会话，并一步到位地开启自动修复。
+*   **在您的终端**：在 PR 的分支上运行 [`/autofix-pr`](/zh/commands)。Claude Code 会使用 `gh` 检测到打开的 PR，启动网页会话，并一步到位地开启自动修复。
 *   **在移动端应用**：告诉 Claude 自动修复该 PR，例如 "监控这个 PR 并修复任何 CI 失败或审查评论"。
 *   **任何已存在的 PR**：将 PR URL 粘贴到会话中，并告诉 Claude 自动修复它。
 
@@ -722,7 +722,7 @@ Claude 可以监控拉取请求并自动响应 CI 失败和审阅评论。Claude
 
 ## 故障排除
 
-对于会话中出现的运行时 API 错误，如 `API Error: 500`、`529 Overloaded`、`429` 或 `Prompt is too long`，请参阅 [错误参考](/en/errors)。这些错误及其修复方法与 CLI 和桌面应用程序通用。以下部分涵盖云会话特有的问题。
+对于会话中出现的运行时 API 错误，如 `API Error: 500`、`529 Overloaded`、`429` 或 `Prompt is too long`，请参阅 [错误参考](/zh/errors)。这些错误及其修复方法与 CLI 和桌面应用程序通用。以下部分涵盖云会话特有的问题。
 
 ### 会话创建失败
 
@@ -730,7 +730,7 @@ Claude 可以监控拉取请求并自动响应 CI 失败和审阅评论。Claude
 
 * 检查 [status.claude.com](https://status.claude.com) 了解云会话事件
 * 一分钟后重试，因为容量是按需配置的
-* 确认您的仓库可访问。连接的 GitHub 账户必须有权访问 GitHub 上的仓库，这可以通过 Claude GitHub App 授权或通过 `/web-setup` 同步的 `gh` 令牌实现——无需在仓库上安装该 App。请参阅 [GitHub 身份验证选项](#github-authentication-options)。
+* 确认您的仓库可访问。连接的 GitHub 账户必须有权访问 GitHub 上的仓库，这可以通过 Claude GitHub App 授权或通过 `/web-setup` 同步的 `gh` 令牌实现——无需在仓库上安装该 App。请参阅 [GitHub 身份验证选项](#github-认证选项)。
 
 ### 远程控制会话过期或访问被拒绝
 
@@ -752,15 +752,15 @@ Claude 可以监控拉取请求并自动响应 CI 失败和审阅评论。Claude
 
 * **速率限制**：网页版 Claude Code 与您账户内的所有其他 Claude 和 Claude Code 使用共享速率限制。并行运行多个任务会按比例消耗更多速率限制。云虚拟机没有单独的计算费用。
 * **仓库身份验证**：仅当您向同一账户进行身份验证时，才能将会话从网页端迁移到本地。
-* **平台限制**：仓库克隆和拉取请求创建需要 GitHub。团队和企业计划支持自托管的 [GitHub Enterprise Server](/en/github-enterprise-server) 实例。GitLab、Bitbucket 和其他非 GitHub 仓库可以作为[本地捆绑包](#send-local-repositories-without-github)发送至云会话，但会话无法将结果推送回远程。
-* **组织 IP 允许列表**：云会话从 Anthropic 管理的基础设施（而非您的网络）调用 Anthropic API。如果您的组织启用了 [IP 允许列表](https://support.claude.com/en/articles/13200993-restrict-access-to-claude-with-ip-allowlisting)，每个云会话都会因身份验证错误而失败。[代码审查](/en/code-review)和[例程](/en/routines)同样适用此规则。请联系 [Anthropic 支持](https://support.claude.com/)，将 Anthropic 托管的服务从您组织的 IP 允许列表中豁免。
+* **平台限制**：仓库克隆和拉取请求创建需要 GitHub。团队和企业计划支持自托管的 [GitHub Enterprise Server](/zh/github-enterprise-server) 实例。GitLab、Bitbucket 和其他非 GitHub 仓库可以作为[本地捆绑包](#github-认证选项)发送至云会话，但会话无法将结果推送回远程。
+* **组织 IP 允许列表**：云会话从 Anthropic 管理的基础设施（而非您的网络）调用 Anthropic API。如果您的组织启用了 [IP 允许列表](https://support.claude.com/en/articles/13200993-restrict-access-to-claude-with-ip-allowlisting)，每个云会话都会因身份验证错误而失败。[代码审查](/zh/code-review)和[例程](/zh/routines)同样适用此规则。请联系 [Anthropic 支持](https://support.claude.com/)，将 Anthropic 托管的服务从您组织的 IP 允许列表中豁免。
 
 ## 相关资源
 
-* [Ultraplan](/en/ultraplan)：在云会话中起草计划并在浏览器中审阅
-* [Ultrareview](/en/ultrareview)：在云沙箱中运行深度多代理代码审查
-* [Routines](/en/routines)：通过 API 调用或响应 GitHub 事件按计划自动执行工作
-* [钩子配置](/en/hooks)：在会话生命周期事件时运行脚本
-* [设置参考](/en/settings)：所有配置选项
-* [安全性](/en/security)：隔离保证和数据处理
-* [数据使用](/en/data-usage)：Anthropic 从云会话中保留的内容
+* [Ultraplan](/zh/ultraplan)：在云会话中起草计划并在浏览器中审阅
+* [Ultrareview](/zh/ultrareview)：在云沙箱中运行深度多代理代码审查
+* [Routines](/zh/routines)：通过 API 调用或响应 GitHub 事件按计划自动执行工作
+* [钩子配置](/zh/hooks)：在会话生命周期事件时运行脚本
+* [设置参考](/zh/settings)：所有配置选项
+* [安全性](/zh/security)：隔离保证和数据处理
+* [数据使用](/zh/data-usage)：Anthropic 从云会话中保留的内容

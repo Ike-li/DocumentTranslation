@@ -18,7 +18,7 @@ Claude Code SDK 已更名为 **Claude Agent SDK**，其文档也已重组。此�
 | **Python 包**            | `claude-code-sdk`           | `claude-agent-sdk`               |
 | **文档位置**             | Claude Code 文档            | API 指南 → Agent SDK 部分        |
 
-  **文档变更：** Agent SDK 文档已从 Claude Code 文档迁移至 API 指南下的专门部分 [Agent SDK](/en/agent-sdk/overview)。Claude Code 文档现在专注于 CLI 工具和自动化功能。
+  **文档变更：** Agent SDK 文档已从 Claude Code 文档迁移至 API 指南下的专门部分 [Agent SDK](/zh/agent-sdk/overview)。Claude Code 文档现在专注于 CLI 工具和自动化功能。
 
 ## 迁移步骤
 
@@ -98,7 +98,7 @@ from claude_agent_sdk import query, ClaudeAgentOptions
 
 options = ClaudeAgentOptions(model="claude-opus-4-7")
 ```
-**5. 审查[破坏性变更](#breaking-changes)**
+**5. 审查[破坏性变更](#python-claudecodeoptions-重命名为-claudeagentoptions)**
 
 完成迁移所需的代码更改。
 
@@ -223,7 +223,7 @@ options = ClaudeAgentOptions(model="claude-opus-4-7", permission_mode="acceptEdi
 
 隔离性尤为重要，因为它涉及CI/CD流水线、已部署的应用程序、测试环境以及多租户系统，这些场景中不应让本地自定义设置泄露进入。
 
-  SDK v0.1.0 曾短暂地默认不加载任何设置；此行为在后续版本中已恢复。Python SDK 0.1.59 及更早版本将空列表视为与省略该选项相同，因此在依赖 `setting_sources=[]` 前请先升级。有关即使 `settingSources` 设置为 `[]` 仍会被读取的输入项，请参阅 [What settingSources does not control](/en/agent-sdk/claude-code-features#what-settingsources-does-not-control)。
+  SDK v0.1.0 曾短暂地默认不加载任何设置；此行为在后续版本中已恢复。Python SDK 0.1.59 及更早版本将空列表视为与省略该选项相同，因此在依赖 `setting_sources=[]` 前请先升级。有关即使 `settingSources` 设置为 `[]` 仍会被读取的输入项，请参阅 [What settingSources does not control](/zh/agent-sdk/claude-code-features#what-settingsources-does-not-control)。
 
 ## 更名原因
 
@@ -251,7 +251,7 @@ Claude Code SDK 最初为编码任务设计，但现已演变为用于构建各�
 
 ## 后续步骤
 
-*   查阅 [Agent SDK 概览](/en/agent-sdk/overview) 了解可用功能
-*   查看 [TypeScript SDK 参考文档](/en/agent-sdk/typescript) 获取详细的 API 文档
-*   查阅 [Python SDK 参考文档](/en/agent-sdk/python) 获取 Python 专属文档
-*   了解[自定义工具](/en/agent-sdk/custom-tools) 和 [MCP 集成](/en/agent-sdk/mcp)
+*   查阅 [Agent SDK 概览](/zh/agent-sdk/overview) 了解可用功能
+*   查看 [TypeScript SDK 参考文档](/zh/agent-sdk/typescript) 获取详细的 API 文档
+*   查阅 [Python SDK 参考文档](/zh/agent-sdk/python) 获取 Python 专属文档
+*   了解[自定义工具](/zh/agent-sdk/custom-tools) 和 [MCP 集成](/zh/agent-sdk/mcp)

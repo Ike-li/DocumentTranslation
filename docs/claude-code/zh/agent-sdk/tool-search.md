@@ -37,7 +37,7 @@
 | `auto:N` | 与 `auto` 相同，但使用自定义百分比。`auto:5` 在工具定义超过上下文窗口的 5% 时激活。较低的值会更快激活。                                                                                                                              |
 | `false`  | 工具搜索关闭。所有工具定义在每一轮对话中都会加载到上下文中。                                                                                                                                                                       |
 
-工具搜索适用于所有已注册的工具，无论它们来自远程 MCP 服务器还是[自定义 SDK MCP 服务器](/en/agent-sdk/custom-tools)。使用 `auto` 时，阈值基于所有服务器上所有工具定义的组合大小。
+工具搜索适用于所有已注册的工具，无论它们来自远程 MCP 服务器还是[自定义 SDK MCP 服务器](/zh/agent-sdk/custom-tools)。使用 `auto` 时，阈值基于所有服务器上所有工具定义的组合大小。
 
 在 `query()` 的 `env` 选项中设置该值。以下示例连接到一个暴露大量工具的远程 MCP 服务器，通过通配符预先批准所有工具，并使用 `auto:5`，以便在工具定义超过上下文窗口的 5% 时激活工具搜索：
 
@@ -117,7 +117,7 @@ You can search for tools to interact with Slack, GitHub, and Jira.
 ## 相关文档
 
 * [API 中的工具搜索](https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-search-tool)：工具搜索的完整 API 文档，包括自定义实现
-* [连接 MCP 服务器](/en/agent-sdk/mcp)：通过 MCP 服务器连接外部工具
-* [自定义工具](/en/agent-sdk/custom-tools)：使用 SDK MCP 服务器构建您自己的工具
-* [TypeScript SDK 参考文档](/en/agent-sdk/typescript)：完整的 API 参考
-* [Python SDK 参考文档](/en/agent-sdk/python)：完整的 API 参考
+* [连接 MCP 服务器](/zh/agent-sdk/mcp)：通过 MCP 服务器连接外部工具
+* [自定义工具](/zh/agent-sdk/custom-tools)：使用 SDK MCP 服务器构建您自己的工具
+* [TypeScript SDK 参考文档](/zh/agent-sdk/typescript)：完整的 API 参考
+* [Python SDK 参考文档](/zh/agent-sdk/python)：完整的 API 参考

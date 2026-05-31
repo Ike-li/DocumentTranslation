@@ -6,11 +6,11 @@
 
 > 构建一个将网络钩子、警报和聊天消息推送到 Claude Code 会话中的 MCP 服务器。通道契约参考：能力声明、通知事件、回复工具、发送方控制和权限中继。
 
-  渠道处于[研究预览](/en/channels#research-preview)阶段，需要 Claude Code v2.1.80 或更高版本。团队和企业版组织必须[明确启用](/en/channels#enterprise-controls)此功能。
+  渠道处于[研究预览](/zh/channels#research-preview)阶段，需要 Claude Code v2.1.80 或更高版本。团队和企业版组织必须[明确启用](/zh/channels#enterprise-controls)此功能。
 
 通道是一个 MCP 服务器，它将事件推送到 Claude Code 会话中，以便 Claude 能够对终端外发生的事情做出反应。
 
-你可以构建单向或双向通道。单向通道转发警报、Webhook 或监控事件供 Claude 处理。双向通道（如聊天桥接）还会[暴露一个回复工具](#暴露回复工具)，以便 Claude 能够发回消息。具有可信发送者路径的通道也可以选择[中继权限提示](#中继权限提示)，从而让你能够远程批准或拒绝工具使用。
+你可以构建单向或双向通道。单向通道转发警报、Webhook 或监控事件供 Claude 处理。双向通道（如聊天桥接）还会[暴露一个回复工具]，以便 Claude 能够发回消息。具有可信发送者路径的通道也可以选择[中继权限提示](#中继权限提示)，从而让你能够远程批准或拒绝工具使用。
 
 本页涵盖：
 
@@ -19,11 +19,11 @@
 * [示例：构建 Webhook 接收器](#示例构建-webhook-接收器)：一个最小化的单向演练
 * [服务器选项](#服务器选项)：构造函数字段
 * [通知格式](#通知格式)：事件负载和传递行为
-* [暴露回复工具](#暴露回复工具)：让 Claude 能够发回消息
-* [控制入站消息](#控制入站消息)：发送者检查以防止提示词注入
+* [暴露回复工具]：让 Claude 能够发回消息
+* [控制入站消息]：发送者检查以防止提示词注入
 * [中继权限提示](#中继权限提示)：将工具批准提示转发到远程通道
 
-如果要使用现有通道而非构建自己的通道，请参阅[通道](/en/channels)。研究预览版中包含 Telegram、Discord、iMessage 和 fakechat。
+如果要使用现有通道而非构建自己的通道，请参阅[通道](/zh/channels)。研究预览版中包含 Telegram、Discord、iMessage 和 fakechat。
 
 ## 概述
 
@@ -46,7 +46,7 @@
 
 [服务器选项](#服务器选项)和[通知格式](#通知格式)部分详细介绍了这些内容。请参阅[示例：构建 Webhook 接收器](#示例构建-webhook-接收器)获取完整演练。
 
-在研究预览期间，自定义通道不在[批准的允许列表](/en/channels#supported-channels)上。使用 `--dangerously-load-development-channels` 在本地进行测试。有关详细信息，请参阅[在研究预览期间测试](#在研究预览期间测试)。
+在研究预览期间，自定义通道不在[批准的允许列表](/zh/channels#supported-channels)上。使用 `--dangerously-load-development-channels` 在本地进行测试。有关详细信息，请参阅[在研究预览期间测试]。
 
 ## 示例：构建 Webhook 接收器
 
@@ -104,7 +104,7 @@
     ```
     该文件按顺序执行三项操作：
 
-    * **服务器配置**：创建一个在能力中包含 `claude/channel` 的 MCP 服务器，用于告知 Claude Code 这是一个通道。[`instructions`](#server-options) 字符串将被写入 Claude 的系统提示词中：告诉 Claude 应该预期哪些事件、是否需要回复，以及如果需要回复应如何路由回复。
+    * **服务器配置**：创建一个在能力中包含 `claude/channel` 的 MCP 服务器，用于告知 Claude Code 这是一个通道。[`instructions`](#服务器选项) 字符串将被写入 Claude 的系统提示词中：告诉 Claude 应该预期哪些事件、是否需要回复，以及如果需要回复应如何路由回复。
     * **标准输入输出连接**：通过标准输入输出连接到 Claude Code。这是任何 [MCP 服务器](https://modelcontextprotocol.io/docs/concepts/transports#standard-io) 的标准做法：Claude Code 将其作为子进程启动。
     * **HTTP 监听器**：在端口 8788 上启动一个本地 Web 服务器。每个 POST 请求体都会通过 `mcp.notification()` 转发给 Claude 作为一个通道事件。`content` 成为事件主体，每个 `meta` 条目都会成为 `<channel>` 标签上的一个属性。监听器需要访问 `mcp` 实例，因此它在同一个进程中运行。对于更大的项目，你可以将其拆分为独立的模块。
 
@@ -128,7 +128,7 @@
     ```
     当 Claude Code 启动时，它会读取您的 MCP 配置，将您的 `webhook.ts` 作为子进程启动，HTTP 监听器会自动在您配置的端口上运行（本例中为 8788）。您无需自行运行服务器。
 
-    如果您看到“被组织策略阻止”的提示，您的组织管理员需要先[启用频道](/en/channels#enterprise-controls)。
+    如果您看到“被组织策略阻止”的提示，您的组织管理员需要先[启用频道](/zh/channels#enterprise-controls)。
 
     在另一个终端中，通过向您的服务器发送一条包含消息的 HTTP POST 请求来模拟 webhook。此示例将一个 CI 失败警报发送到端口 8788（或您配置的其他端口）：
     ```bash
@@ -138,7 +138,7 @@
     ```text
     <channel source="webhook" path="/" method="POST">build failed on main: https://ci.example.com/run/1234</channel>
     ```
-    在你的 Claude Code 终端中，你会看到 Claude 接收到消息并开始响应：读取文件、运行命令，或者执行消息所要求的操作。这是一个单向通道，因此 Claude 在你的会话中执行操作，但不会通过 webhook 发送任何内容。若要添加回复，请参阅 [暴露一个回复工具](#expose-a-reply-tool)。
+    在你的 Claude Code 终端中，你会看到 Claude 接收到消息并开始响应：读取文件、运行命令，或者执行消息所要求的操作。这是一个单向通道，因此 Claude 在你的会话中执行操作，但不会通过 webhook 发送任何内容。若要添加回复，请参阅 [暴露一个回复工具](#暴露一个回复工具)。
 
     如果事件未到达，诊断结果取决于 `curl` 返回的内容：
 
@@ -150,7 +150,7 @@
 
 ## 研究预览期间的测试
 
-在研究预览期间，每个频道都必须在[批准的允许列表](/en/channels#research-preview)上才能注册。开发标志在确认提示后可为特定条目绕过允许列表。此示例展示了两种条目类型：
+在研究预览期间，每个频道都必须在[批准的允许列表](/zh/channels#research-preview)上才能注册。开发标志在确认提示后可为特定条目绕过允许列表。此示例展示了两种条目类型：
 ```bash
 # Testing a plugin you're developing
 claude --dangerously-load-development-channels plugin:yourplugin@yourmarketplace
@@ -169,8 +169,8 @@ claude --dangerously-load-development-channels server:webhook
 | 字段                                                       | 类型     | 描述                                                                                                                                                                                                                                                                 |
 | :------------------------------------------------------- | :------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `capabilities.experimental['claude/channel']`            | `object` | 必需。始终为 `{}`。存在此字段会注册通知监听器。                                                                                                                                                                                                                       |
-| `capabilities.experimental['claude/channel/permission']` | `object` | 可选。始终为 `{}`。声明此通道可以接收权限中继请求。当声明后，Claude Code 会将工具审批提示词转发到你的通道，以便你远程批准或拒绝它们。参见[中继权限提示词](#relay-permission-prompts)。                                                                                     |
-| `capabilities.tools`                                     | `object` | 仅限双向。始终为 `{}`。标准 MCP 工具能力。参见[暴露回复工具](#expose-a-reply-tool)。                                                                                                                                                                                  |
+| `capabilities.experimental['claude/channel/permission']` | `object` | 可选。始终为 `{}`。声明此通道可以接收权限中继请求。当声明后，Claude Code 会将工具审批提示词转发到你的通道，以便你远程批准或拒绝它们。参见[中继权限提示词](#中继权限提示)。                                                                                     |
+| `capabilities.tools`                                     | `object` | 仅限双向。始终为 `{}`。标准 MCP 工具能力。参见[暴露回复工具](#暴露一个回复工具)。                                                                                                                                                                                  |
 | `instructions`                                           | `string` | 推荐。会添加到 Claude 的系统提示词中。告知 Claude 预期哪些事件、`<channel>` 标签属性的含义、是否需要回复，如果回复则应使用哪个工具以及传递回哪个属性（例如 `chat_id`）。                                                                                                    |
 
 要创建单向通道，请省略 `capabilities.tools`。此示例展示了一个设置了通道能力、工具和指令的双向设置：
@@ -218,7 +218,7 @@ build failed on main: https://ci.example.com/run/1234
 ```
 通知不会被确认。对 `mcp.notification()` 的 `await` 会在消息写入传输层时解析完成，而非在 Claude 处理完该消息时。如果会话未将您的服务器加载为通道，或者组织策略阻止了该操作，事件会被静默丢弃，不会向您的服务器返回任何错误。
 
-如果您需要投递确认，请在您的服务器中跟踪事件状态，并暴露一个[回复工具](#expose-a-reply-tool)，以便 Claude 可以调用它来回报状态。
+如果您需要投递确认，请在您的服务器中跟踪事件状态，并暴露一个[回复工具](#暴露一个回复工具)，以便 Claude 可以调用它来回报状态。
 
 事件会排队进入会话并按顺序处理。如果多个通知在 Claude 繁忙时到达，它们会在下一轮对话中一起投递，由 Claude 作为一组进行处理。要并发处理独立的事件流，请运行单独的会话。
 
@@ -230,7 +230,7 @@ build failed on main: https://ci.example.com/run/1234
 2.  定义工具 schema 并实现发送逻辑的工具处理程序
 3.  在您的 `Server` 构造函数中添加一条 `instructions` 字符串，告诉 Claude 何时以及如何调用该工具
 
-要将这些添加到[上面的 webhook 接收器](#example-build-a-webhook-receiver)中：
+要将这些添加到[上面的 webhook 接收器](#示例构建-webhook-接收器)中：
 
 
     在你的 `Server` 构造函数中，在 `webhook.ts` 中，添加 `tools: {}` 到能力中，以便 Claude Code 知道你的服务器提供工具：
@@ -418,7 +418,7 @@ await mcp.notification({ ... })
 
 ### 权限请求字段
 
-Claude Code 的出站通知是 `notifications/claude/channel/permission_request`。与[通道通知](#notification-format)类似，传输采用标准 MCP，但方法和模式是 Claude Code 的扩展。`params` 对象包含四个字符串字段，你的服务器将其格式化为发出的提示词：
+Claude Code 的出站通知是 `notifications/claude/channel/permission_request`。与[通道通知](#通知格式)类似，传输采用标准 MCP，但方法和模式是 Claude Code 的扩展。`params` 对象包含四个字符串字段，你的服务器将其格式化为发出的提示词：
 
 | 字段            | 描述                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -437,9 +437,9 @@ Claude Code 的出站通知是 `notifications/claude/channel/permission_request`
 2.  为 `notifications/claude/channel/permission_request` 添加一个通知处理器，该处理器格式化提示词并通过你的平台 API 发送出去
 3.  在你的入站消息处理器中添加一个检查，识别 `yes <id>` 或 `no <id>`，并发出 `notifications/claude/channel/permission` 裁决，而不是将文本转发给 Claude
 
-仅在你的通道[认证发送者](#gate-inbound-messages)时才声明此能力，因为任何能够通过你的通道回复的人都可以在你的会话中批准或拒绝工具使用。
+仅在你的通道[认证发送者](#过滤入站消息)时才声明此能力，因为任何能够通过你的通道回复的人都可以在你的会话中批准或拒绝工具使用。
 
-要将这些添加到双向聊天桥接（如[暴露一个回复工具](#expose-a-reply-tool)中组装的桥接）中：
+要将这些添加到双向聊天桥接（如[暴露一个回复工具](#暴露一个回复工具)中组装的桥接）中：
 
 
     在你的 `Server` 构造函数中，在 `experimental` 下的 `claude/channel` 旁边添加 `claude/channel/permission: {}`：
@@ -455,7 +455,7 @@ Claude Code 的出站通知是 `notifications/claude/channel/permission_request`
 
 
 
-    在你的 `Server` 构造函数与 `mcp.connect()` 之间注册一个通知处理程序。当权限对话框打开时，Claude Code 会调用该处理程序，并传递[四个请求字段](#permission-request-fields)。你的处理程序应为你的平台格式化提示词，并包含用 ID 进行回复的说明：
+    在你的 `Server` 构造函数与 `mcp.connect()` 之间注册一个通知处理程序。当权限对话框打开时，Claude Code 会调用该处理程序，并传递[四个请求字段](#权限请求字段)。你的处理程序应为你的平台格式化提示词，并包含用 ID 进行回复的说明：
     ```ts
     import { z } from 'zod'
 
@@ -484,7 +484,7 @@ Claude Code 的出站通知是 `notifications/claude/channel/permission_request`
 
 
 
-    你的入站处理程序是从平台接收消息的循环或回调函数：在这里你可以[根据发送者过滤](#gate-inbound-messages)并发出 `notifications/claude/channel` 以将聊天转发给 Claude。在转发聊天的调用之前添加一个检查，识别裁决格式并发出权限通知。
+    你的入站处理程序是从平台接收消息的循环或回调函数：在这里你可以[根据发送者过滤](#过滤入站消息)并发出 `notifications/claude/channel` 以将聊天转发给 Claude。在转发聊天的调用之前添加一个检查，识别裁决格式并发出权限通知。
 
     该正则表达式匹配 Claude Code 生成的 ID 格式：五个字母，且不包含 `l`。使用 `/i` 标志可以容忍手机自动大写回复的情况；在发送回捕获的 ID 前，请将其转换为小写。
     ```ts
@@ -526,7 +526,7 @@ Claude Code 同时保持本地终端对话窗口开放，因此您可以在任�
 
 ### 完整示例
 
-下面的 `webhook.ts` 汇集了本页的所有三个扩展功能：回复工具、发送方限制和权限中继。如果您从这里开始，还需要参考[初始演练中的项目设置和 `.mcp.json` 条目](#example-build-a-webhook-receiver)。
+下面的 `webhook.ts` 汇集了本页的所有三个扩展功能：回复工具、发送方限制和权限中继。如果您从这里开始，还需要参考[初始演练中的项目设置和 `.mcp.json` 条目](#示例构建-webhook-接收器)。
 
 为了使两个方向都能通过 curl 进行测试，HTTP 监听器服务两个路径：
 
@@ -666,7 +666,7 @@ Bun.serve({
   },
 })
 ```
-在三个终端中测试 verdict 路径。第一个是你的 Claude Code 会话，使用[开发标志](#test-during-the-research-preview)启动，以便它启动 `webhook.ts`：
+在三个终端中测试 verdict 路径。第一个是你的 Claude Code 会话，使用[开发标志](#研究预览期间的测试)启动，以便它启动 `webhook.ts`：
 ```bash
 claude --dangerously-load-development-channels server:webhook
 ```
@@ -692,15 +692,15 @@ curl -d "yes <id>" -H "X-Sender: dev" localhost:8788
 
 ## 以插件形式打包
 
-要使您的通道可安装和可共享，请将其封装为[插件](/en/plugins)并发布到[插件市场](/en/plugin-marketplaces)。用户使用 `/plugin install` 安装它，然后在每个会话中使用 `--channels plugin:<name>@<marketplace>` 启用它。
+要使您的通道可安装和可共享，请将其封装为[插件](/zh/plugins)并发布到[插件市场](/zh/plugin-marketplaces)。用户使用 `/plugin install` 安装它，然后在每个会话中使用 `--channels plugin:<name>@<marketplace>` 启用它。
 
-发布到您自己市场的通道仍需要 `--dangerously-load-development-channels` 才能运行，因为它不在[批准的白名单](/en/channels#supported-channels)上。默认白名单是 `claude-plugins-official` 中的通道插件，由 Anthropic 自行酌情策展。[应用内提交表单](/en/plugins#submit-your-plugin-to-the-community-marketplace)将插件添加到社区市场，该市场不在通道白名单上。
+发布到您自己市场的通道仍需要 `--dangerously-load-development-channels` 才能运行，因为它不在[批准的白名单](/zh/channels#supported-channels)上。默认白名单是 `claude-plugins-official` 中的通道插件，由 Anthropic 自行酌情策展。[应用内提交表单](/zh/plugins#submit-your-plugin-to-the-community-marketplace)将插件添加到社区市场，该市场不在通道白名单上。
 
-如果您正在与 Anthropic 合作伙伴联系人合作，请联系他们以协调官方市场列表。在团队和企业计划中，管理员可以改为将您的插件包含在组织自己的 [`allowedChannelPlugins`](/en/channels#restrict-which-channel-plugins-can-run) 列表中，该列表将替换默认的 Anthropic 白名单。
+如果您正在与 Anthropic 合作伙伴联系人合作，请联系他们以协调官方市场列表。在团队和企业计划中，管理员可以改为将您的插件包含在组织自己的 [`allowedChannelPlugins`](/zh/channels#restrict-which-channel-plugins-can-run) 列表中，该列表将替换默认的 Anthropic 白名单。
 
 ## 另请参阅
 
-* [通道](/en/channels) 以安装和使用 Telegram、Discord、iMessage 或 fakechat 演示，并为团队或企业组织启用通道
+* [通道](/zh/channels) 以安装和使用 Telegram、Discord、iMessage 或 fakechat 演示，并为团队或企业组织启用通道
 * [工作通道实现](https://github.com/anthropics/claude-plugins-official/tree/main/external_plugins) 包含配对流程、回复工具和文件附件的完整服务器代码
-* [MCP](/en/mcp) 通道服务器实现所基于的底层协议
-* [插件](/en/plugins) 用于打包您的通道，以便用户可以通过 `/plugin install` 安装它
+* [MCP](/zh/mcp) 通道服务器实现所基于的底层协议
+* [插件](/zh/plugins) 用于打包您的通道，以便用户可以通过 `/plugin install` 安装它

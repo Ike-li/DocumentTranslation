@@ -6,25 +6,25 @@
 
 > 告知自动模式分类器您的组织信任哪些仓库、存储桶和域名。设置环境上下文，覆盖默认的阻止和允许规则，并通过自动模式 CLI 子命令检查您的有效配置。
 
-[自动模式](/en/permission-modes#eliminate-prompts-with-auto-mode) 允许 Claude Code 在无需权限提示的情况下运行，它通过分类器路由每个工具调用，该分类器会阻止任何不可逆、具有破坏性或针对您环境外部的操作。使用 `autoMode` 设置块告知该分类器您的组织信任哪些仓库、存储桶和域名，以便其停止阻止常规的内部操作。
+[自动模式](/zh/permission-modes#eliminate-prompts-with-auto-mode) 允许 Claude Code 在无需权限提示的情况下运行，它通过分类器路由每个工具调用，该分类器会阻止任何不可逆、具有破坏性或针对您环境外部的操作。使用 `autoMode` 设置块告知该分类器您的组织信任哪些仓库、存储桶和域名，以便其停止阻止常规的内部操作。
 
-  自动模式对所有 Anthropic API 用户开放。该功能不适用于 Bedrock、Vertex 或 Foundry。如果 Claude Code 提示您的账户无法使用自动模式，请查阅[完整要求](/en/permission-modes#eliminate-prompts-with-auto-mode)，其中也涵盖了支持的模型以及团队版和企业版计划中的管理员启用方式。
+  自动模式对所有 Anthropic API 用户开放。该功能不适用于 Bedrock、Vertex 或 Foundry。如果 Claude Code 提示您的账户无法使用自动模式，请查阅[完整要求](/zh/permission-modes#eliminate-prompts-with-auto-mode)，其中也涵盖了支持的模型以及团队版和企业版计划中的管理员启用方式。
 
 默认情况下，分类器仅信任工作目录和当前仓库配置的远程源。像推送到公司源码管理组织或写入团队云存储桶这类操作，在添加到 `autoMode.environment` 之前会被阻止。
 
-关于如何启用自动模式及其默认拦截内容，请参阅[权限模式](/en/permission-modes#eliminate-prompts-with-auto-mode)。本页面是配置参考。
+关于如何启用自动模式及其默认拦截内容，请参阅[权限模式](/zh/permission-modes#eliminate-prompts-with-auto-mode)。本页面是配置参考。
 
 本页面涵盖以下内容：
 
-* [选择配置规则的设置位置](#where-the-classifier-reads-configuration)（跨 CLAUDE.md、用户设置和托管设置）
-* [定义可信基础设施](#define-trusted-infrastructure)（使用 `autoMode.environment`）
-* [覆盖拦截与允许规则](#override-the-block-and-allow-rules)（当默认值不适合您的流程时）
-* [检查您的有效配置](#inspect-the-defaults-and-your-effective-config)（使用 `claude auto-mode` 子命令）
-* [查看拒绝记录](#review-denials)（以便了解下一步需要添加什么）
+* [选择配置规则的设置位置](#分类器读取配置的位置)（跨 CLAUDE.md、用户设置和托管设置）
+* [定义可信基础设施](#定义受信任的基础设施)（使用 `autoMode.environment`）
+* [覆盖拦截与允许规则](#覆盖阻止和允许规则)（当默认值不适合您的流程时）
+* [检查您的有效配置](#检查默认值和你的有效配置)（使用 `claude auto-mode` 子命令）
+* [查看拒绝记录](#审查拒绝记录)（以便了解下一步需要添加什么）
 
 ## 分类器读取配置的位置
 
-分类器读取的内容与 Claude 自身加载的 [CLAUDE.md](/en/memory) 相同。因此，在项目 CLAUDE.md 中设置的指令（例如“禁止强制推送”）会同时指导 Claude 和分类器的行为。建议从此处开始设置项目约定和行为规则。
+分类器读取的内容与 Claude 自身加载的 [CLAUDE.md](/zh/memory) 相同。因此，在项目 CLAUDE.md 中设置的指令（例如“禁止强制推送”）会同时指导 Claude 和分类器的行为。建议从此处开始设置项目约定和行为规则。
 
 对于跨项目适用的规则（例如可信基础设施或组织范围的拒绝规则），请使用 `autoMode` 设置块。分类器从以下作用域读取 `autoMode`：
 
@@ -32,14 +32,14 @@
 | :----------------------------- | :---------------------------------------------- | :------------------------------------------- |
 | 单个开发者                     | `~/.claude/settings.json`                       | 个人可信基础设施                             |
 | 单个项目、单个开发者           | `.claude/settings.local.json`                   | 按项目设置的可信存储桶或服务（已忽略 git）   |
-| 组织范围                       | [托管设置](/en/server-managed-settings)         | 分发给所有开发者的可信基础设施               |
+| 组织范围                       | [托管设置](/zh/server-managed-settings)         | 分发给所有开发者的可信基础设施               |
 | `--settings` 标志或 Agent SDK  | 行内 JSON                                       | 用于自动化的每次调用覆盖设置                 |
 
 分类器不读取 `.claude/settings.json` 中共享项目设置的 `autoMode`，因此已提交的仓库无法注入自己的允许规则。
 
 每个作用域的条目会合并。开发者可以添加个人条目来扩展 `environment`、`allow`、`soft_deny` 和 `hard_deny`，但不能移除托管设置提供的条目。由于允许规则在分类器内部充当软拦截规则的例外，开发者添加的 `allow` 条目可以覆盖组织的 `soft_deny` 条目：组合是叠加式的，而非硬性的策略边界。
 
-  分类器是运行在[权限系统](/en/permissions)之后的第二道关卡。对于无论用户意图或分类器配置如何都绝不能执行的操作，请在托管设置中使用 `permissions.deny`，该配置会在分类器介入前阻止该操作且无法被覆盖。
+  分类器是运行在[权限系统](/zh/permissions)之后的第二道关卡。对于无论用户意图或分类器配置如何都绝不能执行的操作，请在托管设置中使用 `permissions.deny`，该配置会在分类器介入前阻止该操作且无法被覆盖。
 
 ## 定义受信任的基础设施
 
@@ -91,7 +91,7 @@
 
 ## 覆盖阻止和允许规则
 
-另外三个字段可让您替换分类器的内置规则列表：`autoMode.hard_deny` 用于无条件的安全边界，`autoMode.soft_deny` 用于用户意图可解除的破坏性操作，`autoMode.allow` 用于例外情况。每个字段都是一个描述性文本数组，作为自然语言规则解读。对于在分类器之前运行的、基于工具模式的硬性阻止，请使用 [`permissions.deny`](/en/permissions)。
+另外三个字段可让您替换分类器的内置规则列表：`autoMode.hard_deny` 用于无条件的安全边界，`autoMode.soft_deny` 用于用户意图可解除的破坏性操作，`autoMode.allow` 用于例外情况。每个字段都是一个描述性文本数组，作为自然语言规则解读。对于在分类器之前运行的、基于工具模式的硬性阻止，请使用 [`permissions.deny`](/zh/permissions)。
 
 在分类器内部，优先级按四个层级运作：
 
@@ -288,11 +288,11 @@ claude auto-mode critique
 
 针对同一目标的重复拒绝通常意味着分类器缺少上下文。请将该目标添加到 `autoMode.environment`，然后运行 `claude auto-mode config` 确认生效。
 
-若需编程方式响应拒绝操作，请使用 [`PermissionDenied` 钩子](/en/hooks#permissiondenied)。
+若需编程方式响应拒绝操作，请使用 [`PermissionDenied` 钩子](/zh/hooks#permissiondenied)。
 
 ## 另请参阅
 
-* [权限模式](/en/permission-modes#eliminate-prompts-with-auto-mode)：了解自动模式的功能、默认拦截规则及启用方式
-* [托管设置](/en/server-managed-settings)：在组织内部署 `autoMode` 配置
-* [权限](/en/permissions)：分类器运行前生效的允许、询问与拒绝规则
-* [设置](/en/settings)：包含 `autoMode` 键在内的完整设置参考文档
+* [权限模式](/zh/permission-modes#eliminate-prompts-with-auto-mode)：了解自动模式的功能、默认拦截规则及启用方式
+* [托管设置](/zh/server-managed-settings)：在组织内部署 `autoMode` 配置
+* [权限](/zh/permissions)：分类器运行前生效的允许、询问与拒绝规则
+* [设置](/zh/settings)：包含 `autoMode` 键在内的完整设置参考文档

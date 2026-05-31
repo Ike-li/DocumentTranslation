@@ -10,11 +10,11 @@
 
 MCP 服务器可以作为本地进程运行、通过 HTTP 连接，或直接在你的 SDK 应用程序内执行。
 
-  本页涵盖 Agent SDK 的 MCP 配置。如需将 MCP 服务器添加至 Claude Code 命令行工具以便在每个项目中加载，请参阅 [MCP 安装作用域](/en/mcp#mcp-installation-scopes)。
+  本页涵盖 Agent SDK 的 MCP 配置。如需将 MCP 服务器添加至 Claude Code 命令行工具以便在每个项目中加载，请参阅 [MCP 安装作用域](/zh/mcp#mcp-installation-scopes)。
 
 ## 快速入门
 
-此示例使用 [HTTP 传输](#httpsse-servers) 连接到 [Claude Code 文档](https://code.claude.com/docs) MCP 服务器，并使用 [`allowedTools`](#allow-mcp-tools) 配合通配符来允许服务器上的所有工具。
+此示例使用 [HTTP 传输](#httpsse-服务器) 连接到 [Claude Code 文档](https://code.claude.com/docs) MCP 服务器，并使用 [`allowedTools`](#允许使用-mcp-工具) 配合通配符来允许服务器上的所有工具。
 
   ```typescript TypeScript
   import { query } from "@anthropic-ai/claude-agent-sdk";
@@ -68,7 +68,7 @@ MCP 服务器可以作为本地进程运行、通过 HTTP 连接，或直接在�
 
 ## 添加 MCP 服务器
 
-您可以在调用 `query()` 时通过代码配置 MCP 服务器，或通过从[配置文件加载](#from-a-config-file)的 `.mcp.json` 文件进行配置。
+您可以在调用 `query()` 时通过代码配置 MCP 服务器，或通过从[配置文件加载](#从配置文件加载)的 `.mcp.json` 文件进行配置。
 
 ### 通过代码配置
 
@@ -163,7 +163,7 @@ const _ = {
 ```
 通配符（`*`）允许您无需逐一列出即可启用服务器上的所有工具。
 
-  **推荐使用 `allowedTools` 而非权限模式来管理 MCP 访问。** `permissionMode: "acceptEdits"` 不会自动批准 MCP 工具（仅自动批准文件编辑和文件系统 Bash 命令）。`permissionMode: "bypassPermissions"` 虽然会自动批准 MCP 工具，但同时也会禁用所有其他安全提示，其作用范围超出了必要。在 `allowedTools` 中使用通配符可精确授权您所需的 MCP 服务器，而不影响其他权限。完整的比较请参阅 [权限模式](/en/agent-sdk/permissions#permission-modes)。
+  **推荐使用 `allowedTools` 而非权限模式来管理 MCP 访问。** `permissionMode: "acceptEdits"` 不会自动批准 MCP 工具（仅自动批准文件编辑和文件系统 Bash 命令）。`permissionMode: "bypassPermissions"` 虽然会自动批准 MCP 工具，但同时也会禁用所有其他安全提示，其作用范围超出了必要。在 `allowedTools` 中使用通配符可精确授权您所需的 MCP 服务器，而不影响其他权限。完整的比较请参阅 [权限模式](/zh/agent-sdk/permissions#permission-modes)。
 
 ### 发现可用工具
 
@@ -295,15 +295,15 @@ MCP 服务器通过不同的传输协议与你的代理进行通信。请查阅�
 
 ### SDK MCP服务器
 
-在应用程序代码中直接定义自定义工具，而无需运行单独的服务器进程。实现细节请参阅[自定义工具指南](/en/agent-sdk/custom-tools)。
+在应用程序代码中直接定义自定义工具，而无需运行单独的服务器进程。实现细节请参阅[自定义工具指南](/zh/agent-sdk/custom-tools)。
 
 ## MCP工具搜索
 
 当配置了大量MCP工具时，工具定义可能会占用上下文窗口的很大一部分。工具搜索通过暂时不将工具定义加载到上下文中，并仅加载每轮对话中Claude所需的工具来解决此问题。
 
-工具搜索默认启用。配置选项和详细信息请参阅[工具搜索](/en/agent-sdk/tool-search)。
+工具搜索默认启用。配置选项和详细信息请参阅[工具搜索](/zh/agent-sdk/tool-search)。
 
-有关更多详情，包括最佳实践以及如何将工具搜索与自定义SDK工具结合使用，请参阅[工具搜索指南](/en/agent-sdk/tool-search)。
+有关更多详情，包括最佳实践以及如何将工具搜索与自定义SDK工具结合使用，请参阅[工具搜索指南](/zh/agent-sdk/tool-search)。
 
 ## 认证
 
@@ -364,7 +364,7 @@ MCP 服务器通过不同的传输协议与你的代理进行通信。请查阅�
     `${GITHUB_TOKEN}` 语法在运行时展开环境变量。
 
 
-有关包含调试日志的完整工作示例，请参阅[列出仓库的问题](#list-issues-from-a-repository)。
+有关包含调试日志的完整工作示例，请参阅[列出仓库的问题](#列出仓库的-issues)。
 
 ### 远程服务器的 HTTP 头
 
@@ -729,8 +729,8 @@ MCP SDK 对服务器连接的默认超时时间为 60 秒。如果您的服务�
 
 ## 相关资源
 
-* **[自定义工具指南](/en/agent-sdk/custom-tools)**: 构建您自己的 MCP 服务器，该服务器可与您的 SDK 应用程序进程内运行
-* **[权限](/en/agent-sdk/permissions)**: 使用 `allowedTools` 和 `disallowedTools` 控制您的代理可以使用哪些 MCP 工具
-* **[TypeScript SDK 参考](/en/agent-sdk/typescript)**: 包含 MCP 配置选项的完整 API 参考
-* **[Python SDK 参考](/en/agent-sdk/python)**: 包含 MCP 配置选项的完整 API 参考
+* **[自定义工具指南](/zh/agent-sdk/custom-tools)**: 构建您自己的 MCP 服务器，该服务器可与您的 SDK 应用程序进程内运行
+* **[权限](/zh/agent-sdk/permissions)**: 使用 `allowedTools` 和 `disallowedTools` 控制您的代理可以使用哪些 MCP 工具
+* **[TypeScript SDK 参考](/zh/agent-sdk/typescript)**: 包含 MCP 配置选项的完整 API 参考
+* **[Python SDK 参考](/zh/agent-sdk/python)**: 包含 MCP 配置选项的完整 API 参考
 * **[MCP 服务器目录](https://github.com/modelcontextprotocol/servers)**: 浏览适用于数据库、API 等的可用 MCP 服务器

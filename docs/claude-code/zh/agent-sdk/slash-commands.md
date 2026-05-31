@@ -113,9 +113,9 @@ Claude Agent SDK 在系统初始化消息中提供关于可用斜杠命令的信
 
 ### `/clear` - 重置会话上下文
 
-`/clear` 命令将会话重置为空上下文，因此后续提示词将不包含任何先前的会话历史记录。之前的会话内容仍保留在磁盘上，并可通过将其会话 ID 传递给 [`resume` 选项](/en/agent-sdk/sessions#resume-by-id) 来恢复。
+`/clear` 命令将会话重置为空上下文，因此后续提示词将不包含任何先前的会话历史记录。之前的会话内容仍保留在磁盘上，并可通过将其会话 ID 传递给 [`resume` 选项](/zh/agent-sdk/sessions#resume-by-id) 来恢复。
 
-这在[流式输入模式](/en/agent-sdk/streaming-vs-single-mode)中非常有用，该模式下您可以通过单个连接发送多个提示词。对于一次性的 `query()` 调用，每次调用本身已是从空上下文开始，因此发送 `/clear` 没有实际效果；此时应启动一个新的 `query()` 调用。
+这在[流式输入模式](/zh/agent-sdk/streaming-vs-single-mode)中非常有用，该模式下您可以通过单个连接发送多个提示词。对于一次性的 `query()` 调用，每次调用本身已是从空上下文开始，因此发送 `/clear` 没有实际效果；此时应启动一个新的 `query()` 调用。
 
   SDK 中的 `/clear` 命令需要 Claude Code v2.1.117 或更高版本。在更早的版本中，该命令会从 `slash_commands` 列表中被省略。
 
@@ -123,7 +123,7 @@ Claude Agent SDK 在系统初始化消息中提供关于可用斜杠命令的信
 
 除了使用内置斜杠命令外，您还可以创建自己通过SDK可用的自定义命令。自定义命令定义为特定目录中的markdown文件，类似于子代理的配置方式。
 
-  `.claude/commands/` 目录属于旧格式。推荐格式为 `.claude/skills/<name>/SKILL.md`，它支持相同的斜杠命令调用（`/name`），并支持由 Claude 进行自主调用。请参阅 [技能](/en/agent-sdk/skills) 了解当前格式。CLI 仍支持两种格式，以下示例对 `.claude/commands/` 依然适用。
+  `.claude/commands/` 目录属于旧格式。推荐格式为 `.claude/skills/<name>/SKILL.md`，它支持相同的斜杠命令调用（`/name`），并支持由 Claude 进行自主调用。请参阅 [技能](/zh/agent-sdk/skills) 了解当前格式。CLI 仍支持两种格式，以下示例对 `.claude/commands/` 依然适用。
 
 ### 文件位置
 
@@ -368,6 +368,7 @@ Run tests matching pattern: $ARGUMENTS
 4. Re-run to verify fixes
 ```
 通过 SDK 使用这些命令：
+</s>
 
   ```typescript TypeScript
   import { query } from "@anthropic-ai/claude-agent-sdk";
@@ -411,8 +412,8 @@ Run tests matching pattern: $ARGUMENTS
 
 ## 另请参阅
 
-* [斜杠命令](/en/skills) - 完整的斜杠命令文档
-* [SDK 中的子代理](/en/agent-sdk/subagents) - 子代理基于文件系统的类似配置
-* [TypeScript SDK 参考](/en/agent-sdk/typescript) - 完整的 API 文档
-* [SDK 概览](/en/agent-sdk/overview) - SDK 的通用概念
-* [命令行接口参考](/en/cli-reference) - 命令行接口
+* [斜杠命令](/zh/skills) - 完整的斜杠命令文档
+* [SDK 中的子代理](/zh/agent-sdk/subagents) - 子代理基于文件系统的类似配置
+* [TypeScript SDK 参考](/zh/agent-sdk/typescript) - 完整的 API 文档
+* [SDK 概览](/zh/agent-sdk/overview) - SDK 的通用概念
+* [命令行接口参考](/zh/cli-reference) - 命令行接口

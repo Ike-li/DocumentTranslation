@@ -10,8 +10,8 @@ Claude Code 提供分析仪表板，帮助组织了解开发者的使用模式�
 
 | 方案                     | 仪表板地址                                                                 | 包含内容                                                                          | 了解更多                                           |
 | ------------------------ | -------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | -------------------------------------------------- |
-| Claude for Teams / 企业版 | [claude.ai/analytics/claude-code](https://claude.ai/analytics/claude-code) | 使用指标、与 GitHub 集成的贡献指标、排行榜、数据导出                               | [详情](#access-analytics-for-team-and-enterprise) |
-| API (Claude Console)     | [platform.claude.com/claude-code](https://platform.claude.com/claude-code) | 使用指标、花费跟踪、团队洞察                                                      | [详情](#access-analytics-for-api-customers)       |
+| Claude for Teams / 企业版 | [claude.ai/analytics/claude-code](https://claude.ai/analytics/claude-code) | 使用指标、与 GitHub 集成的贡献指标、排行榜、数据导出                               | [详情](#访问团队和企业版分析) |
+| API (Claude Console)     | [platform.claude.com/claude-code](https://platform.claude.com/claude-code) | 使用指标、花费跟踪、团队洞察                                                      | [详情](#查看团队洞察)       |
 
 ## 访问团队和企业版分析
 
@@ -20,11 +20,11 @@ Claude Code 提供分析仪表板，帮助组织了解开发者的使用模式�
 团队和企业版仪表板包括：
 
 *   **使用指标**：已接受的代码行数、建议接受率、每日活跃用户和会话数
-*   **贡献指标**：在 Claude Code 辅助下提交的 PR 和代码行数，包含 [GitHub 集成](#enable-contribution-metrics)
+*   **贡献指标**：在 Claude Code 辅助下提交的 PR 和代码行数，包含 [GitHub 集成](#启用贡献指标)
 *   **排行榜**：按 Claude Code 使用量排名的顶级贡献者
 *   **数据导出**：将贡献数据下载为 CSV 格式，用于自定义报告
 
-要获取每位用户的 token 计数和成本估算，请配置 [OpenTelemetry 导出](/en/monitoring-usage)。
+要获取每位用户的 token 计数和成本估算，请配置 [OpenTelemetry 导出](/zh/monitoring-usage)。
 
 ### 启用贡献指标
 
@@ -34,7 +34,7 @@ Claude Code 提供分析仪表板，帮助组织了解开发者的使用模式�
 
 您需要拥有所有者角色才能配置分析设置。GitHub 管理员必须安装 GitHub 应用。
 
-  对于启用了[零数据保留](/en/zero-data-retention)的组织，贡献指标不可用。分析仪表板将仅显示使用指标。
+  对于启用了[零数据保留](/zh/zero-data-retention)的组织，贡献指标不可用。分析仪表板将仅显示使用指标。
 
 
 
@@ -210,6 +210,6 @@ Claude Code 提供分析仪表板，帮助组织了解开发者的使用模式�
 
 ## 相关资源
 
-* [使用 OpenTelemetry 进行监控](/en/monitoring-usage)：将实时指标和事件导出到您的可观测性技术栈
-* [有效管理成本](/en/costs)：设置支出限制并优化 token 使用量
-* [权限](/en/permissions)：配置角色与权限
+* [使用 OpenTelemetry 进行监控](/zh/monitoring-usage)：将实时指标和事件导出到您的可观测性技术栈
+* [有效管理成本](/zh/costs)：设置支出限制并优化 token 使用量
+* [权限](/zh/permissions)：配置角色与权限

@@ -19,13 +19,13 @@ Claude Code 可以通过[模型上下文协议 (MCP)](https://modelcontextprotoc
 * **查询数据库**：“根据我们的 PostgreSQL 数据库，找出 10 位使用过 ENG-4521 功能的随机用户的电子邮件。”
 * **集成设计**：“根据 Slack 中发布的新 Figma 设计更新我们的标准电子邮件模板。”
 * **自动化工作流**：“创建 Gmail 草稿，邀请这 10 位用户参加关于新功能的反馈会议。”
-* **响应外部事件**：MCP 服务器也可以作为一个[渠道](/en/channels)，将消息推送至您的会话，以便在您离开时，Claude 能对 Telegram 消息、Discord 聊天或 webhook 事件做出反应。
+* **响应外部事件**：MCP 服务器也可以作为一个[渠道](/zh/channels)，将消息推送至您的会话，以便在您离开时，Claude 能对 Telegram 消息、Discord 聊天或 webhook 事件做出反应。
 
 ## 查找和构建 MCP 服务器
 
 在 [Anthropic 目录](https://claude.ai/directory)中浏览经过审查的连接器。目录连接器使用与 Claude Code 相同的 MCP 基础设施，因此您可以使用 `claude mcp add` 命令添加其中列出的任何远程服务器。
 
-  在连接每个服务器前，请先验证您是否信任该服务器。获取外部内容的服务器可能会让您面临[提示词注入风险](/en/security#protect-against-prompt-injection)。
+  在连接每个服务器前，请先验证您是否信任该服务器。获取外部内容的服务器可能会让您面临[提示词注入风险](/zh/security#protect-against-prompt-injection)。
 
 要构建您自己的服务器，请参阅 [MCP 服务器指南](https://modelcontextprotocol.io/docs/develop/build-server) 了解协议基础，并查看 [Claude 连接器构建文档](https://claude.com/docs/connectors/building) 获取认证、测试及目录提交的相关信息。
 
@@ -119,7 +119,7 @@ WebSocket 服务器维持持久的双向连接，适用于需要未经请求就�
 claude mcp add-json events-server \
   '{"type":"ws","url":"wss://mcp.example.com/socket","headers":{"Authorization":"Bearer YOUR_TOKEN"}}'
 ```
-`type: "ws"` 条目接受与 `http` 相同的 `url`、`headers`、`headersHelper`、`timeout` 和 `alwaysLoad` 字段。身份验证仅限于头部，因此请在 `headers` 中传递静态 token，或在连接时使用 [`headersHelper`](#use-dynamic-headers-for-custom-authentication) 生成。`claude mcp add --transport` 标志不接受 `ws`。
+`type: "ws"` 条目接受与 `http` 相同的 `url`、`headers`、`headersHelper`、`timeout` 和 `alwaysLoad` 字段。身份验证仅限于头部，因此请在 `headers` 中传递静态 token，或在连接时使用 [`headersHelper`](#使用动态头部实现自定义认证) 生成。`claude mcp add --transport` 标志不接受 `ws`。
 
 ### 管理你的服务器
 
@@ -141,7 +141,7 @@ claude mcp remove github
 
 `/mcp` 面板会在每个已连接服务器旁边显示工具数量，并对那些宣告拥有工具能力但未暴露任何工具的服务器进行标记。
 
-如果您的请求需要使用某个仍在后台连接的服务器上的工具，Claude 会等待该服务器就绪后再继续。在启用了[工具搜索](#scale-with-mcp-tool-search)（默认设置）的情况下，等待过程发生在 `ToolSearch` 调用内部。在没有工具搜索的配置中，例如 Vertex AI、自定义 `ANTHROPIC_BASE_URL` 或 `ENABLE_TOOL_SEARCH=false`，Claude 会改用 `WaitForMcpServers` 工具。
+如果您的请求需要使用某个仍在后台连接的服务器上的工具，Claude 会等待该服务器就绪后再继续。在启用了[工具搜索](#通过-mcp-将-claude-code-连接到工具)（默认设置）的情况下，等待过程发生在 `ToolSearch` 调用内部。在没有工具搜索的配置中，例如 Vertex AI、自定义 `ANTHROPIC_BASE_URL` 或 `ENABLE_TOOL_SEARCH=false`，Claude 会改用 `WaitForMcpServers` 工具。
 
 服务器名称 `workspace` 保留供内部使用。如果您的配置中定义了同名服务器，Claude Code 会在加载时跳过它，并显示警告信息要求您重命名。
 
@@ -157,7 +157,7 @@ Claude Code 支持 MCP 的 `list_changed` 通知，允许 MCP 服务器动态更
 
 ### 通过通道推送消息
 
-MCP 服务器也可以直接向您的会话推送消息，以便 Claude 能够响应外部事件，如 CI 结果、监控警报或聊天消息。要启用此功能，您的服务器需要声明 `claude/channel` 能力，并在启动时使用 `--channels` 标志将其纳入。请参阅[通道](/en/channels)以使用官方支持的通道，或查阅[通道参考](/en/channels-reference)以构建您自己的通道。
+MCP 服务器也可以直接向您的会话推送消息，以便 Claude 能够响应外部事件，如 CI 结果、监控警报或聊天消息。要启用此功能，您的服务器需要声明 `claude/channel` 能力，并在启动时使用 `--channels` 标志将其纳入。请参阅[通道](/zh/channels)以使用官方支持的通道，或查阅[通道参考](/zh/channels-reference)以构建您自己的通道。
 
   提示：
 
@@ -175,7 +175,7 @@ MCP 服务器也可以直接向您的会话推送消息，以便 Claude 能够�
 
 ### 插件提供的 MCP 服务器
 
-[插件](/en/plugins) 可以在启用时自动提供工具和集成，它们能够打包 MCP 服务器。插件 MCP 服务器的工作方式与用户配置的服务器完全相同。
+[插件](/zh/plugins) 可以在启用时自动提供工具和集成，它们能够打包 MCP 服务器。插件 MCP 服务器的工作方式与用户配置的服务器完全相同。
 
 **插件 MCP 服务器的工作原理**：
 
@@ -215,7 +215,7 @@ MCP 服务器也可以直接向您的会话推送消息，以便 Claude 能够�
 **插件 MCP 功能**：
 
 * **自动生命周期**：会话启动时，已启用插件的服务器会自动连接。如果在会话期间启用或禁用某个插件，请运行 `/reload-plugins` 来连接或断开其 MCP 服务器。
-* **环境变量**：使用 `${CLAUDE_PLUGIN_ROOT}` 引用捆绑的插件文件，使用 `${CLAUDE_PLUGIN_DATA}` 引用[持久化状态目录](/en/plugins-reference#persistent-data-directory)（该目录在插件更新后仍保留），使用 `${CLAUDE_PROJECT_DIR}` 引用稳定的项目根目录。
+* **环境变量**：使用 `${CLAUDE_PLUGIN_ROOT}` 引用捆绑的插件文件，使用 `${CLAUDE_PLUGIN_DATA}` 引用[持久化状态目录](/zh/plugins-reference#persistent-data-directory)（该目录在插件更新后仍保留），使用 `${CLAUDE_PROJECT_DIR}` 引用稳定的项目根目录。
 * **用户环境访问权限**：可访问与手动配置服务器相同的环境变量。
 * **多种传输类型**：支持 stdio、SSE、HTTP 和 WebSocket 传输（传输支持可能因服务器而异）。
 
@@ -232,23 +232,23 @@ MCP 服务器也可以直接向您的会话推送消息，以便 Claude 能够�
 * **自动设置**：无需手动 MCP 配置
 * **团队一致性**：安装插件后每个人获得相同的工具
 
-关于将 MCP 服务器与插件捆绑的详情，请参阅 [插件组件参考](/en/plugins-reference#mcp-servers)。
+关于将 MCP 服务器与插件捆绑的详情，请参阅 [插件组件参考](/zh/plugins-reference#mcp-servers)。
 
 ## MCP 安装作用域
 
-MCP 服务器可以在三个作用域中进行配置。您选择的作用域控制服务器在哪些项目中加载以及配置是否与团队共享。管理员还可以通过 [托管配置](#managed-mcp-configuration) 在企业级别部署服务器。
+MCP 服务器可以在三个作用域中进行配置。您选择的作用域控制服务器在哪些项目中加载以及配置是否与团队共享。管理员还可以通过 [托管配置](#通过-mcp-将-claude-code-连接到工具) 在企业级别部署服务器。
 
 | 作用域                  | 加载范围               | 与团队共享               | 存储位置                    |
 | ----------------------- | ---------------------- | ------------------------ | --------------------------- |
-| [本地](#local-scope)    | 仅限当前项目           | 否                       | `~/.claude.json`            |
-| [项目](#project-scope)  | 仅限当前项目           | 是，通过版本控制         | 项目根目录下的 `.mcp.json` |
-| [用户](#user-scope)     | 您的所有项目           | 否                       | `~/.claude.json`            |
+| [本地](#本地作用域)    | 仅限当前项目           | 否                       | `~/.claude.json`            |
+| [项目](#项目范围)  | 仅限当前项目           | 是，通过版本控制         | 项目根目录下的 `.mcp.json` |
+| [用户](#用户级)     | 您的所有项目           | 否                       | `~/.claude.json`            |
 
 ### 本地作用域
 
 本地作用域是默认设置。本地作用域的服务器仅在您添加它的项目中加载，并且对您私有。Claude Code 将其存储在 `~/.claude.json` 中该项目的路径下，因此相同的服务器不会出现在您的其他项目中。本地作用域适用于个人开发服务器、实验性配置或您不希望纳入版本控制的包含凭据的服务器。
 
-  MCP 服务器中的"本地作用域"概念与常规本地设置不同。MCP 本地作用域的服务器存储于 `~/.claude.json`（用户主目录），而常规本地设置使用 `.claude/settings.local.json`（项目目录内）。具体设置文件位置详情请参阅 [设置](/en/settings#settings-files)。
+  MCP 服务器中的"本地作用域"概念与常规本地设置不同。MCP 本地作用域的服务器存储于 `~/.claude.json`（用户主目录），而常规本地设置使用 `.claude/settings.local.json`（项目目录内）。具体设置文件位置详情请参阅 [设置](/zh/settings#settings-files)。
 
 
 ```bash
@@ -308,8 +308,8 @@ claude mcp add --transport http hubspot --scope user https://mcp.hubspot.com/ant
 1.  本地作用域
 2.  项目作用域
 3.  用户作用域
-4.  [插件提供的服务器](/en/plugins)
-5.  [来自 claude.ai 的连接器](#use-mcp-servers-from-claude-ai)
+4.  [插件提供的服务器](/zh/plugins)
+5.  [来自 claude.ai 的连接器](#通过-mcp-将-claude-code-连接到工具)
 
 前三个作用域通过名称匹配重复项。插件和连接器通过端点匹配，因此一个指向与上方服务器相同 URL 或命令的条目将被视为重复项。
 
@@ -699,9 +699,9 @@ Claude Code 在执行辅助程序时会设置以下环境变量：
     Claude.ai 服务器出现在列表中，并带有标识表明它们来自 Claude.ai。
 
 
-仅当您当前的[身份验证方法](/en/authentication#authentication-precedence)是您的 Claude.ai 订阅时，才会拉取 Claude.ai 连接器。当 `ANTHROPIC_API_KEY`、`ANTHROPIC_AUTH_TOKEN`、`apiKeyHelper` 或第三方提供商（如 Bedrock 或 Vertex）处于活动状态时，即使您之前运行过 `/login`，也不会加载这些连接器。如果 `/mcp` 未列出您添加的连接器，请运行 `/status` 以确认当前活动的身份验证方法，取消设置该环境变量或移除 `apiKeyHelper` 设置，然后运行 `/login` 以选择您的 Claude.ai 账户。
+仅当您当前的[身份验证方法](/zh/authentication#authentication-precedence)是您的 Claude.ai 订阅时，才会拉取 Claude.ai 连接器。当 `ANTHROPIC_API_KEY`、`ANTHROPIC_AUTH_TOKEN`、`apiKeyHelper` 或第三方提供商（如 Bedrock 或 Vertex）处于活动状态时，即使您之前运行过 `/login`，也不会加载这些连接器。如果 `/mcp` 未列出您添加的连接器，请运行 `/status` 以确认当前活动的身份验证方法，取消设置该环境变量或移除 `apiKeyHelper` 设置，然后运行 `/login` 以选择您的 Claude.ai 账户。
 
-您在 Claude Code 中添加的服务器，如果其 URL 与某个 claude.ai 连接器指向的地址相同，则具有更高的[优先级](#scope-hierarchy-and-precedence)。发生这种情况时，`/mcp` 会将该连接器列为隐藏，并显示如何移除重复项，以便您更倾向于使用该连接器。
+您在 Claude Code 中添加的服务器，如果其 URL 与某个 claude.ai 连接器指向的地址相同，则具有更高的[优先级](#作用域层次与优先级)。发生这种情况时，`/mcp` 会将该连接器列为隐藏，并显示如何移除重复项，以便您更倾向于使用该连接器。
 
 要禁用 Claude Code 中的 claude.ai MCP 服务器，请将环境变量 `ENABLE_CLAUDEAI_MCP_SERVERS` 设置为 `false`：
 ```bash
@@ -765,7 +765,7 @@ claude mcp serve
 * **输出警告阈值**：当任何 MCP 工具输出超过 10,000 tokens 时，Claude Code 会显示警告
 * **可配置限制**：您可以使用 `MAX_MCP_OUTPUT_TOKENS` 环境变量调整允许的 MCP 最大输出 tokens 数
 * **默认限制**：默认最大值为 25,000 tokens
-* **作用范围**：该环境变量适用于未声明自身限制的工具。设置了 [`anthropic/maxResultSizeChars`](#raise-the-limit-for-a-specific-tool) 的工具会将其值用于文本内容，而无论 `MAX_MCP_OUTPUT_TOKENS` 设置为何值。返回图像数据的工具仍受 `MAX_MCP_OUTPUT_TOKENS` 约束
+* **作用范围**：该环境变量适用于未声明自身限制的工具。设置了 [`anthropic/maxResultSizeChars`](#为特定工具提高限制) 的工具会将其值用于文本内容，而无论 `MAX_MCP_OUTPUT_TOKENS` 设置为何值。返回图像数据的工具仍受 `MAX_MCP_OUTPUT_TOKENS` 约束
 
 要为产生大量输出的工具提高限制：
 ```bash
@@ -805,7 +805,7 @@ MCP 服务器可以在任务中途通过信息请求向您索取结构化输入�
 * **表单模式**：Claude Code 会显示一个由服务器定义的表单字段的对话框（例如，用户名和密码提示）。填写字段并提交。
 * **URL 模式**：Claude Code 会打开一个用于认证或授权的浏览器 URL。在浏览器中完成流程，然后在 CLI 中确认。
 
-若想在不显示对话框的情况下自动响应信息请求，请使用 [`Elicitation` 钩子](/en/hooks#elicitation)。
+若想在不显示对话框的情况下自动响应信息请求，请使用 [`Elicitation` 钩子](/zh/hooks#elicitation)。
 
 如果您正在构建使用信息请求功能的 MCP 服务器，请参阅 [MCP 信息请求规范](https://modelcontextprotocol.io/docs/learn/client-concepts#elicitation) 以了解协议详情和 schema 示例。
 
@@ -852,11 +852,11 @@ MCP 服务器可以公开资源，您可以通过 @ 提及来引用这些资源�
 
 工具搜索默认启用。MCP 工具被延迟加载而非预先载入上下文，当任务需要时，Claude 使用搜索工具来发现相关的工具。只有 Claude 实际使用的工具才会进入上下文。从你的角度来看，MCP 工具的工作方式与之前完全一样。
 
-如果你偏好基于阈值的加载方式，请设置 `ENABLE_TOOL_SEARCH=auto`，以便在工具模式符合上下文窗口 10% 的范围内时预先加载，仅延迟加载溢出的部分。所有选项请参见[配置工具搜索](#configure-tool-search)。
+如果你偏好基于阈值的加载方式，请设置 `ENABLE_TOOL_SEARCH=auto`，以便在工具模式符合上下文窗口 10% 的范围内时预先加载，仅延迟加载溢出的部分。所有选项请参见[配置工具搜索](#配置工具搜索)。
 
 ### 致 MCP 服务器开发者
 
-如果你正在构建 MCP 服务器，启用工具搜索后，服务器指令字段会变得更有用。服务器指令帮助 Claude 了解何时搜索你的工具，这与[技能](/en/skills)的工作方式类似。
+如果你正在构建 MCP 服务器，启用工具搜索后，服务器指令字段会变得更有用。服务器指令帮助 Claude 了解何时搜索你的工具，这与[技能](/zh/skills)的工作方式类似。
 
 请添加清晰、描述性的服务器指令，以说明：
 
@@ -888,7 +888,7 @@ ENABLE_TOOL_SEARCH=auto:5 claude
 # Disable tool search entirely
 ENABLE_TOOL_SEARCH=false claude
 ```
-或者在你的 [settings.json `env` 字段](/en/settings#available-settings) 中设置该值。
+或者在你的 [settings.json `env` 字段](/zh/settings#available-settings) 中设置该值。
 
 你也可以特别禁用 `ToolSearch` 工具：
 ```json
@@ -916,7 +916,7 @@ ENABLE_TOOL_SEARCH=false claude
 ```
 `alwaysLoad` 字段适用于所有服务器类型，且要求 Claude Code v2.1.121 或更高版本。MCP 服务器也可以通过在工具的 `_meta` 对象中包含 `"anthropic/alwaysLoad": true`，将单个工具标记为始终加载，这仅对该特定工具生效。
 
-设置 `alwaysLoad: true` 还会阻塞启动过程，直到服务器连接成功，上限为标准的 5 秒连接超时。尽管 MCP 启动在其他情况下[默认是非阻塞的](/en/env-vars)，但此设置仍然适用，因为工具必须在构建第一个提示词时可用。其他服务器将继续在后台连接。
+设置 `alwaysLoad: true` 还会阻塞启动过程，直到服务器连接成功，上限为标准的 5 秒连接超时。尽管 MCP 启动在其他情况下[默认是非阻塞的](/zh/env-vars)，但此设置仍然适用，因为工具必须在构建第一个提示词时可用。其他服务器将继续在后台连接。
 
 ## 将 MCP 提示词用作命令
 
@@ -954,4 +954,4 @@ MCP 服务器可以公开提示词，这些提示词可以作为 Claude Code 中
 
 ## 托管 MCP 配置
 
-对于需要集中控制用户可连接哪些 MCP 服务器的组织，请参阅 [托管 MCP 配置](/en/managed-mcp)。该部分涵盖如何使用 `managed-mcp.json` 部署固定的服务器集，如何通过 `allowedMcpServers` 和 `deniedMcpServers` 限制服务器，以及当服务器被阻止时用户将看到的内容。
+对于需要集中控制用户可连接哪些 MCP 服务器的组织，请参阅 [托管 MCP 配置](/zh/managed-mcp)。该部分涵盖如何使用 `managed-mcp.json` 部署固定的服务器集，如何通过 `allowedMcpServers` 和 `deniedMcpServers` 限制服务器，以及当服务器被阻止时用户将看到的内容。

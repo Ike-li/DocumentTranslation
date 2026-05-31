@@ -48,7 +48,7 @@ Claude Code 会跟踪其文件编辑工具执行的所有更改：
 
 在这两种情况下，原始消息都保留在会话记录中，因此 Claude 可以在需要时参考详细信息。您可以输入可选指令来指导摘要的重点。这类似于 `/compact`，但更有针对性：不是总结整个对话，而是选择压缩所选消息的哪一侧。
 
-  **总结**功能让你留在同一个会话中并压缩上下文。如果你想分支出去尝试不同的方法，同时保持原始会话完整，请改用 [fork](/en/sessions#branch-a-session)（`claude --continue --fork-session`）。
+  **总结**功能让你留在同一个会话中并压缩上下文。如果你想分支出去尝试不同的方法，同时保持原始会话完整，请改用 [fork](/zh/sessions#branch-a-session)（`claude --continue --fork-session`）。
 
 ## 常见用例
 
@@ -85,6 +85,6 @@ cp source.txt dest.txt
 
 ## 另请参阅
 
-* [交互模式](/en/interactive-mode) - 键盘快捷键和会话控制
-* [命令](/en/commands) - 使用 `/rewind` 访问检查点
-* [CLI 参考](/en/cli-reference) - 命令行选项
+* [交互模式](/zh/interactive-mode) - 键盘快捷键和会话控制
+* [命令](/zh/commands) - 使用 `/rewind` 访问检查点
+* [CLI 参考](/zh/cli-reference) - 命令行选项

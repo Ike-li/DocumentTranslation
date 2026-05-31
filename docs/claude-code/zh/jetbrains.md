@@ -23,7 +23,7 @@ Claude Code 插件可在大多数 JetBrains IDE 上使用，包括：
 
 * **快速启动**：使用 `Cmd+Esc`（Mac）或 `Ctrl+Esc`（Windows/Linux）从编辑器直接打开 Claude Code，或点击界面上的 Claude Code 按钮
 * **Diff 查看**：代码变更可以直接显示在 IDE 的 diff 查看器中，而不是在终端
-* **选区上下文**：IDE 中当前选中或打开的标签会自动共享给 Claude Code。匹配的文件可由 [`Read` deny 规则](/en/permissions#read-and-edit) 阻止此共享
+* **选区上下文**：IDE 中当前选中或打开的标签会自动共享给 Claude Code。匹配的文件可由 [`Read` deny 规则](/zh/permissions#read-and-edit) 阻止此共享
 * **文件引用快捷键**：使用 `Cmd+Option+K`（Mac）或 `Alt+Ctrl+K`（Linux/Windows）插入文件引用，例如 `@src/auth.ts#L1-99`
 * **诊断共享**：来自 IDE 的诊断错误（例如 lint 与语法错误）会在你工作时自动共享给 Claude
 
@@ -33,7 +33,7 @@ Claude Code 插件可在大多数 JetBrains IDE 上使用，包括：
 
 在 JetBrains marketplace 找到并安装 [Claude Code 插件](https://plugins.jetbrains.com/plugin/27310-claude-code-beta-)，然后重启 IDE。
 
-如果还未安装 Claude Code，请参阅[快速入门指南](/en/quickstart)。
+如果还未安装 Claude Code，请参阅[快速入门指南](/zh/quickstart)。
 
 
   安装插件后，可能需要完全重启 IDE 才能生效。
@@ -169,7 +169,7 @@ networkingMode=mirrored
 * 验证插件已安装并启用
 * 完全重启 IDE
 * 检查是否在集成终端中运行 Claude Code
-* WSL 用户请参考上文 [WSL 配置](#wsl-configuration)
+* WSL 用户请参考上文 [WSL 配置](#wsl-配置)
 
 ### 找不到命令
 
@@ -189,4 +189,4 @@ networkingMode=mirrored
 * 额外注意，仅对受信任的提示词使用 Claude
 * 留意 Claude Code 可以修改哪些文件
 
-如果遇到 IDE 之外的 Claude Code 安装或登录问题，请参阅 [安装与登录故障排查](/en/troubleshoot-install)。
+如果遇到 IDE 之外的 Claude Code 安装或登录问题，请参阅 [安装与登录故障排查](/zh/troubleshoot-install)。

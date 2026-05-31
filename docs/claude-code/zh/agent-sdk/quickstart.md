@@ -83,7 +83,7 @@
     * **Google Vertex AI**：设置环境变量 `CLAUDE_CODE_USE_VERTEX=1` 并配置 Google Cloud 凭据
     * **Microsoft Azure**：设置环境变量 `CLAUDE_CODE_USE_FOUNDRY=1` 并配置 Azure 凭据
 
-    详情请参阅 [Bedrock](/en/amazon-bedrock)、[Claude Platform on AWS](/en/claude-platform-on-aws)、[Vertex AI](/en/google-vertex-ai) 或 [Azure AI Foundry](/en/microsoft-foundry) 的配置指南。
+    详情请参阅 [Bedrock](/zh/amazon-bedrock)、[Claude Platform on AWS](/zh/claude-platform-on-aws)、[Vertex AI](/zh/google-vertex-ai) 或 [Azure AI Foundry](/zh/microsoft-foundry) 的配置指南。
 
       除非事先获得批准，Anthropic 不允许第三方开发者为其产品提供 claude.ai 登录或速率限制，包括基于 Claude Agent SDK 构建的代理。请使用本文档中描述的 API key 认证方法。
 
@@ -168,11 +168,11 @@ def get_user_name(user):
 
 这段代码主要包含三个部分：
 
-1. **`query`**：这是创建智能体循环的主入口点。它返回一个异步迭代器，因此你可以使用 `async for` 在 Claude 工作时流式获取消息。完整的 API 请参阅 [Python](/en/agent-sdk/python#query) 或 [TypeScript](/en/agent-sdk/typescript#query) 的 SDK 参考文档。
+1. **`query`**：这是创建智能体循环的主入口点。它返回一个异步迭代器，因此你可以使用 `async for` 在 Claude 工作时流式获取消息。完整的 API 请参阅 [Python](/zh/agent-sdk/python#query) 或 [TypeScript](/zh/agent-sdk/typescript#query) 的 SDK 参考文档。
 
 2. **`prompt`**：这是你希望 Claude 执行的任务。Claude 会根据任务内容自行判断需要使用哪些工具。
 
-3. **`options`**：这是智能体的配置项。本例使用 `allowedTools` 预先批准了 `Read`、`Edit` 和 `Glob` 工具，并设置 `permissionMode: "acceptEdits"` 以自动批准文件更改。其他选项包括 `systemPrompt`、`mcpServers` 等。更多选项请查阅 [Python](/en/agent-sdk/python#claudeagentoptions) 或 [TypeScript](/en/agent-sdk/typescript#options) 的文档。
+3. **`options`**：这是智能体的配置项。本例使用 `allowedTools` 预先批准了 `Read`、`Edit` 和 `Glob` 工具，并设置 `permissionMode: "acceptEdits"` 以自动批准文件更改。其他选项包括 `systemPrompt`、`mcpServers` 等。更多选项请查阅 [Python](/zh/agent-sdk/python#claudeagentoptions) 或 [TypeScript](/zh/agent-sdk/typescript#options) 的文档。
 
 `async for` 循环会在 Claude 思考、调用工具、观察结果并决定下一步行动时持续运行。每次迭代都会产生一条消息：可能是 Claude 的推理过程、一次工具调用、一个工具结果或最终输出。SDK 负责处理编排工作（工具执行、上下文管理、重试机制），你只需消费流式数据。当 Claude 完成任务或遇到错误时，循环便会结束。
 
@@ -204,7 +204,7 @@ def get_user_name(user):
 
 这正是 Agent SDK 的独特之处：Claude 直接执行工具，而不是要求你来实现它们。
 
-  如果看到"找不到API密钥"提示，请确认您已在 `.env` 文件或 shell 环境中设置了 `ANTHROPIC_API_KEY` 环境变量。更多帮助请参阅[完整故障排除指南](/en/troubleshooting)。
+  如果看到"找不到API密钥"提示，请确认您已在 `.env` 文件或 shell 环境中设置了 `ANTHROPIC_API_KEY` 环境变量。更多帮助请参阅[完整故障排除指南](/zh/troubleshooting)。
 
 ### 尝试其他提示词
 
@@ -310,9 +310,9 @@ API Error: 400 {"type":"invalid_request_error","message":"\"thinking.type.enable
 
 既然您已创建首个代理，接下来可了解如何扩展其功能并适配您的具体用例：
 
-* **[权限](/en/agent-sdk/permissions)**：控制代理的操作范围及需要审批的时机
-* **[钩子](/en/agent-sdk/hooks)**：在工具调用前后执行自定义代码
-* **[会话](/en/agent-sdk/sessions)**：构建保持上下文的多轮会话代理
-* **[MCP 服务器](/en/agent-sdk/mcp)**：连接数据库、浏览器、API 及其他外部系统
-* **[托管](/en/agent-sdk/hosting)**：将代理部署至 Docker、云平台和 CI/CD 环境
+* **[权限](/zh/agent-sdk/permissions)**：控制代理的操作范围及需要审批的时机
+* **[钩子](/zh/agent-sdk/hooks)**：在工具调用前后执行自定义代码
+* **[会话](/zh/agent-sdk/sessions)**：构建保持上下文的多轮会话代理
+* **[MCP 服务器](/zh/agent-sdk/mcp)**：连接数据库、浏览器、API 及其他外部系统
+* **[托管](/zh/agent-sdk/hosting)**：将代理部署至 Docker、云平台和 CI/CD 环境
 * **[示例代理](https://github.com/anthropics/claude-agent-sdk-demos)**：查看完整示例：邮件助手、研究代理等

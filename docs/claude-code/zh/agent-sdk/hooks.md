@@ -19,23 +19,23 @@
 ## 钩子工作原理
 
 
-    在代理执行过程中，某些事件发生时 SDK 会触发相应事件：工具即将被调用（`PreToolUse`）、工具返回结果（`PostToolUse`）、子代理启动或停止、代理处于闲置状态，或执行完成。请参阅[完整事件列表](#available-hooks)。
+    在代理执行过程中，某些事件发生时 SDK 会触发相应事件：工具即将被调用（`PreToolUse`）、工具返回结果（`PostToolUse`）、子代理启动或停止、代理处于闲置状态，或执行完成。请参阅[完整事件列表](#可用钩子)。
 
 
 
-    该 SDK 会检查为该事件类型注册的钩子。这包括通过 `options.hooks` 传入的回调钩子，以及当对应的 [`settingSources`](/en/agent-sdk/typescript#settingsource) 或 [`setting_sources`](/en/agent-sdk/python#settingsource) 条目启用时（默认的 `query()` 选项会启用这些条目），从设置文件中加载的 shell 命令钩子。
+    该 SDK 会检查为该事件类型注册的钩子。这包括通过 `options.hooks` 传入的回调钩子，以及当对应的 [`settingSources`](/zh/agent-sdk/typescript#settingsource) 或 [`setting_sources`](/zh/agent-sdk/python#settingsource) 条目启用时（默认的 `query()` 选项会启用这些条目），从设置文件中加载的 shell 命令钩子。
 
 
 
-    如果一个钩子拥有 [`matcher`](#matchers) 匹配模式（如 `"Write|Edit"`），SDK 会针对事件的目标（例如工具名称）进行测试。没有匹配模式的钩子会对该类型的每个事件都运行。
+    如果一个钩子拥有 [`matcher`](#匹配器) 匹配模式（如 `"Write|Edit"`），SDK 会针对事件的目标（例如工具名称）进行测试。没有匹配模式的钩子会对该类型的每个事件都运行。
 
 
 
-    每个匹配的钩子的[回调函数](#callback-functions)会接收关于正在发生什么的输入：工具名称、其参数、会话 ID，以及其他事件特定细节。
+    每个匹配的钩子的[回调函数](#回调函数)会接收关于正在发生什么的输入：工具名称、其参数、会话 ID，以及其他事件特定细节。
 
 
 
-    在执行任何操作（日志记录、API 调用、验证）后，您的回调会返回一个[输出对象](#outputs)，该对象指示代理应执行的操作：允许操作、阻止操作、修改输入或向对话中注入上下文。
+    在执行任何操作（日志记录、API 调用、验证）后，您的回调会返回一个[输出对象](#输出)，该对象指示代理应执行的操作：允许操作、阻止操作、修改输入或向对话中注入上下文。
 
 
 以下示例将这些步骤整合在一起。它注册了一个 `PreToolUse` 钩子（步骤 1），并设置了一个 `"Write|Edit"` 匹配器（步骤 3），这样回调函数就只针对文件写入工具触发。当触发时，回调函数会接收工具的输入（步骤 4），检查文件路径是否指向 `.env` 文件，并返回 `permissionDecision: "deny"` 以阻止该操作（步骤 5）：
@@ -193,22 +193,22 @@ SDK 为代理执行的不同阶段提供了钩子。一些钩子在两种 SDK �
 
 `hooks` 选项是一个字典（Python）或对象（TypeScript），其中：
 
-* **键**是[钩子事件名称](#available-hooks)（例如 `'PreToolUse'`、`'PostToolUse'`、`'Stop'`）
-* **值**是[匹配器](#matchers)的数组，每个匹配器包含一个可选的过滤模式和你的[回调函数](#callback-functions)
+* **键**是[钩子事件名称](#可用钩子)（例如 `'PreToolUse'`、`'PostToolUse'`、`'Stop'`）
+* **值**是[匹配器](#匹配器)的数组，每个匹配器包含一个可选的过滤模式和你的[回调函数](#回调函数)
 
 ### 匹配器
 
-使用匹配器来控制回调函数何时触发。`matcher` 字段是一个正则表达式字符串，根据钩子事件类型匹配不同的值。例如，基于工具的钩子会匹配工具名称，而 `Notification` 钩子会匹配通知类型。请参阅 [Claude Code 钩子参考](/en/hooks#matcher-patterns) 以获取每种事件类型的匹配器值完整列表。
+使用匹配器来控制回调函数何时触发。`matcher` 字段是一个正则表达式字符串，根据钩子事件类型匹配不同的值。例如，基于工具的钩子会匹配工具名称，而 `Notification` 钩子会匹配通知类型。请参阅 [Claude Code 钩子参考](/zh/hooks#matcher-patterns) 以获取每种事件类型的匹配器值完整列表。
 
 | 选项      | 类型             | 默认值      | 描述                                                                                                                                                                                                                                                                                                                                                |
 | --------- | ---------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `matcher` | `string`         | `undefined` | 与事件过滤字段匹配的正则表达式模式。对于工具钩子，即为工具名称。内置工具包括 `Bash`、`Read`、`Write`、`Edit`、`Glob`、`Grep`、`WebFetch`、`Agent` 等（完整列表请参阅[工具输入类型](/en/agent-sdk/typescript#tool-input-types)）。MCP 工具使用模式 `mcp__<server>__<action>`。 |
+| `matcher` | `string`         | `undefined` | 与事件过滤字段匹配的正则表达式模式。对于工具钩子，即为工具名称。内置工具包括 `Bash`、`Read`、`Write`、`Edit`、`Glob`、`Grep`、`WebFetch`、`Agent` 等（完整列表请参阅[工具输入类型](/zh/agent-sdk/typescript#tool-input-types)）。MCP 工具使用模式 `mcp__<server>__<action>`。 |
 | `hooks`   | `HookCallback[]` | -           | 必需。当模式匹配时要执行的回调函数数组                                                                                                                                                                                                                                                                                                              |
 | `timeout` | `number`         | `60`        | 超时时间（秒）                                                                                                                                                                                                                                                                                                                                      |
 
 尽可能使用 `matcher` 模式来针对特定工具。使用 `'Bash'` 的匹配器仅对 Bash 命令运行，而省略该模式则会为每次事件的发生运行你的回调函数。请注意，对于基于工具的钩子，匹配器仅按**工具名称**过滤，而非按文件路径或其他参数过滤。要按文件路径过滤，请在回调内部检查 `tool_input.file_path`。
 
-  **发现工具名称：** 请参阅 [工具输入类型](/en/agent-sdk/typescript#tool-input-types) 以获取内置工具名称的完整列表，或者添加一个没有匹配条件的钩子来记录会话中进行的所有工具调用。
+  **发现工具名称：** 请参阅 [工具输入类型](/zh/agent-sdk/typescript#tool-input-types) 以获取内置工具名称的完整列表，或者添加一个没有匹配条件的钩子来记录会话中进行的所有工具调用。
 
   **MCP 工具命名：** MCP 工具的名称始终以 `mcp__` 开头，后跟服务器名称和操作：`mcp__<server>__<action>`。例如，如果你配置了一个名为 `playwright` 的服务器，其工具将被命名为 `mcp__playwright__browser_screenshot`、`mcp__playwright__browser_click` 等。服务器名称来自你在 `mcpServers` 配置中使用的键。
 
@@ -218,7 +218,7 @@ SDK 为代理执行的不同阶段提供了钩子。一些钩子在两种 SDK �
 
 每个钩子回调接收三个参数：
 
-* **输入数据：** 包含事件详情的类型化对象。每种钩子类型都有其特定的输入结构（例如，`PreToolUseHookInput` 包含 `tool_name` 和 `tool_input`，而 `NotificationHookInput` 包含 `message`）。完整的类型定义请参阅 [TypeScript](/en/agent-sdk/typescript#hookinput) 和 [Python](/en/agent-sdk/python#hookinput) 的 SDK 参考文档。
+* **输入数据：** 包含事件详情的类型化对象。每种钩子类型都有其特定的输入结构（例如，`PreToolUseHookInput` 包含 `tool_name` 和 `tool_input`，而 `NotificationHookInput` 包含 `message`）。完整的类型定义请参阅 [TypeScript](/zh/agent-sdk/typescript#hookinput) 和 [Python](/zh/agent-sdk/python#hookinput) 的 SDK 参考文档。
   * 所有钩子输入都共享 `session_id`、`cwd` 和 `hook_event_name`。
   * 当钩子在子代理内部触发时，`agent_id` 和 `agent_type` 会被填充。在 TypeScript 中，它们位于基础钩子输入上，可供所有钩子类型使用。在 Python 中，它们仅存在于 `PreToolUse`、`PostToolUse` 和 `PostToolUseFailure` 中。
 * **工具使用 ID** (`str | None` / `string | undefined`)：用于关联同一工具调用的 `PreToolUse` 和 `PostToolUse` 事件。
@@ -229,9 +229,9 @@ SDK 为代理执行的不同阶段提供了钩子。一些钩子在两种 SDK �
 你的回调返回一个对象，包含两类字段：
 
 * **顶层字段** 在每个事件上作用相同：`systemMessage` 用于向用户显示消息，而 `continue`（在 Python 中为 `continue_`）决定在此钩子之后代理是否继续运行。
-* **`hookSpecificOutput`** 控制当前操作。其中的字段取决于钩子事件类型。对于 `PreToolUse` 钩子，你可以在此设置 `permissionDecision`（`"allow"`、`"deny"`、`"ask"` 或 `"defer"`）、`permissionDecisionReason` 和 `updatedInput`。返回 `"defer"` 会结束查询，以便你可以[稍后恢复它](/en/hooks#defer-a-tool-call-for-later)。对于 `PostToolUse` 钩子，你可以设置 `additionalContext` 将信息追加到工具结果，或设置 `updatedToolOutput` 在 Claude 看到之前完全替换工具的输出。
+* **`hookSpecificOutput`** 控制当前操作。其中的字段取决于钩子事件类型。对于 `PreToolUse` 钩子，你可以在此设置 `permissionDecision`（`"allow"`、`"deny"`、`"ask"` 或 `"defer"`）、`permissionDecisionReason` 和 `updatedInput`。返回 `"defer"` 会结束查询，以便你可以[稍后恢复它](/zh/hooks#defer-a-tool-call-for-later)。对于 `PostToolUse` 钩子，你可以设置 `additionalContext` 将信息追加到工具结果，或设置 `updatedToolOutput` 在 Claude 看到之前完全替换工具的输出。
 
-返回 `{}` 允许操作不做更改。SDK 回调钩子使用与 [Claude Code shell 命令钩子](/en/hooks#json-output)相同的 JSON 输出格式，该文档记录了所有字段和特定于事件的选项。SDK 类型定义请参阅 [TypeScript](/en/agent-sdk/typescript#synchookjsonoutput) 和 [Python](/en/agent-sdk/python#synchookjsonoutput) 的 SDK 参考文档。
+返回 `{}` 允许操作不做更改。SDK 回调钩子使用与 [Claude Code shell 命令钩子](/zh/hooks#json-output)相同的 JSON 输出格式，该文档记录了所有字段和特定于事件的选项。SDK 类型定义请参阅 [TypeScript](/zh/agent-sdk/typescript#synchookjsonoutput) 和 [Python](/zh/agent-sdk/python#synchookjsonoutput) 的 SDK 参考文档。
 
   当多个钩子或权限规则同时适用时，**拒绝**优先于**延迟**，**延迟**优先于**询问**，**询问**优先于**允许**。如果任一钩子返回 `deny`，则无论其他钩子如何，操作都将被阻止。
 
@@ -470,7 +470,7 @@ SDK 为代理执行的不同阶段提供了钩子。一些钩子在两种 SDK �
 
 ### 跟踪子代理活动
 
-使用 `SubagentStop` 钩子来监控子代理完成工作的时间。完整的输入类型请参见 [TypeScript](/en/agent-sdk/typescript#hookinput) 和 [Python](/en/agent-sdk/python#hookinput) SDK 参考文档。此示例在每次子代理完成时记录一条摘要：
+使用 `SubagentStop` 钩子来监控子代理完成工作的时间。完整的输入类型请参见 [TypeScript](/zh/agent-sdk/typescript#hookinput) 和 [Python](/zh/agent-sdk/python#hookinput) SDK 参考文档。此示例在每次子代理完成时记录一条摘要：
 
   ```python Python
   async def subagent_tracker(input_data, tool_use_id, context):
@@ -701,8 +701,8 @@ SDK 为代理执行的不同阶段提供了钩子。一些钩子在两种 SDK �
 * 确认钩子事件名称正确且区分大小写（应为 `PreToolUse` 而非 `preToolUse`）
 * 检查匹配器模式是否与工具名称精确匹配
 * 确保钩子位于 `options.hooks` 下正确的事件类型中
-* 对于 `Stop` 和 `SubagentStop` 等非工具钩子，匹配器针对不同字段进行匹配（详见[匹配器模式](/en/hooks#matcher-patterns)）
-* 当智能体达到 [`max_turns`](/en/agent-sdk/python#claudeagentoptions) 限制时，由于会话在钩子执行前结束，钩子可能不会触发
+* 对于 `Stop` 和 `SubagentStop` 等非工具钩子，匹配器针对不同字段进行匹配（详见[匹配器模式](/zh/hooks#matcher-patterns)）
+* 当智能体达到 [`max_turns`](/zh/agent-sdk/python#claudeagentoptions) 限制时，由于会话在钩子执行前结束，钩子可能不会触发
 
 ### 匹配器未按预期过滤
 
@@ -747,7 +747,7 @@ const myHook: HookCallback = async (input, toolUseID, { signal }) => {
 
 ### Python 中不可用的会话钩子
 
-`SessionStart` 和 `SessionEnd` 可以在 TypeScript 中注册为 SDK 回调钩子，但在 Python SDK 中不可用（`HookEvent` 未包含它们）。在 Python 中，它们仅作为在配置文件（例如 `.claude/settings.json`）中定义的 [shell 命令钩子](/en/hooks#hook-events) 可用。要从您的 SDK 应用程序加载 shell 命令钩子，请通过 [`setting_sources`](/en/agent-sdk/python#settingsource) 或 [`settingSources`](/en/agent-sdk/typescript#settingsource) 包含相应的设置源：
+`SessionStart` 和 `SessionEnd` 可以在 TypeScript 中注册为 SDK 回调钩子，但在 Python SDK 中不可用（`HookEvent` 未包含它们）。在 Python 中，它们仅作为在配置文件（例如 `.claude/settings.json`）中定义的 [shell 命令钩子](/zh/hooks#hook-events) 可用。要从您的 SDK 应用程序加载 shell 命令钩子，请通过 [`setting_sources`](/zh/agent-sdk/python#settingsource) 或 [`settingSources`](/zh/agent-sdk/typescript#settingsource) 包含相应的设置源：
 
   ```python Python
   options = ClaudeAgentOptions(
@@ -777,15 +777,15 @@ const myHook: HookCallback = async (input, toolUseID, { signal }) => {
 
 ### systemMessage 未出现在输出中
 
-`systemMessage` 字段显示给用户而非模型的消息。默认情况下，SDK 不会在消息流中显示钩子输出，因此除非设置 `includeHookEvents`（Python 中为 `include_hook_events`），否则消息可能不会出现。若要向模型传递上下文，请返回 [`additionalContext`](/en/hooks#add-context-for-claude)。
+`systemMessage` 字段显示给用户而非模型的消息。默认情况下，SDK 不会在消息流中显示钩子输出，因此除非设置 `includeHookEvents`（Python 中为 `include_hook_events`），否则消息可能不会出现。若要向模型传递上下文，请返回 [`additionalContext`](/zh/hooks#add-context-for-claude)。
 
 如果您需要可靠地将钩子决策呈现给应用程序，请单独记录它们或使用专用输出通道。
 
 ## 相关资源
 
-* [Claude Code 钩子参考](/en/hooks)：完整的 JSON 输入/输出模式、事件文档和匹配器模式
-* [Claude Code 钩子指南](/en/hooks-guide)：Shell 命令钩子示例和演练
-* [TypeScript SDK 参考](/en/agent-sdk/typescript)：钩子类型、输入/输出定义和配置选项
-* [Python SDK 参考](/en/agent-sdk/python)：钩子类型、输入/输出定义和配置选项
-* [权限](/en/agent-sdk/permissions)：控制您的代理可以执行的操作
-* [自定义工具](/en/agent-sdk/custom-tools)：构建工具以扩展代理能力
+* [Claude Code 钩子参考](/zh/hooks)：完整的 JSON 输入/输出模式、事件文档和匹配器模式
+* [Claude Code 钩子指南](/zh/hooks-guide)：Shell 命令钩子示例和演练
+* [TypeScript SDK 参考](/zh/agent-sdk/typescript)：钩子类型、输入/输出定义和配置选项
+* [Python SDK 参考](/zh/agent-sdk/python)：钩子类型、输入/输出定义和配置选项
+* [权限](/zh/agent-sdk/permissions)：控制您的代理可以执行的操作
+* [自定义工具](/zh/agent-sdk/custom-tools)：构建工具以扩展代理能力

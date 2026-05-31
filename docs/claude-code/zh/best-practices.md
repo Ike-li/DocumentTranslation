@@ -12,7 +12,7 @@ Claude Code 是一个代理式编码环境。与回答问题并等待的聊天�
 
 但这种自主性仍伴随着学习曲线。Claude 在您需要理解的某些约束下工作。
 
-本指南涵盖了在 Anthropic 内部团队以及在不同代码库、语言和环境中使用 Claude Code 的工程师们已被证明有效的模式。有关代理循环底层工作原理，请参阅 [Claude Code 工作原理](/en/how-claude-code-works)。
+本指南涵盖了在 Anthropic 内部团队以及在不同代码库、语言和环境中使用 Claude Code 的工程师们已被证明有效的模式。有关代理循环底层工作原理，请参阅 [Claude Code 工作原理](/zh/how-claude-code-works)。
 
 ***
 
@@ -20,7 +20,7 @@ Claude Code 是一个代理式编码环境。与回答问题并等待的聊天�
 
 Claude 的上下文窗口容纳了您的整个对话，包括每条消息、Claude 读取的每个文件以及每个命令的输出。然而，这可能会很快被填满。一次调试会话或代码库探索可能就会生成和消耗数万 tokens。
 
-这很重要，因为随着上下文被填满，LLM 的性能会下降。当上下文窗口快要满时，Claude 可能会开始“忘记”早期指令或犯更多错误。上下文窗口是需要管理的最重要资源。若想了解会话在实践中是如何被填满的，[请观看一个交互式演示](/en/context-window)，了解启动时加载的内容以及读取每个文件的代价。使用[自定义状态行](/en/statusline)持续跟踪上下文使用情况，并查看[减少 token 用量](/en/costs#reduce-token-usage)以获取减少 token 用量的策略。
+这很重要，因为随着上下文被填满，LLM 的性能会下降。当上下文窗口快要满时，Claude 可能会开始“忘记”早期指令或犯更多错误。上下文窗口是需要管理的最重要资源。若想了解会话在实践中是如何被填满的，[请观看一个交互式演示](/zh/context-window)，了解启动时加载的内容以及读取每个文件的代价。使用[自定义状态行](/zh/statusline)持续跟踪上下文使用情况，并查看[减少 token 用量](/zh/costs#reduce-token-usage)以获取减少 token 用量的策略。
 
 ***
 
@@ -30,7 +30,7 @@ Claude 的上下文窗口容纳了您的整个对话，包括每条消息、Clau
 
 当工作看起来完成时，Claude 就会停止。如果没有可运行的检查，"看起来完成" 就是唯一可用的信号，而你会成为验证循环：每个错误都等着你去发现。给 Claude 一个能产生通过或失败结果的东西，这个循环就能自行闭合。Claude 完成工作，运行检查，读取结果，并迭代直到检查通过。
 
-这个检查可以是任何能在对话中产生 Claude 可读取信号的东西：一个测试套件、一个构建退出码、一个 linter、一个将输出与预期结果进行对比的脚本，或者一张与设计对比的 [浏览器截图](/en/chrome)。
+这个检查可以是任何能在对话中产生 Claude 可读取信号的东西：一个测试套件、一个构建退出码、一个 linter、一个将输出与预期结果进行对比的脚本，或者一张与设计对比的 [浏览器截图](/zh/chrome)。
 
 | 策略 | 之前 | 之后 |
 | --- | --- | --- |
@@ -41,9 +41,9 @@ Claude 的上下文窗口容纳了您的整个对话，包括每条消息、Clau
 一旦检查存在，就决定它在阻止停止时的严格程度：
 
 *   **在单次提示词中**：要求 Claude 在同一条消息中运行检查并进行迭代，如上表所示。
-*   **跨会话**：将检查设置为 [`/goal` 条件](/en/goal)。一个独立的评估器会在每一轮后重新检查，Claude 会持续工作直到条件满足。
-*   **作为确定性门控**：一个 [停止钩子](/en/hooks#stop) 将你的检查作为脚本运行，并阻止当前轮次结束直到它通过。Claude Code 会在连续 8 次阻止后覆盖钩子并结束轮次。
-*   **通过第二种意见**：一个[验证子代理](/en/sub-agents)或一个[动态工作流](/en/workflows)会检查其自身的发现，并让一个新模型尝试反驳结果，这样工作的代理就不是评分的那个。
+*   **跨会话**：将检查设置为 [`/goal` 条件](/zh/goal)。一个独立的评估器会在每一轮后重新检查，Claude 会持续工作直到条件满足。
+*   **作为确定性门控**：一个 [停止钩子](/zh/hooks#stop) 将你的检查作为脚本运行，并阻止当前轮次结束直到它通过。Claude Code 会在连续 8 次阻止后覆盖钩子并结束轮次。
+*   **通过第二种意见**：一个[验证子代理](/zh/sub-agents)或一个[动态工作流](/zh/workflows)会检查其自身的发现，并让一个新模型尝试反驳结果，这样工作的代理就不是评分的那个。
 
 每一步都用设置投入换取注意力节省。提示词版本今天适用于任何任务。`/goal` 和停止钩子版本则能让你在无人值守时正确地完成运行。
 
@@ -55,7 +55,7 @@ Claude 的上下文窗口容纳了您的整个对话，包括每条消息、Clau
 
   将研究规划与实现分开，避免解决错误的问题。
 
-让 Claude 直接开始编码可能会产生解决错误问题的代码。请使用[计划模式](/en/permission-modes#analyze-before-you-edit-with-plan-mode)将探索与执行分离开来。
+让 Claude 直接开始编码可能会产生解决错误问题的代码。请使用[计划模式](/zh/permission-modes#analyze-before-you-edit-with-plan-mode)将探索与执行分离开来。
 
 推荐的工作流程包含四个阶段：
 探索 → 计划 → 执行 → 验证
@@ -133,7 +133,7 @@ Claude 可以推断意图，但它无法读取你的心思。请引用具体文�
 
 ## 配置您的环境
 
-一些简单的设置步骤可以显著提升 Claude Code 在您所有会话中的效能。要全面了解扩展功能及其适用场景，请参阅 [扩展 Claude Code](/en/features-overview)。
+一些简单的设置步骤可以显著提升 Claude Code 在您所有会话中的效能。要全面了解扩展功能及其适用场景，请参阅 [扩展 Claude Code](/zh/features-overview)。
 
 ### 编写高效的 CLAUDE.md
 
@@ -153,7 +153,7 @@ CLAUDE.md 文件没有必需的格式，但应保持简洁且易于阅读。例�
 - Be sure to typecheck when you're done making a series of code changes
 - Prefer running single tests, and not the whole test suite, for performance
 ```
-CLAUDE.md 在每次会话时都会加载，因此只应包含具有普适性的内容。对于仅在特定情境下适用的领域知识或工作流，请使用[技能](/en/skills)。Claude 会按需加载它们，而不会让每次对话都变得臃肿。
+CLAUDE.md 在每次会话时都会加载，因此只应包含具有普适性的内容。对于仅在特定情境下适用的领域知识或工作流，请使用[技能](/zh/skills)。Claude 会按需加载它们，而不会让每次对话都变得臃肿。
 
 保持简洁。对于每一行，请思考：*“删除它会导致 Claude 犯错吗？”* 如果不会，就删除它。臃肿的 CLAUDE.md 文件会让 Claude 忽略你真正的指令！
 
@@ -189,7 +189,7 @@ See @README.md for project overview and @package.json for available npm commands
 
 ### 配置权限
 
-  使用[自动模式](/en/permission-modes#eliminate-prompts-with-auto-mode)让分类器处理审批，使用 `/permissions` 允许列表指定命令，或使用 `/sandbox` 实现操作系统级隔离。每种方式都能在保持您控制权的同时减少中断。
+  使用[自动模式](/zh/permission-modes#eliminate-prompts-with-auto-mode)让分类器处理审批，使用 `/permissions` 允许列表指定命令，或使用 `/sandbox` 实现操作系统级隔离。每种方式都能在保持您控制权的同时减少中断。
 
 默认情况下，Claude Code 会对可能修改您系统的操作请求权限：文件写入、Bash 命令、MCP 工具等。这很安全但很繁琐。到了第十次确认时，您就不再真正审阅了，只是机械地点确认。有三种方法可以减少这些中断：
 
@@ -197,7 +197,7 @@ See @README.md for project overview and @package.json for available npm commands
 * **权限允许列表**：允许您已知安全的特定工具，例如 `npm run lint` 或 `git commit`
 * **沙箱**：启用操作系统级别的隔离，限制文件系统和网络访问，让 Claude 可以在定义好的边界内更自由地工作
 
-阅读更多关于[权限模式](/en/permission-modes)、[权限规则](/en/permissions)和[沙箱](/en/sandboxing)的信息。
+阅读更多关于[权限模式](/zh/permission-modes)、[权限规则](/zh/permissions)和[沙箱](/zh/sandboxing)的信息。
 
 ### 使用 CLI 工具
 
@@ -211,13 +211,13 @@ Claude也善于学习它尚不熟悉的CLI工具。可尝试类似提示词：`�
 
   运行 `claude mcp add` 来连接 Notion、Figma 或数据库等外部工具。
 
-通过 [MCP 服务器](/en/mcp)，你可以让 Claude 根据问题跟踪器实现功能、查询数据库、分析监控数据、集成 Figma 设计以及自动化工作流。
+通过 [MCP 服务器](/zh/mcp)，你可以让 Claude 根据问题跟踪器实现功能、查询数据库、分析监控数据、集成 Figma 设计以及自动化工作流。
 
 ### 设置钩子
 
   钩子用于执行必须无条件执行的操作。
 
-[钩子](/en/hooks-guide) 可在 Claude 工作流程的特定节点自动运行脚本。与作为建议性指令的 CLAUDE.md 不同，钩子是确定性的，能够确保操作必定执行。
+[钩子](/zh/hooks-guide) 可在 Claude 工作流程的特定节点自动运行脚本。与作为建议性指令的 CLAUDE.md 不同，钩子是确定性的，能够确保操作必定执行。
 
 Claude 可以为您编写钩子。尝试使用如下提示词：*"编写一个钩子，在每次编辑文件后运行 eslint"* 或 *"编写一个阻止写入迁移文件夹的钩子"*。您也可以直接编辑 `.claude/settings.json` 文件手动配置钩子，或运行 `/hooks` 命令查看已配置的钩子。
 
@@ -225,7 +225,7 @@ Claude 可以为您编写钩子。尝试使用如下提示词：*"编写一个�
 
   在 `.claude/skills/` 中创建 `SKILL.md` 文件，为 Claude 提供领域知识和可重用工作流程。
 
-[技能](/en/skills) 通过添加您项目、团队或领域的特定信息来扩展 Claude 的知识。当相关内容出现时，Claude 会自动应用它们，或者您也可以通过 `/skill-name` 直接调用它们。
+[技能](/zh/skills) 通过添加您项目、团队或领域的特定信息来扩展 Claude 的知识。当相关内容出现时，Claude 会自动应用它们，或者您也可以通过 `/skill-name` 直接调用它们。
 
 要创建技能，请将包含 `SKILL.md` 的目录添加到 `.claude/skills/`：
 ```markdown .claude/skills/api-conventions/SKILL.md
@@ -263,7 +263,7 @@ Analyze and fix the GitHub issue: $ARGUMENTS.
 
   在 `.claude/agents/` 目录下定义专用助手，供 Claude 委托处理隔离任务。
 
-[子代理](/en/sub-agents)运行在独立上下文中，拥有自己允许的工具集。它们适用于需要读取大量文件或专注处理特定任务的场景，且不会污染主对话。
+[子代理](/zh/sub-agents)运行在独立上下文中，拥有自己允许的工具集。它们适用于需要读取大量文件或专注处理特定任务的场景，且不会污染主对话。
 ```markdown .claude/agents/security-reviewer.md
 ---
 name: security-reviewer
@@ -285,9 +285,9 @@ Provide specific line references and suggested fixes.
 
   运行 `/plugin` 以浏览市场。插件可以添加技能、工具和集成，无需配置。
 
-[插件](/en/plugins)将技能、钩子、子代理和 MCP 服务器打包成单一可安装单元，由社区和 Anthropic 提供。若您使用类型化语言，请安装[代码智能插件](/en/discover-plugins#code-intelligence)，以便为 Claude 提供精确的符号导航和编辑后自动错误检测功能。
+[插件](/zh/plugins)将技能、钩子、子代理和 MCP 服务器打包成单一可安装单元，由社区和 Anthropic 提供。若您使用类型化语言，请安装[代码智能插件](/zh/discover-plugins#code-intelligence)，以便为 Claude 提供精确的符号导航和编辑后自动错误检测功能。
 
-关于如何在技能、子代理、钩子和 MCP 之间进行选择的指导，请参阅[扩展 Claude Code](/en/features-overview#match-features-to-your-goal)。
+关于如何在技能、子代理、钩子和 MCP 之间进行选择的指导，请参阅[扩展 Claude Code](/zh/features-overview#match-features-to-your-goal)。
 
 ***
 
@@ -355,9 +355,9 @@ Claude Code 会在接近上下文限制时自动压缩对话历史，在释放�
 *   在不同任务之间频繁使用 `/clear` 命令来完全重置上下文窗口。
 *   当自动压缩触发时，Claude 会总结最重要的内容，包括代码模式、文件状态和关键决策。
 *   若要获得更多控制权，可以运行 `/compact <指令>`，例如 `/compact 专注于 API 更改`。
-*   要仅压缩对话的一部分，请使用 `Esc + Esc` 或 `/rewind`，选择一个消息检查点，然后选择 **从此处总结** 或 **总结至此处**。前者会压缩从该点之后的消息，同时保持较早的上下文不变；后者会压缩较早的消息，同时完整保留最近的消息。请参阅 [恢复与总结](/en/checkpointing#restore-vs-summarize)。
+*   要仅压缩对话的一部分，请使用 `Esc + Esc` 或 `/rewind`，选择一个消息检查点，然后选择 **从此处总结** 或 **总结至此处**。前者会压缩从该点之后的消息，同时保持较早的上下文不变；后者会压缩较早的消息，同时完整保留最近的消息。请参阅 [恢复与总结](/zh/checkpointing#restore-vs-summarize)。
 *   在 CLAUDE.md 中自定义压缩行为，添加类似 `"压缩时，始终保留完整的修改文件列表和任何测试命令"` 的指令，以确保关键上下文在总结后得以保留。
-*   对于不需要保留在上下文中的快速问题，可以使用 [`/btw`](/en/interactive-mode#side-questions-with-%2Fbtw)。答案会显示在可关闭的覆盖层中，并且永远不会进入对话历史记录，因此您可以在不增长上下文的情况下查看细节。
+*   对于不需要保留在上下文中的快速问题，可以使用 [`/btw`](/zh/interactive-mode#side-questions-with-%2Fbtw)。答案会显示在可关闭的覆盖层中，并且永远不会进入对话历史记录，因此您可以在不增长上下文的情况下查看细节。
 
 ### 使用子代理进行调查
 
@@ -378,7 +378,7 @@ use a subagent to review this code for edge cases
 
   您发送的每个提示词都会创建一个检查点。您可以将对话、代码或两者恢复到任意历史检查点。
 
-Claude 会在每次更改前自动对文件进行快照，以便通过检查点恢复。双击 `Escape` 或运行 `/rewind` 可以打开回溯菜单。您可以选择仅恢复对话、仅恢复代码、两者都恢复，或者从选定消息开始总结。详见[检查点](/en/checkpointing)。
+Claude 会在每次更改前自动对文件进行快照，以便通过检查点恢复。双击 `Escape` 或运行 `/rewind` 可以打开回溯菜单。您可以选择仅恢复对话、仅恢复代码、两者都恢复，或者从选定消息开始总结。详见[检查点](/zh/checkpointing)。
 
 与其仔细规划每一步，您可以让 Claude 尝试一些有风险的操作。如果行不通，回溯并尝试不同的方法。检查点在会话之间持久保存，因此即使关闭终端，您仍然可以稍后进行回溯。
 
@@ -388,7 +388,7 @@ Claude 会在每次更改前自动对文件进行快照，以便通过检查点�
 
   使用`/rename`命令为会话命名，并像对待分支一样管理它们：每个工作流拥有独立的持久化上下文。
 
-Claude Code 将对话保存在本地，因此当任务跨越多次会话时，您无需重新解释上下文。运行 `claude --continue` 可以恢复最近的会话，或者运行 `claude --resume` 从列表中选择。为会话起一些描述性的名称，例如 `oauth-migration`，以便日后查找。有关完整的恢复、分支和命名控制功能，请参阅[管理会话](/en/sessions)。
+Claude Code 将对话保存在本地，因此当任务跨越多次会话时，您无需重新解释上下文。运行 `claude --continue` 可以恢复最近的会话，或者运行 `claude --resume` 从列表中选择。为会话起一些描述性的名称，例如 `oauth-migration`，以便日后查找。有关完整的恢复、分支和命名控制功能，请参阅[管理会话](/zh/sessions)。
 
 ***
 
@@ -402,7 +402,7 @@ Claude Code 将对话保存在本地，因此当任务跨越多次会话时，�
 
   在 CI、预提交钩子或脚本中使用 `claude -p "提示词"`。添加 `--output-format stream-json --verbose` 以获得流式 JSON 输出。
 
-通过 `claude -p "your prompt"`，你可以以非交互方式运行 Claude，无需会话。[非交互式模式](/en/headless)是你将 Claude 集成到 CI 流水线、预提交钩子或任何自动化工作流的方式。输出格式允许你以编程方式解析结果：纯文本、JSON 或流式 JSON。
+通过 `claude -p "your prompt"`，你可以以非交互方式运行 Claude，无需会话。[非交互式模式](/zh/headless)是你将 Claude 集成到 CI 流水线、预提交钩子或任何自动化工作流的方式。输出格式允许你以编程方式解析结果：纯文本、JSON 或流式 JSON。
 ```bash
 # One-off queries
 claude -p "Explain what this project does"
@@ -419,10 +419,10 @@ claude -p "Analyze this log file" --output-format stream-json --verbose
 
 选择适合你期望协调程度的并行方案：
 
-* [工作树](/en/worktrees)：在隔离的 git 检出中运行独立的 CLI 会话，避免编辑冲突
-* [桌面应用](/en/desktop#work-in-parallel-with-sessions)：可视化管理多个本地会话，每个会话在独立的工作树中运行
-* [网页版 Claude Code](/en/claude-code-on-the-web)：在 Anthropic 管理的云基础设施隔离虚拟机中运行会话
-* [代理团队](/en/agent-teams)：通过共享任务、消息传递和团队负责人自动协调多个会话
+* [工作树](/zh/worktrees)：在隔离的 git 检出中运行独立的 CLI 会话，避免编辑冲突
+* [桌面应用](/zh/desktop#work-in-parallel-with-sessions)：可视化管理多个本地会话，每个会话在独立的工作树中运行
+* [网页版 Claude Code](/zh/claude-code-on-the-web)：在 Anthropic 管理的云基础设施隔离虚拟机中运行会话
+* [代理团队](/zh/agent-teams)：通过共享任务、消息传递和团队负责人自动协调多个会话
 
 除了工作并行化，多个会话还能支持质量优先的工作流程。全新上下文有助于代码审查，因为 Claude 不会偏向自己刚编写的代码。
 
@@ -467,25 +467,25 @@ claude -p "<your prompt>" --output-format json | your_command
 
 ### 以自动模式运行
 
-若需不间断执行且后台自动进行安全检查，请使用[自动模式](/en/permission-modes#eliminate-prompts-with-auto-mode)。分类器模型会在命令执行前进行审查，阻止权限范围扩大、未知基础设施操作及恶意内容驱动行为，同时允许常规工作无需提示即可继续。
+若需不间断执行且后台自动进行安全检查，请使用[自动模式](/zh/permission-modes#eliminate-prompts-with-auto-mode)。分类器模型会在命令执行前进行审查，阻止权限范围扩大、未知基础设施操作及恶意内容驱动行为，同时允许常规工作无需提示即可继续。
 ```bash
 claude --permission-mode auto -p "fix all lint errors"
 ```
-对于使用 `-p` 标志的非交互式运行，如果分类器反复阻止操作，自动模式会中止，因为无法回退到用户。关于阈值，请参阅[自动模式回退条件](/en/permission-modes#when-auto-mode-falls-back)。
+对于使用 `-p` 标志的非交互式运行，如果分类器反复阻止操作，自动模式会中止，因为无法回退到用户。关于阈值，请参阅[自动模式回退条件](/zh/permission-modes#when-auto-mode-falls-back)。
 
 ### 添加对抗性审查步骤
 
   在将任务视为完成之前，请让子代理在全新上下文中审查差异并报告遗漏。
 
-Claude 在无人值守下工作的时间越长，在您将工作视为完成之前进行独立检查就越重要。在全新[子代理](/en/sub-agents)上下文中运行的审查程序只能看到差异和您提供的标准，而不会看到产生该变更的推理过程，因此它会基于自身标准来评估结果。
+Claude 在无人值守下工作的时间越长，在您将工作视为完成之前进行独立检查就越重要。在全新[子代理](/zh/sub-agents)上下文中运行的审查程序只能看到差异和您提供的标准，而不会看到产生该变更的推理过程，因此它会基于自身标准来评估结果。
 
-要进行正确性检查，可以运行捆绑的 [`/code-review` 技能](/en/commands)，它会在一个全新的子代理中审查当前的差异以查找缺陷，并将发现返回给会话。如果您想根据您的计划检查差异，请自行编写审查提示词。具体说明要检查的工作、对照的计划，以及什么样的内容算作发现。
+要进行正确性检查，可以运行捆绑的 [`/code-review` 技能](/zh/commands)，它会在一个全新的子代理中审查当前的差异以查找缺陷，并将发现返回给会话。如果您想根据您的计划检查差异，请自行编写审查提示词。具体说明要检查的工作、对照的计划，以及什么样的内容算作发现。
 ```text
 Use a subagent to review the rate limiter diff against PLAN.md. Check that
 every requirement is implemented, the listed edge cases have tests, and
 nothing outside the task's scope changed. Report gaps, not style preferences.
 ```
-由于审查器作为子代理运行，实施会话会直接接收到差距并能进行修复和重新审查，无需你在窗口间复制发现。对于更长的自主运行，[代理团队](/en/agent-teams)可以跨多项任务保持此循环进行，同时你可以抽查记录的发现。
+由于审查器作为子代理运行，实施会话会直接接收到差距并能进行修复和重新审查，无需你在窗口间复制发现。对于更长的自主运行，[代理团队](/zh/agent-teams)可以跨多项任务保持此循环进行，同时你可以抽查记录的发现。
 
   一位被要求寻找缺陷的审查者通常会报告一些缺陷，即使作品质量尚可，因为这是被委派的任务。追逐每个发现会导致过度工程化：额外的抽象层、防御性代码，以及针对不可能发生情况的测试。请审查者仅标记影响正确性或既定要求的缺陷，并将其余视为可选改进。
 
@@ -520,7 +520,7 @@ nothing outside the task's scope changed. Report gaps, not style preferences.
 
 ## 相关资源
 
-* [Claude Code 工作原理](/en/how-claude-code-works)：智能体循环、工具和上下文管理
-* [扩展 Claude Code](/en/features-overview)：技能、钩子、MCP、子代理和插件
-* [常见工作流程](/en/common-workflows)：调试、测试、PR 等的逐步指南
-* [CLAUDE.md](/en/memory)：存储项目规范和持久上下文
+* [Claude Code 工作原理](/zh/how-claude-code-works)：智能体循环、工具和上下文管理
+* [扩展 Claude Code](/zh/features-overview)：技能、钩子、MCP、子代理和插件
+* [常见工作流程](/zh/common-workflows)：调试、测试、PR 等的逐步指南
+* [CLAUDE.md](/zh/memory)：存储项目规范和持久上下文

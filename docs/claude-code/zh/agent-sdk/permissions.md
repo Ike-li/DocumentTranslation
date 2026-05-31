@@ -6,24 +6,24 @@
 
 > 通过权限模式、钩子和声明式允许/拒绝规则，控制您的智能体如何使用工具。
 
-Claude Agent SDK 提供权限控制功能，用于管理 Claude 使用工具的方式。使用权限模式和规则来定义哪些操作是自动允许的，并使用 [`canUseTool` 回调](/en/agent-sdk/user-input) 来处理运行时的其他所有情况。
+Claude Agent SDK 提供权限控制功能，用于管理 Claude 使用工具的方式。使用权限模式和规则来定义哪些操作是自动允许的，并使用 [`canUseTool` 回调](/zh/agent-sdk/user-input) 来处理运行时的其他所有情况。
 
-  本页面涵盖权限模式与规则。如需构建交互式审批流程（运行时用户批准或拒绝工具请求），请参阅[处理审批与用户输入](/en/agent-sdk/user-input)。
+  本页面涵盖权限模式与规则。如需构建交互式审批流程（运行时用户批准或拒绝工具请求），请参阅[处理审批与用户输入](/zh/agent-sdk/user-input)。
 
 ## 权限如何评估
 
 当 Claude 请求使用工具时，SDK 会按以下顺序检查权限：
 
 
-    首先运行[钩子](/en/agent-sdk/hooks)。钩子可以直接拒绝调用，也可以将调用传递给后续规则。返回 `allow` 的钩子并不会跳过下方的拒绝和询问规则；无论钩子结果如何，这些规则都会被评估。
+    首先运行[钩子](/zh/agent-sdk/hooks)。钩子可以直接拒绝调用，也可以将调用传递给后续规则。返回 `allow` 的钩子并不会跳过下方的拒绝和询问规则；无论钩子结果如何，这些规则都会被评估。
 
 
 
-    检查 `deny` 规则（来自 `disallowed_tools` 和 [settings.json](/en/settings#permission-settings)）。如果匹配到 deny 规则，即使处于 `bypassPermissions` 模式，该工具也会被阻止。像 `Bash` 这样的裸名称 deny 规则会在此评估开始之前就将工具从 Claude 的上下文中移除，因此在此步骤中只会检查带作用域的规则，如 `Bash(rm *)`。
+    检查 `deny` 规则（来自 `disallowed_tools` 和 [settings.json](/zh/settings#permission-settings)）。如果匹配到 deny 规则，即使处于 `bypassPermissions` 模式，该工具也会被阻止。像 `Bash` 这样的裸名称 deny 规则会在此评估开始之前就将工具从 Claude 的上下文中移除，因此在此步骤中只会检查带作用域的规则，如 `Bash(rm *)`。
 
 
 
-    应用当前活动的[权限模式](#permission-modes)。`bypassPermissions` 会批准所有到达此步骤的操作。`acceptEdits` 会批准文件操作。其他模式则会放行。
+    应用当前活动的[权限模式](#权限模式)。`bypassPermissions` 会批准所有到达此步骤的操作。`acceptEdits` 会批准文件操作。其他模式则会放行。
 
 
 
@@ -31,7 +31,7 @@ Claude Agent SDK 提供权限控制功能，用于管理 Claude 使用工具的�
 
 
 
-    若以上方法均未解决，请调用你的 [`canUseTool回调`](/en/agent-sdk/user-input) 以做出决定。在 `dontAsk` 模式下，此步骤将被跳过且该工具会被拒绝。
+    若以上方法均未解决，请调用你的 [`canUseTool回调`](/zh/agent-sdk/user-input) 以做出决定。在 `dontAsk` 模式下，此步骤将被跳过且该工具会被拒绝。
 
 
 <img src="https://mintcdn.com/claude-code/FEspvVUyRuaWjm0s/images/agent-sdk/permissions-flow.svg?fit=max&auto=format&n=FEspvVUyRuaWjm0s&q=85&s=a1759b0cf4541281a9fdd8f5348228e8" alt="权限评估流程图" width="920" height="260" data-path="images/agent-sdk/permissions-flow.svg" />
@@ -76,7 +76,7 @@ SDK 支持以下权限模式：
 | :----------------------- | :--------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------- |
 | `default`                | 标准权限行为 | 无自动批准；未匹配的工具会触发你的 `canUseTool` 回调                                                                         |
 | `dontAsk`                | 拒绝而不是提示    | 任何未被 `allowed_tools` 或规则预先批准的操作都将被拒绝；`canUseTool` 永远不会被调用                                                 |
-| `acceptEdits`            | 自动接受文件编辑       | 文件编辑和[文件系统操作](#accept-edits-mode-acceptedits)（`mkdir`、`rm`、`mv` 等）将被自动批准                 |
+| `acceptEdits`            | 自动接受文件编辑       | 文件编辑和[文件系统操作](#接受编辑模式-acceptedits)（`mkdir`、`rm`、`mv` 等）将被自动批准                 |
 | `bypassPermissions`      | 绕过所有权限检查 | 所有工具无需权限提示即可运行（请谨慎使用）                                                                                   |
 | `plan`                   | 规划模式                | 只读工具运行；Claude 进行分析和规划，但不编辑你的源文件                                                              |
 | `auto` (仅限 TypeScript) | 模型分类的批准   | 模型分类器批准或拒绝每个工具调用。有关可用性，请参阅[自动模式](/zh/permission-modes#eliminate-prompts-with-auto-mode) |
@@ -216,7 +216,7 @@ SDK 支持以下权限模式：
 
 #### 计划模式 (`plan`)
 
-将Claude限制为只读工具。Claude可以读取文件并运行只读的shell命令来探索代码库，但不会编辑您的源文件。Claude可能会在最终确定计划前使用 `AskUserQuestion` 来澄清需求。请参阅[处理审批和用户输入](/en/agent-sdk/user-input#handle-clarifying-questions)了解如何处理这些提示。
+将Claude限制为只读工具。Claude可以读取文件并运行只读的shell命令来探索代码库，但不会编辑您的源文件。Claude可能会在最终确定计划前使用 `AskUserQuestion` 来澄清需求。请参阅[处理审批和用户输入](/zh/agent-sdk/user-input#handle-clarifying-questions)了解如何处理这些提示。
 
 **适用场景：** 当您希望Claude提出变更建议而不执行时，例如在代码审查期间，或者在需要批准变更后才能执行时。
 
@@ -224,6 +224,6 @@ SDK 支持以下权限模式：
 
 关于权限评估流程中的其他步骤：
 
-* [处理审批和用户输入](/en/agent-sdk/user-input)：交互式审批提示和澄清性问题
-* [钩子指南](/en/agent-sdk/hooks)：在代理生命周期的关键点运行自定义代码
-* [权限规则](/en/settings#permission-settings)：在 `settings.json` 中声明允许/拒绝规则
+* [处理审批和用户输入](/zh/agent-sdk/user-input)：交互式审批提示和澄清性问题
+* [钩子指南](/zh/agent-sdk/hooks)：在代理生命周期的关键点运行自定义代码
+* [权限规则](/zh/settings#permission-settings)：在 `settings.json` 中声明允许/拒绝规则

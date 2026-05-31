@@ -356,13 +356,13 @@ interface SDKSession {
 ```
 ## 功能可用性
 
-V2 会话 API 并非支持所有 V1 功能。以下功能仍需使用 [V1 SDK](/en/agent-sdk/typescript)：
+V2 会话 API 并非支持所有 V1 功能。以下功能仍需使用 [V1 SDK](/zh/agent-sdk/typescript)：
 
 * 会话分叉（`forkSession` 选项）
 * 部分高级流式输入模式
 
 ## 另请参阅
 
-* [TypeScript SDK 参考 (V1)](/en/agent-sdk/typescript) - 完整的 V1 SDK 文档
-* [SDK 概述](/en/agent-sdk/overview) - 通用 SDK 概念
+* [TypeScript SDK 参考 (V1)](/zh/agent-sdk/typescript) - 完整的 V1 SDK 文档
+* [SDK 概述](/zh/agent-sdk/overview) - 通用 SDK 概念
 * [GitHub 上的 V2 示例](https://github.com/anthropics/claude-agent-sdk-demos/tree/main/hello-world-v2) - 可运行的代码示例

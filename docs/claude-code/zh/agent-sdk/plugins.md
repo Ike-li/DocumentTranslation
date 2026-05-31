@@ -19,11 +19,11 @@
 
   `commands/` 目录是一种旧格式。新插件请使用 `skills/`。Claude Code 会继续支持这两种格式以确保向后兼容性。
 
-有关插件结构及如何创建插件的完整信息，请参阅[插件](/en/plugins)。
+有关插件结构及如何创建插件的完整信息，请参阅[插件](/zh/plugins)。
 
 ## 加载插件
 
-通过在选项配置中提供本地文件系统路径来加载插件。`type` 字段必须设为 `"local"`，这是 SDK 接受的唯一值。若要使用通过[市场](/en/plugin-marketplaces)或远程仓库分发的插件，请先下载并提供本地目录路径。SDK 支持从不同位置加载多个插件。
+通过在选项配置中提供本地文件系统路径来加载插件。`type` 字段必须设为 `"local"`，这是 SDK 接受的唯一值。若要使用通过[市场](/zh/plugin-marketplaces)或远程仓库分发的插件，请先下载并提供本地目录路径。SDK 支持从不同位置加载多个插件。
 
   ```typescript TypeScript
   import { query } from "@anthropic-ai/claude-agent-sdk";
@@ -277,8 +277,8 @@ my-plugin/
 ```
 如需获取创建插件的详细信息，请参阅：
 
-* [插件](/en/plugins) - 完整的插件开发指南
-* [插件参考](/en/plugins-reference) - 技术规范与数据结构
+* [插件](/zh/plugins) - 完整的插件开发指南
+* [插件参考](/zh/plugins-reference) - 技术规范与数据结构
 
 ## 常见用例
 
@@ -331,8 +331,8 @@ plugins: [
 
 ## 另请参阅
 
-* [插件](/en/plugins) - 完整的插件开发指南
-* [插件参考](/en/plugins-reference) - 技术规范
-* [命令](/en/agent-sdk/slash-commands) - 在 SDK 中使用命令
-* [子代理](/en/agent-sdk/subagents) - 与专用代理协作
-* [技能](/en/agent-sdk/skills) - 使用 Agent 技能
+* [插件](/zh/plugins) - 完整的插件开发指南
+* [插件参考](/zh/plugins-reference) - 技术规范
+* [命令](/zh/agent-sdk/slash-commands) - 在 SDK 中使用命令
+* [子代理](/zh/agent-sdk/subagents) - 与专用代理协作
+* [技能](/zh/agent-sdk/skills) - 使用 Agent 技能

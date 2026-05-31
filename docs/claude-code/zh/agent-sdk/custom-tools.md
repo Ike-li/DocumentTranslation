@@ -14,33 +14,33 @@
 
 | 如果您想……                                      | 请执行此操作                                                                                                                                                                                                       |
 | :--------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 定义工具                                       | 使用 [`@tool`](/en/agent-sdk/python#tool)（Python）或 [`tool()`](/en/agent-sdk/typescript#tool)（TypeScript），并提供名称、描述、模式和处理器。参见[创建自定义工具](#create-a-custom-tool)。                           |
-| 向 Claude 注册工具                              | 用 `create_sdk_mcp_server` / `createSdkMcpServer` 包装，并在 `query()` 中传递给 `mcpServers`。参见[调用自定义工具](#call-a-custom-tool)。                                                                          |
-| 预先批准工具                                   | 将其添加到您的允许工具列表中。参见[配置允许的工具](#configure-allowed-tools)。                                                                                                                                      |
-| 从 Claude 的上下文中移除内置工具                 | 传递一个仅列出您想要的内置工具的 `tools` 数组。参见[配置允许的工具](#configure-allowed-tools)。                                                                                                                     |
-| 让 Claude 并行调用工具                          | 对没有副作用的工具设置 `readOnlyHint: true`。参见[添加工具注解](#add-tool-annotations)。                                                                                                                            |
-| 处理错误而不停止循环                             | 返回 `isError: true` 而不是抛出异常。参见[处理错误](#handle-errors)。                                                                                                                                             |
-| 返回图像或文件                                  | 在内容数组中使用 `image` 或 `resource` 块。参见[返回图像和资源](#return-images-and-resources)。                                                                                                                    |
-| 返回机器可读的 JSON 结果                        | 在结果上设置 `structuredContent`。参见[返回结构化数据](#return-structured-data)。                                                                                                                                  |
-| 扩展到大量工具                                  | 使用[工具搜索](/en/agent-sdk/tool-search)按需加载工具。                                                                                                                                                          |
+| 定义工具                                       | 使用 [`@tool`](/zh/agent-sdk/python#tool)（Python）或 [`tool()`](/zh/agent-sdk/typescript#tool)（TypeScript），并提供名称、描述、模式和处理器。参见[创建自定义工具](#创建自定义工具)。                           |
+| 向 Claude 注册工具                              | 用 `create_sdk_mcp_server` / `createSdkMcpServer` 包装，并在 `query()` 中传递给 `mcpServers`。参见[调用自定义工具](#调用自定义工具)。                                                                          |
+| 预先批准工具                                   | 将其添加到您的允许工具列表中。参见[配置允许的工具](#配置允许的工具)。                                                                                                                                      |
+| 从 Claude 的上下文中移除内置工具                 | 传递一个仅列出您想要的内置工具的 `tools` 数组。参见[配置允许的工具](#配置允许的工具)。                                                                                                                     |
+| 让 Claude 并行调用工具                          | 对没有副作用的工具设置 `readOnlyHint: true`。参见[添加工具注解](#添加工具标注)。                                                                                                                            |
+| 处理错误而不停止循环                             | 返回 `isError: true` 而不是抛出异常。参见[处理错误](#处理错误)。                                                                                                                                             |
+| 返回图像或文件                                  | 在内容数组中使用 `image` 或 `resource` 块。参见[返回图像和资源](#返回图像和资源)。                                                                                                                    |
+| 返回机器可读的 JSON 结果                        | 在结果上设置 `structuredContent`。参见[返回结构化数据](#返回结构化数据)。                                                                                                                                  |
+| 扩展到大量工具                                  | 使用[工具搜索](/zh/agent-sdk/tool-search)按需加载工具。                                                                                                                                                          |
 
 ## 创建自定义工具
 
-一个工具由四个部分定义，作为参数传递给 TypeScript 中的 [`tool()`](/en/agent-sdk/typescript#tool) 辅助函数或 Python 中的 [`@tool`](/en/agent-sdk/python#tool) 装饰器：
+一个工具由四个部分定义，作为参数传递给 TypeScript 中的 [`tool()`](/zh/agent-sdk/typescript#tool) 辅助函数或 Python 中的 [`@tool`](/zh/agent-sdk/python#tool) 装饰器：
 
 *   **名称：** Claude 用来调用该工具的唯一标识符。
 *   **描述：** 工具的功能。Claude 阅读此描述以决定何时调用它。
 *   **输入模式：** Claude 必须提供的参数。在 TypeScript 中，这总是一个 [Zod 模式](https://zod.dev/)，处理器的 `args` 类型会自动从中推断。在 Python 中，这是一个将名称映射到类型的字典，例如 `{"latitude": float}`，SDK 会为您将其转换为 JSON Schema。当您需要枚举、范围、可选字段或嵌套对象时，Python 装饰器也直接接受完整的 [JSON Schema](https://json-schema.org/understanding-json-schema/about) 字典。
 *   **处理器：** 当 Claude 调用工具时运行的异步函数。它接收经过验证的参数，并且必须返回一个包含以下内容的对象：
-    *   `content`（必需）：一个结果块数组，每个块的 `type` 为 `"text"`、`"image"` 或 `"resource"`。有关非文本块，请参见[返回图像和资源](#return-images-and-resources)。
-    *   `structuredContent`（可选）：一个 JSON 对象，将结果作为机器可读数据保存，与 `content` 一起返回。参见[返回结构化数据](#return-structured-data)。
-    *   `isError`（可选）：设置为 `true` 以发出工具失败信号，以便 Claude 可以对此做出反应。参见[处理错误](#handle-errors)。
+    *   `content`（必需）：一个结果块数组，每个块的 `type` 为 `"text"`、`"image"` 或 `"resource"`。有关非文本块，请参见[返回图像和资源](#返回图像和资源)。
+    *   `structuredContent`（可选）：一个 JSON 对象，将结果作为机器可读数据保存，与 `content` 一起返回。参见[返回结构化数据](#返回结构化数据)。
+    *   `isError`（可选）：设置为 `true` 以发出工具失败信号，以便 Claude 可以对此做出反应。参见[处理错误](#处理错误)。
 
-定义工具后，使用 [`createSdkMcpServer`](/en/agent-sdk/typescript#createsdkmcpserver)（TypeScript）或 [`create_sdk_mcp_server`](/en/agent-sdk/python#create_sdk_mcp_server)（Python）将其包装在一个服务器中。该服务器在您的应用程序内部以进程内方式运行，而不是作为单独的进程。
+定义工具后，使用 [`createSdkMcpServer`](/zh/agent-sdk/typescript#createsdkmcpserver)（TypeScript）或 [`create_sdk_mcp_server`](/zh/agent-sdk/python#create_sdk_mcp_server)（Python）将其包装在一个服务器中。该服务器在您的应用程序内部以进程内方式运行，而不是作为单独的进程。
 
 ### 天气工具示例
 
-此示例定义了一个 `get_temperature` 工具并将其包装在 MCP 服务器中。它仅设置工具；要将其传递给 `query` 并运行它，请参阅下面的[调用自定义工具](#call-a-custom-tool)。
+此示例定义了一个 `get_temperature` 工具并将其包装在 MCP 服务器中。它仅设置工具；要将其传递给 `query` 并运行它，请参阅下面的[调用自定义工具](#调用自定义工具)。
 
   ```python Python
   from typing import Any
@@ -120,15 +120,15 @@
   });
   ```
 
-请参阅 [`tool()`](/en/agent-sdk/typescript#tool) 的 TypeScript 参考文档或 [`@tool`](/en/agent-sdk/python#tool) 的 Python 参考文档，以了解完整的参数详情，包括 JSON Schema 输入格式和返回值结构。
+请参阅 [`tool()`](/zh/agent-sdk/typescript#tool) 的 TypeScript 参考文档或 [`@tool`](/zh/agent-sdk/python#tool) 的 Python 参考文档，以了解完整的参数详情，包括 JSON Schema 输入格式和返回值结构。
 
-  要使参数变为可选：在 TypeScript 中，在 Zod 字段中添加 `.default()`。在 Python 中，字典模式将每个键视为必需，因此从模式中省略该参数，在描述字符串中提及它，并在处理器中使用 `args.get()` 读取它。下方的 [`get_precipitation_chance` 工具](#add-more-tools)展示了这两种模式。
+  要使参数变为可选：在 TypeScript 中，在 Zod 字段中添加 `.default()`。在 Python 中，字典模式将每个键视为必需，因此从模式中省略该参数，在描述字符串中提及它，并在处理器中使用 `args.get()` 读取它。下方的 [`get_precipitation_chance` 工具](#添加更多工具)展示了这两种模式。
 
 ### 调用自定义工具
 
 通过 `mcpServers` 选项将您创建的 MCP 服务器传递给 `query`。`mcpServers` 中的键将成为每个工具完全限定名称中的 `{server_name}` 部分：`mcp__{server_name}__{tool_name}`。将该名称列在 `allowedTools` 中，以便工具运行时无需权限提示词。
 
-这些代码片段复用了[上方示例](#weather-tool-example)中的 `weatherServer` 来询问 Claude 特定位置的天气。
+这些代码片段复用了[上方示例](#天气工具示例)中的 `weatherServer` 来询问 Claude 特定位置的天气。
 
   ```python Python
   import asyncio
@@ -174,7 +174,7 @@
 
 一个服务器可以包含其 `tools` 数组中列出的任意数量的工具。当服务器有多个工具时，你可以在 `allowedTools` 中逐个列出每个工具，或使用通配符 `mcp__weather__*` 来覆盖服务器暴露的所有工具。
 
-以下示例向 [天气工具示例](#weather-tool-example) 中的 `weatherServer` 添加了第二个工具 `get_precipitation_chance`，并使用数组中的这两个工具重新构建了它。
+以下示例向 [天气工具示例](#天气工具示例) 中的 `weatherServer` 添加了第二个工具 `get_precipitation_chance`，并使用数组中的这两个工具重新构建了它。
 
   ```python Python
   # Define a second tool for the same server
@@ -255,7 +255,7 @@
   });
   ```
 
-此数组中的每个工具在每次交互中都会消耗上下文窗口空间。如果你定义了数十个工具，请参阅 [工具搜索](/en/agent-sdk/tool-search) 了解如何按需加载它们。
+此数组中的每个工具在每次交互中都会消耗上下文窗口空间。如果你定义了数十个工具，请参阅 [工具搜索](/zh/agent-sdk/tool-search) 了解如何按需加载它们。
 
 ### 添加工具标注
 
@@ -270,7 +270,7 @@
 
 标注是元数据，而非强制约束。标记为 `readOnlyHint: true` 的工具，如果处理器逻辑需要，仍然可以写入磁盘。请确保标注与处理器行为保持一致。
 
-此示例为 [天气工具示例](#weather-tool-example) 中的 `get_temperature` 工具添加了 `readOnlyHint`。
+此示例为 [天气工具示例](#天气工具示例) 中的 `get_temperature` 工具添加了 `readOnlyHint`。
 
   ```python Python
   from claude_agent_sdk import tool, ToolAnnotations
@@ -298,11 +298,11 @@
   );
   ```
 
-参见 [TypeScript](/en/agent-sdk/typescript#toolannotations) 或 [Python](/en/agent-sdk/python#toolannotations) 参考文档中的 `ToolAnnotations`。
+参见 [TypeScript](/zh/agent-sdk/typescript#toolannotations) 或 [Python](/zh/agent-sdk/python#toolannotations) 参考文档中的 `ToolAnnotations`。
 
 ## 控制工具访问
 
-[天气工具示例](#weather-tool-example)注册了一个服务器并在 `allowedTools` 中列出了工具。本节介绍工具名称的构造方式，以及当你拥有多个工具或希望限制内置工具时如何控制访问范围。
+[天气工具示例](#天气工具示例)注册了一个服务器并在 `allowedTools` 中列出了工具。本节介绍工具名称的构造方式，以及当你拥有多个工具或希望限制内置工具时如何控制访问范围。
 
 ### 工具名称格式
 
@@ -319,10 +319,10 @@
 | :------------------------ | :----------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `tools: ["Read", "Grep"]` | 可用性 | 只有列出的内置工具会出现在 Claude 的上下文中。未列出的内置工具将被移除。MCP 工具不受影响。                                                                                                    |
 | `tools: []`               | 可用性 | 所有内置工具将被移除。Claude 只能使用你的 MCP 工具。                                                                                                                                                  |
-| 允许的工具             | 权限   | 列出的工具无需权限提示即可运行。未列出的工具仍然可用；调用将经过[权限流程](/en/agent-sdk/permissions)。                                                               |
+| 允许的工具             | 权限   | 列出的工具无需权限提示即可运行。未列出的工具仍然可用；调用将经过[权限流程](/zh/agent-sdk/permissions)。                                                               |
 | 禁止的工具          | 两者         | 如 `"Bash"` 这样的裸工具名称会将其从 Claude 的上下文中移除，效果与从 `tools` 中省略它相同。如 `"Bash(rm *)"` 这样的带范围规则会保留工具在上下文中，仅禁止匹配的调用。 |
 
-要完全移除某个内置工具，请将其从 `tools` 中省略，或在 `disallowedTools`（Python：`disallowed_tools`）中列出其裸名称；这两种方式都能将该工具移出上下文，因此 Claude 永远不会尝试调用它。带范围的 `disallowedTools` 规则会阻止匹配的调用，但会让工具保持可见，因此 Claude 可能会浪费一次调用机会尝试它。完整的评估顺序请参见[配置权限](/en/agent-sdk/permissions)。
+要完全移除某个内置工具，请将其从 `tools` 中省略，或在 `disallowedTools`（Python：`disallowed_tools`）中列出其裸名称；这两种方式都能将该工具移出上下文，因此 Claude 永远不会尝试调用它。带范围的 `disallowedTools` 规则会阻止匹配的调用，但会让工具保持可见，因此 Claude 可能会浪费一次调用机会尝试它。完整的评估顺序请参见[配置权限](/zh/agent-sdk/permissions)。
 
 ## 处理错误
 
@@ -559,7 +559,7 @@ return {
 ```
 
 
-  Python 的 `@tool` 装饰器仅转发处理器返回字典中的 `content` 和 `is_error`。要从 Python 返回 `structuredContent`，请运行[独立的 MCP 服务器](/en/agent-sdk/mcp)，而非使用进程内的 SDK 服务器。
+  Python 的 `@tool` 装饰器仅转发处理器返回字典中的 `content` 和 `is_error`。要从 Python 返回 `structuredContent`，请运行[独立的 MCP 服务器](/zh/agent-sdk/mcp)，而非使用进程内的 SDK 服务器。
 
 ## 示例：单位转换器
 
@@ -799,13 +799,13 @@ return {
 
 接下来：
 
-* 如果您的服务器扩展到数十个工具，请参阅 [工具搜索](/en/agent-sdk/tool-search) 以将工具加载延迟到 Claude 需要时。
-* 要连接到外部 MCP 服务器（文件系统、GitHub、Slack）而非自行构建，请参阅 [连接 MCP 服务器](/en/agent-sdk/mcp)。
-* 要控制哪些工具自动运行、哪些需要批准，请参阅 [配置权限](/en/agent-sdk/permissions)。
+* 如果您的服务器扩展到数十个工具，请参阅 [工具搜索](/zh/agent-sdk/tool-search) 以将工具加载延迟到 Claude 需要时。
+* 要连接到外部 MCP 服务器（文件系统、GitHub、Slack）而非自行构建，请参阅 [连接 MCP 服务器](/zh/agent-sdk/mcp)。
+* 要控制哪些工具自动运行、哪些需要批准，请参阅 [配置权限](/zh/agent-sdk/permissions)。
 
 ## 相关文档
 
-* [TypeScript SDK 参考](/en/agent-sdk/typescript)
-* [Python SDK 参考](/en/agent-sdk/python)
+* [TypeScript SDK 参考](/zh/agent-sdk/typescript)
+* [Python SDK 参考](/zh/agent-sdk/python)
 * [MCP 文档](https://modelcontextprotocol.io)
-* [SDK 概述](/en/agent-sdk/overview)
+* [SDK 概述](/zh/agent-sdk/overview)

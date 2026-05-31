@@ -13,11 +13,11 @@
 请确保您已具备：
 
 * 一个已打开的终端或命令提示符
-  * 如果您从未使用过终端，请查阅[终端使用指南](/en/终端指南)
+  * 如果您从未使用过终端，请查阅[终端使用指南](/zh/终端指南)
 * 一个可操作的代码项目
-* [Claude订阅](https://claude.com/pricing?utm_source=claude_code\&utm_medium=docs\&utm_content=quickstart_prereq)（Pro、Max、Team或Enterprise版本）、[Claude控制台](https://console.anthropic.com/)账户，或通过[支持的云服务商](/en/third-party-integrations)获得访问权限
+* [Claude订阅](https://claude.com/pricing?utm_source=claude_code\&utm_medium=docs\&utm_content=quickstart_prereq)（Pro、Max、Team或Enterprise版本）、[Claude控制台](https://console.anthropic.com/)账户，或通过[支持的云服务商](/zh/third-party-integrations)获得访问权限
 
-  本指南涵盖终端命令行。Claude Code 也可在[网页版](https://claude.ai/code)、[桌面应用程序](/en/desktop)、[VS Code](/en/vs-code) 和 [JetBrains IDE](/en/jetbrains) 中使用，支持 [Slack](/en/slack) 集成，并可通过 [GitHub Actions](/en/github-actions) 和 [GitLab](/en/gitlab-ci-cd) 集成至 CI/CD 流程。查看[所有可用界面](/en/overview#use-claude-code-everywhere)。
+  本指南涵盖终端命令行。Claude Code 也可在[网页版](https://claude.ai/code)、[桌面应用程序](/zh/desktop)、[VS Code](/zh/vs-code) 和 [JetBrains IDE](/zh/jetbrains) 中使用，支持 [Slack](/zh/slack) 集成，并可通过 [GitHub Actions](/zh/github-actions) 和 [GitLab](/zh/gitlab-ci-cd) 集成至 CI/CD 流程。查看[所有可用界面](/zh/overview#use-claude-code-everywhere)。
 
 ## 步骤 1：安装 Claude Code
 
@@ -67,7 +67,7 @@
 
 
 
-您也可以在Debian、Fedora、RHEL和Alpine系统上通过 [apt, dnf 或 apk](/en/setup#install-with-linux-package-managers) 安装。
+您也可以在Debian、Fedora、RHEL和Alpine系统上通过 [apt, dnf 或 apk](/zh/setup#install-with-linux-package-managers) 安装。
 
 ## 步骤二：登录您的账户
 
@@ -83,7 +83,7 @@ claude
 
 * [Claude Pro、Max、Team 或 Enterprise](https://claude.com/pricing?utm_source=claude_code\&utm_medium=docs\&utm_content=quickstart_login)（推荐）
 * [Claude Console](https://console.anthropic.com/)（使用预付费额度的API访问）。首次登录时，系统会自动在 Console 中创建一个“Claude Code”工作区，用于集中成本跟踪。
-* [Amazon Bedrock、Google Vertex AI 或 Microsoft Foundry](/en/third-party-integrations)（企业级云服务提供商）
+* [Amazon Bedrock、Google Vertex AI 或 Microsoft Foundry](/zh/third-party-integrations)（企业级云服务提供商）
 
 登录后，您的凭据将被保存，无需再次登录。
 
@@ -96,7 +96,7 @@ claude
 ```
 您将看到Claude Code的欢迎界面，其中包含您的会话信息、最近对话和最新更新。输入 `/help` 查看可用命令，或输入 `/resume` 继续之前的对话。
 
-  登录后（步骤 2），您的凭据会存储在您的系统上。更多信息请参阅[凭据管理](/en/authentication#credential-management)。
+  登录后（步骤 2），您的凭据会存储在您的系统上。更多信息请参阅[凭据管理](/zh/authentication#credential-management)。
 
 ## 第四步：提出你的第一个问题
 
@@ -227,11 +227,11 @@ review my changes and suggest improvements
 | `/help`             | 显示可用命令                                    | `/help`                             |
 | `exit` 或 Ctrl+D    | 退出 Claude Code                                | `exit`                              |
 
-查看[命令行参考](/en/cli-reference)获取完整的命令列表。
+查看[命令行参考](/zh/cli-reference)获取完整的命令列表。
 
 ## 给新手的实用技巧
 
-更多内容，请参见[最佳实践](/en/best-practices)和[常见工作流](/en/common-workflows)。
+更多内容，请参见[最佳实践](/zh/best-practices)和[常见工作流](/zh/common-workflows)。
 
 
     改为："修复登录 bug，即用户输入错误凭据后看到白屏"

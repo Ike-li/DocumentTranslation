@@ -82,7 +82,7 @@ Agent SDK 包含内置工具用于读取文件、运行命令和编辑代码，�
     * **Google Vertex AI**：设置环境变量 `CLAUDE_CODE_USE_VERTEX=1` 并配置 Google Cloud 凭据
     * **Microsoft Azure**：设置环境变量 `CLAUDE_CODE_USE_FOUNDRY=1` 并配置 Azure 凭据
 
-    详情请参阅 [Bedrock](/en/amazon-bedrock)、[Claude Platform on AWS](/en/claude-platform-on-aws)、[Vertex AI](/en/google-vertex-ai) 或 [Azure AI Foundry](/en/microsoft-foundry) 的配置指南。
+    详情请参阅 [Bedrock](/zh/amazon-bedrock)、[Claude Platform on AWS](/zh/claude-platform-on-aws)、[Vertex AI](/zh/google-vertex-ai) 或 [Azure AI Foundry](/zh/microsoft-foundry) 的配置指南。
 
       除非事先获得批准，Anthropic 不允许第三方开发者为其产品提供 claude.ai 登录或速率限制，包括基于 Claude Agent SDK 构建的代理。请使用本文档中描述的 API key 认证方法。
 
@@ -121,7 +121,7 @@ Agent SDK 包含内置工具用于读取文件、运行命令和编辑代码，�
 
 
 
-**准备好开始构建？** 请参阅[快速入门](/en/agent-sdk/quickstart)，创建一个能在几分钟内查找并修复错误的代理。
+**准备好开始构建？** 请参阅[快速入门](/zh/agent-sdk/quickstart)，创建一个能在几分钟内查找并修复错误的代理。
 
 ## 功能
 
@@ -141,7 +141,7 @@ Agent SDK 包含内置工具用于读取文件、运行命令和编辑代码，�
     | **Grep**                                                                    | 使用正则表达式搜索文件内容                                          |
     | **WebSearch**                                                               | 在网络上搜索最新信息                                                |
     | **WebFetch**                                                                | 获取并解析网页内容                                                  |
-    | **[AskUserQuestion](/en/agent-sdk/user-input#handle-clarifying-questions)** | 使用多选项向用户提出澄清性问题                                      |
+    | **[AskUserQuestion](/zh/agent-sdk/user-input#handle-clarifying-questions)** | 使用多选项向用户提出澄清性问题                                      |
 
     此示例创建了一个代理，用于在您的代码库中搜索 TODO 注释：
 
@@ -237,7 +237,7 @@ Agent SDK 包含内置工具用于读取文件、运行命令和编辑代码，�
       }
       ```
 
-    [了解更多关于钩子 →](/en/agent-sdk/hooks)
+    [了解更多关于钩子 →](/zh/agent-sdk/hooks)
 
 
 
@@ -293,7 +293,7 @@ Agent SDK 包含内置工具用于读取文件、运行命令和编辑代码，�
 
     来自子代理上下文内的消息包含一个 `parent_tool_use_id` 字段，让您能够追踪哪些消息属于哪个子代理执行过程。
 
-    [了解更多关于子代理 →](/en/agent-sdk/subagents)
+    [了解更多关于子代理 →](/zh/agent-sdk/subagents)
 
 
 
@@ -337,13 +337,13 @@ Agent SDK 包含内置工具用于读取文件、运行命令和编辑代码，�
       }
       ```
 
-    [了解更多关于MCP →](/en/agent-sdk/mcp)
+    [了解更多关于MCP →](/zh/agent-sdk/mcp)
 
 
 
     精确控制您的代理可以使用哪些工具。允许安全操作，阻止危险操作，或要求对敏感操作进行审批。
 
-      对于交互式审批提示词和 `AskUserQuestion` 工具，请参阅 [处理审批和用户输入](/en/agent-sdk/user-input)。
+      对于交互式审批提示词和 `AskUserQuestion` 工具，请参阅 [处理审批和用户输入](/zh/agent-sdk/user-input)。
 
     此示例创建了一个只读代理，可以分析代码但不能修改。`allowed_tools` 预先批准了 `Read`、`Glob` 和 `Grep`。
 
@@ -379,7 +379,7 @@ Agent SDK 包含内置工具用于读取文件、运行命令和编辑代码，�
       }
       ```
 
-    [了解更多关于权限 →](/en/agent-sdk/permissions)
+    [了解更多关于权限 →](/zh/agent-sdk/permissions)
 
 
 
@@ -439,7 +439,7 @@ Agent SDK 包含内置工具用于读取文件、运行命令和编辑代码，�
       }
       ```
 
-    [了解更多关于会话的内容 →](/en/agent-sdk/sessions)
+    [了解更多关于会话的内容 →](/zh/agent-sdk/sessions)
 
 
 ### Claude Code 功能特性
@@ -448,10 +448,10 @@ Agent SDK 包含内置工具用于读取文件、运行命令和编辑代码，�
 
 | 功能特性                                         | 描述                                                                          | 位置                               |
 | ------------------------------------------------ | ----------------------------------------------------------------------------- | ---------------------------------- |
-| [技能](/en/agent-sdk/skills)                     | Claude 自动使用或您通过 `/name` 调用的专门能力                                | `.claude/skills/*/SKILL.md`        |
-| [斜杠命令](/en/agent-sdk/slash-commands)         | 旧版格式中的自定义命令。新的自定义命令请使用技能                              | `.claude/commands/*.md`            |
-| [记忆](/en/agent-sdk/modifying-system-prompts)   | 项目上下文与指令                                                              | `CLAUDE.md` 或 `.claude/CLAUDE.md` |
-| [插件](/en/agent-sdk/plugins)                    | 通过技能、代理、钩子和 MCP 服务器进行扩展                                     | 通过编程方式使用 `plugins` 选项    |
+| [技能](/zh/agent-sdk/skills)                     | Claude 自动使用或您通过 `/name` 调用的专门能力                                | `.claude/skills/*/SKILL.md`        |
+| [斜杠命令](/zh/agent-sdk/slash-commands)         | 旧版格式中的自定义命令。新的自定义命令请使用技能                              | `.claude/commands/*.md`            |
+| [记忆](/zh/agent-sdk/modifying-system-prompts)   | 项目上下文与指令                                                              | `CLAUDE.md` 或 `.claude/CLAUDE.md` |
+| [插件](/zh/agent-sdk/plugins)                    | 通过技能、代理、钩子和 MCP 服务器进行扩展                                     | 通过编程方式使用 `plugins` 选项    |
 
 ## 对比 Agent SDK 与其他 Claude 工具
 

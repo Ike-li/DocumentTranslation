@@ -6,35 +6,35 @@
 
 > 协调多个 Claude Code 实例作为团队协同工作，支持共享任务、代理间通信和集中化管理。
 
-  Agent 团队是实验性功能，默认处于禁用状态。要启用该功能，请在您的 [settings.json](/en/settings) 或环境变量中添加 `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS`。Agent 团队在会话恢复、任务协调和关闭行为方面存在[已知限制](#limitations)。
+  Agent 团队是实验性功能，默认处于禁用状态。要启用该功能，请在您的 [settings.json](/zh/settings) 或环境变量中添加 `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS`。Agent 团队在会话恢复、任务协调和关闭行为方面存在[已知限制](#限制)。
 
 代理团队让你可以协调多个 Claude Code 实例协同工作。其中一个会话作为团队主管，负责协调工作、分配任务和整合结果。团队成员独立工作，各自拥有独立的上下文窗口，并且可以直接相互沟通。
 
-不同于 [子代理](/en/sub-agents)（它们运行在单一会话中且只能向主代理汇报），你也可以直接与个别团队成员互动，而无需通过主管。
+不同于 [子代理](/zh/sub-agents)（它们运行在单一会话中且只能向主代理汇报），你也可以直接与个别团队成员互动，而无需通过主管。
 
   代理团队需要 Claude Code v2.1.32 或更高版本。使用 `claude --version` 命令检查您的版本。
 
 本页涵盖：
 
-* [何时使用代理团队](#when-to-use-agent-teams)，包括最佳使用场景及与子代理的对比
-* [创建团队](#start-your-first-agent-team)
-* [控制团队成员](#control-your-agent-team)，包括显示模式、任务分配与委派
-* [并行工作的最佳实践](#best-practices)
+* [何时使用代理团队](#何时使用代理团队)，包括最佳使用场景及与子代理的对比
+* [创建团队]
+* [控制团队成员](#控制你的代理团队)，包括显示模式、任务分配与委派
+* [并行工作的最佳实践](#最佳实践)
 
 ## 何时使用代理团队
 
-代理团队在需要并行探索能带来实际价值的任务中最为有效。完整场景请参阅[使用案例示例](#use-case-examples)。最佳使用场景包括：
+代理团队在需要并行探索能带来实际价值的任务中最为有效。完整场景请参阅[使用案例示例](#应用案例示例)。最佳使用场景包括：
 
 * **研究与审查**：多个团队成员可以同时研究问题的不同方面，然后分享并相互验证发现
 * **新模块或功能**：团队成员可以各自负责独立部分，互不干扰
 * **竞争性假设调试**：团队成员并行测试不同理论，更快地找到答案
 * **跨层协调**：涉及前端、后端和测试的变更，分别由不同团队成员负责
 
-代理团队会增加协调开销，并比单次会话消耗显著更多的 token。当团队成员能够独立工作时效果最佳。对于顺序任务、同一文件编辑或具有众多依赖的工作，单次会话或[子代理](/en/sub-agents)更为有效。
+代理团队会增加协调开销，并比单次会话消耗显著更多的 token。当团队成员能够独立工作时效果最佳。对于顺序任务、同一文件编辑或具有众多依赖的工作，单次会话或[子代理](/zh/sub-agents)更为有效。
 
 ### 与子代理对比
 
-代理团队和[子代理](/en/sub-agents)都允许您并行化工作，但它们的运作方式不同。根据工作人员是否需要相互沟通来选择：
+代理团队和[子代理](/zh/sub-agents)都允许您并行化工作，但它们的运作方式不同。根据工作人员是否需要相互沟通来选择：
 
   <img src="https://mintcdn.com/claude-code/nsvRFSDNfpSU5nT7/images/subagents-vs-agent-teams-light.png?fit=max&auto=format&n=nsvRFSDNfpSU5nT7&q=85&s=2f8db9b4f3705dd3ab931fbe2d96e42a" className="dark:hidden" alt="对比子代理与代理团队架构的示意图。子代理由主代理生成，执行工作并回报结果。代理团队通过共享任务列表进行协调，团队成员之间直接沟通。" width="4245" height="1615" data-path="images/subagents-vs-agent-teams-light.png" />
 
@@ -52,7 +52,7 @@
 
 ## 启用代理团队
 
-代理团队默认处于禁用状态。通过在您的 shell 环境或 [settings.json](/en/settings) 中将环境变量 `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` 设置为 `1` 来启用它们。
+代理团队默认处于禁用状态。通过在您的 shell 环境或 [settings.json](/zh/settings) 中将环境变量 `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` 设置为 `1` 来启用它们。
 ```json settings.json
 {
   "env": {
@@ -70,11 +70,11 @@ I'm designing a CLI tool that helps developers track TODO comments across
 their codebase. Create an agent team to explore this from different angles: one
 teammate on UX, one on technical architecture, one playing devil's advocate.
 ```
-从这里开始，Claude 会创建一个具有[共享任务列表](/en/interactive-mode#task-list)的团队，为每个视角生成子代理，让子代理们探索问题，综合发现，并在完成时尝试[清理团队](#clean-up-the-team)。
+从这里开始，Claude 会创建一个具有[共享任务列表](/zh/interactive-mode#task-list)的团队，为每个视角生成子代理，让子代理们探索问题，综合发现，并在完成时尝试[清理团队](#清理团队资源)。
 
 主代理的终端会列出所有子代理及其正在处理的任务。使用 Shift+Down 循环切换子代理，并直接向他们发送消息。在最后一个子代理之后，Shift+Down 会循环回主代理。
 
-如果你希望每个子代理都拥有自己的分屏面板，请参阅[选择显示模式](#choose-a-display-mode)。
+如果你希望每个子代理都拥有自己的分屏面板，请参阅[选择显示模式](#选择显示模式)。
 
 ## 控制你的代理团队
 
@@ -89,7 +89,7 @@ teammate on UX, one on technical architecture, one playing devil's advocate.
 
   `tmux` 在某些操作系统上存在已知限制，并且历来在 macOS 上表现最佳。在 iTerm2 中使用 `tmux -CC` 是推荐的 `tmux` 启动方式。
 
-默认值为 `"auto"`，表示如果已在 tmux 会话中运行则使用分屏模式，否则在进程内运行。设置为 `"tmux"` 时将启用分屏模式，并根据你的终端模拟器自动选择使用 tmux 或 iTerm2。如需覆盖默认行为，可在 `~/.claude/settings.json` 文件中设置 [`teammateMode`](/en/settings#available-settings) 参数。
+默认值为 `"auto"`，表示如果已在 tmux 会话中运行则使用分屏模式，否则在进程内运行。设置为 `"tmux"` 时将启用分屏模式，并根据你的终端模拟器自动选择使用 tmux 或 iTerm2。如需覆盖默认行为，可在 `~/.claude/settings.json` 文件中设置 [`teammateMode`](/zh/settings#available-settings) 参数。
 ```json
 {
   "teammateMode": "in-process"
@@ -162,15 +162,15 @@ Clean up the team
 
 ### 使用钩子执行质量门禁
 
-使用[钩子](/en/hooks)在队友完成工作或任务被创建、完成时执行规则：
+使用[钩子](/zh/hooks)在队友完成工作或任务被创建、完成时执行规则：
 
-* [`TeammateIdle`](/en/hooks#teammateidle)：当队友即将空闲时运行。以退出码2退出可发送反馈并让队友继续工作。
-* [`TaskCreated`](/en/hooks#taskcreated)：当任务正在被创建时运行。以退出码2退出可阻止创建并发送反馈。
-* [`TaskCompleted`](/en/hooks#taskcompleted)：当任务被标记完成时运行。以退出码2退出可阻止完成并发送反馈。
+* [`TeammateIdle`](/zh/hooks#teammateidle)：当队友即将空闲时运行。以退出码2退出可发送反馈并让队友继续工作。
+* [`TaskCreated`](/zh/hooks#taskcreated)：当任务正在被创建时运行。以退出码2退出可阻止创建并发送反馈。
+* [`TaskCompleted`](/zh/hooks#taskcompleted)：当任务被标记完成时运行。以退出码2退出可阻止完成并发送反馈。
 
 ## 代理团队的工作原理
 
-本节介绍代理团队背后的架构和机制。如果您想开始使用它们，请参阅上方的[控制您的代理团队](#control-your-agent-team)。
+本节介绍代理团队背后的架构和机制。如果您想开始使用它们，请参阅上方的[控制您的代理团队](#控制你的代理团队)。
 
 ### Claude 如何启动代理团队
 
@@ -192,7 +192,7 @@ Clean up the team
 | **任务列表**   | 队友认领并完成的工作项共享列表                                    |
 | **邮箱**       | 用于代理间通信的消息传递系统                                              |
 
-显示配置选项请参阅[选择显示模式](#choose-a-display-mode)。队友消息会自动发送到负责人。
+显示配置选项请参阅[选择显示模式](#选择显示模式)。队友消息会自动发送到负责人。
 
 系统会自动管理任务依赖关系。当一个队友完成了其他任务所依赖的任务时，被阻塞的任务会自动解除阻塞，无需手动干预。
 
@@ -203,7 +203,7 @@ Clean up the team
 
 当您创建团队时，Claude Code会自动生成这两项，并在队友加入、空闲或离开时更新它们。团队配置包含运行时状态，如会话ID和tmux窗格ID，因此请勿手动编辑或预先授权：您的更改会在下次状态更新时被覆盖。
 
-要定义可重用的队友角色，请使用[子代理定义](#use-subagent-definitions-for-teammates)。
+要定义可重用的队友角色，请使用[子代理定义](#为队友使用子代理定义)。
 
 团队配置包含一个 `members` 数组，其中记录了每个队友的名称、代理ID和代理类型。队友可以读取此文件以发现其他团队成员。
 
@@ -211,7 +211,7 @@ Clean up the team
 
 ### 为队友使用子代理定义
 
-在生成队友时，您可以引用任何[子代理](/en/sub-agents)范围（项目、用户、插件或CLI定义的）中的一个[子代理](/en/sub-agents)类型。这允许您定义一个角色一次，例如安全审查员或测试运行器，并将其既作为委托的子代理又作为代理团队的队友重用。
+在生成队友时，您可以引用任何[子代理](/zh/sub-agents)范围（项目、用户、插件或CLI定义的）中的一个[子代理](/zh/sub-agents)类型。这允许您定义一个角色一次，例如安全审查员或测试运行器，并将其既作为委托的子代理又作为代理团队的队友重用。
 
 要使用子代理定义，请在要求Claude生成队友时通过名称提及它：
 ```text
@@ -240,7 +240,7 @@ Spawn a teammate using the security-reviewer agent type to audit the auth module
 
 ### Token 用量
 
-代理团队的 token 消耗远高于单会话模式。每位队友拥有独立上下文窗口，token 用量随活跃队友数量增长。对于研究、评审及新功能开发任务，额外 token 投入通常物有所值；而常规任务中，单会话模式更具成本效益。详见 [代理团队 token 成本](/en/costs#agent-team-token-costs) 的使用指南。
+代理团队的 token 消耗远高于单会话模式。每位队友拥有独立上下文窗口，token 用量随活跃队友数量增长。对于研究、评审及新功能开发任务，额外 token 投入通常物有所值；而常规任务中，单会话模式更具成本效益。详见 [代理团队 token 成本](/zh/costs#agent-team-token-costs) 的使用指南。
 
 ## 应用案例示例
 
@@ -275,7 +275,7 @@ debate. Update the findings doc with whatever consensus emerges.
 
 ### 为队友提供足够的上下文
 
-队友会自动加载项目上下文，包括 CLAUDE.md、MCP 服务器和技能，但他们不会继承负责人的对话历史。详情请参阅 [上下文与沟通](#context-and-communication)。请在生成提示词中包含任务特定的细节：
+队友会自动加载项目上下文，包括 CLAUDE.md、MCP 服务器和技能，但他们不会继承负责人的对话历史。详情请参阅 [上下文与沟通](#上下文与通信)。请在生成提示词中包含任务特定的细节：
 ```text
 Spawn a security reviewer teammate with the prompt: "Review the authentication module
 at src/auth/ for security vulnerabilities. Focus on token handling, session
@@ -286,13 +286,13 @@ httpOnly cookies. Report any issues with severity ratings."
 
 团队成员数量没有硬性限制，但存在实际约束：
 
-* **Token 成本线性增长**：每个成员拥有独立上下文窗口并消耗 token。详见 [代理团队 token 成本](/en/costs#agent-team-token-costs)。
+* **Token 成本线性增长**：每个成员拥有独立上下文窗口并消耗 token。详见 [代理团队 token 成本](/zh/costs#agent-team-token-costs)。
 * **协调开销增加**：更多成员意味着更多沟通、任务协调和潜在冲突
 * **收益递减**：超过某个临界点后，新增成员无法按比例提升工作效率
 
 大多数工作流建议从 3-5 名成员开始，这能平衡并行工作与协调管理。本指南示例均采用 3-5 名成员规模，该范围适用于不同任务类型。
 
-每个成员分配 5-6 个[任务](/en/agent-teams#architecture)可保持高效产出，避免频繁上下文切换。若有 15 个独立任务，3 名成员是理想的起步配置。
+每个成员分配 5-6 个[任务](/zh/agent-teams#architecture)可保持高效产出，避免频繁上下文切换。若有 15 个独立任务，3 名成员是理想的起步配置。
 
 仅在工作确实需要成员同步开展时才扩大团队规模。三个专注的成员往往比五个分散的成员更高效。
 
@@ -377,6 +377,6 @@ Agent 团队处于实验阶段。需要注意以下当前限制：
 
 探索并行工作和委托的相关方法：
 
-* **轻量级委托**：[子代理](/en/sub-agents)可在您的会话中派生辅助代理用于研究或验证，更适合不需要代理间协调的任务
-* **手动并行会话**：[Git 工作树](/en/worktrees)让您自行运行多个 Claude Code 会话，无需自动化团队协调
-* **方法比较**：查看[子代理与代理团队](/en/features-overview#compare-similar-features)对比，获取并排分析说明
+* **轻量级委托**：[子代理](/zh/sub-agents)可在您的会话中派生辅助代理用于研究或验证，更适合不需要代理间协调的任务
+* **手动并行会话**：[Git 工作树](/zh/worktrees)让您自行运行多个 Claude Code 会话，无需自动化团队协调
+* **方法比较**：查看[子代理与代理团队](/zh/features-overview#compare-similar-features)对比，获取并排分析说明

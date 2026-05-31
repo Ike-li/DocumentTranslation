@@ -16,17 +16,17 @@
 
 当你想更直接地操作任何代理的会话时，可以附着到该行以进入完整对话。
 
-要对比代理视图与子代理、代理团队和工作树，请参阅[并行运行代理](/en/agents)。
+要对比代理视图与子代理、代理团队和工作树，请参阅[并行运行代理](/zh/agents)。
 
   Agent 视图为研究预览版，需要 Claude Code v2.1.139 或更高版本。可通过 `claude --version` 命令检查您的版本。随着功能的演进，界面和键盘快捷键可能会发生变化。
 
 本页内容涵盖：
 
-* [快速入门](#quick-start)：给Claude分配一个后台任务，随时查看进度并在需要时介入
-* [通过代理视图监控会话](#monitor-sessions-with-agent-view)，包括状态图标、快速查看与回复、附加操作、分组管理及键盘快捷键
-* [调度新代理](#dispatch-new-agents)——从代理视图、会话内部或命令行界面操作
-* [通过命令行管理会话](#manage-sessions-from-the-shell)
-* [后台会话的托管原理](#how-background-sessions-are-hosted)——主管进程如何运作
+* [快速入门](#快速入门)：给Claude分配一个后台任务，随时查看进度并在需要时介入
+* [通过代理视图监控会话](#通过代理视图监控会话)，包括状态图标、快速查看与回复、附加操作、分组管理及键盘快捷键
+* [调度新代理](#claude-agents-列出了子代理而不是打开代理视图)——从代理视图、会话内部或命令行界面操作
+* [通过命令行管理会话](#从-shell)
+* [后台会话的托管原理](#后台会话的托管方式)——主管进程如何运作
 
 ## 快速入门
 
@@ -41,11 +41,11 @@
 
 
 
-    输入描述任务的提示词并按下 `Enter` 键。一个新的后台会话将启动并显示为一行，指示其当前状态是运行中、等待您操作或已完成。此新会话使用代理视图标题栏中显示的模型，以及与您在该目录下运行 `claude` 时获得的相同[权限模式](#permission-mode-model-and-effort)。
+    输入描述任务的提示词并按下 `Enter` 键。一个新的后台会话将启动并显示为一行，指示其当前状态是运行中、等待您操作或已完成。此新会话使用代理视图标题栏中显示的模型，以及与您在该目录下运行 `claude` 时获得的相同[权限模式](#权限模式模型和努力程度)。
 
     您在此处输入的每个提示词都会启动其自身的新会话。输入另一个提示词并按下 `Enter` 键，将在第一个会话旁边启动第二个会话，而不是向其发送后续消息。您可以通过这种方式并行运行多个会话。
 
-    每个会话独立使用您的订阅配额，因此在同时分派多个任务前，请参阅[限制](#limitations)。
+    每个会话独立使用您的订阅配额，因此在同时分派多个任务前，请参阅[限制](#限制)。
 
 
 
@@ -70,9 +70,9 @@
 ```bash
 claude agents --cwd ~/projects/my-app
 ```
-此处仅显示在该目录下启动的会话。一个已[转移至工作树](#how-file-edits-are-isolated) `~/projects/my-app/.claude/worktrees/` 下的会话，仍归属于 `~/projects/my-app`。
+此处仅显示在该目录下启动的会话。一个已[转移至工作树](#文件编辑如何隔离) `~/projects/my-app/.claude/worktrees/` 下的会话，仍归属于 `~/projects/my-app`。
 
-在其他终端中您已打开的交互式会话，需要将其[转入后台](#from-inside-a-session) 后才会显示。会话生成的[子代理](/en/sub-agents)和[队友](/en/agent-teams)不会作为单独的行列出。
+在其他终端中您已打开的交互式会话，需要将其[转入后台](#从会话内部) 后才会显示。会话生成的[子代理](/zh/sub-agents)和[队友](/zh/agent-teams)不会作为单独的行列出。
 ```text
 Pinned
   ✽ clawd walk cycle          Write assets/sprites/clawd-walk.png           3m
@@ -111,27 +111,27 @@ Completed
 | :------------------ | :------------------------------------------------------------------------------------------------ |
 | `✻` 或动画 `✽`      | 会话进程存活并立即响应                                                                             |
 | `∙`                 | 进程已退出。您仍可查看、回复或附加，Claude 会从上次中断处重新启动                                     |
-| `✢`                 | 一个 [`/loop`](/en/scheduled-tasks) 会话，在迭代间隔期处于休眠状态。该行显示其运行次数和倒计时      |
+| `✢`                 | 一个 [`/loop`](/zh/scheduled-tasks) 会话，在迭代间隔期处于休眠状态。该行显示其运行次数和倒计时      |
 
-行右边缘可能显示的 `PR #N` 标签是该[会话已打开的拉取请求](#pull-request-status)，而非状态图标的一部分。当一个会话打开了多个拉取请求时，标签会显示计数，例如 `3 PRs`。
+行右边缘可能显示的 `PR #N` 标签是该[会话已打开的拉取请求](#拉取请求状态)，而非状态图标的一部分。当一个会话打开了多个拉取请求时，标签会显示计数，例如 `3 PRs`。
 
 当代理视图打开时，终端标签页标题会显示等待输入的数量：当会话需要输入时显示 `2 awaiting input · claude agents`，否则显示 `claude agents`。
 
-后台会话无需保持任何终端打开即可继续运行。一个独立的[监控进程](#the-supervisor-process)会运行它们，因此您可以关闭代理视图、关闭 Shell 或启动新的交互式会话，而您分派的工作会持续进行。
+后台会话无需保持任何终端打开即可继续运行。一个独立的[监控进程](#监督进程)会运行它们，因此您可以关闭代理视图、关闭 Shell 或启动新的交互式会话，而您分派的工作会持续进行。
 
-会话状态通过自动更新和监控进程重启持久化到磁盘。您的机器休眠时会话也会被保留。它们的进程在唤醒后恢复运行，监控进程会重新连接到它们，而不是将时间间隔视为空闲。关机仍会停止正在运行的会话；有关如何恢复它们，请参阅[关机后会话显示为失败](#sessions-show-as-failed-after-shutdown)。
+会话状态通过自动更新和监控进程重启持久化到磁盘。您的机器休眠时会话也会被保留。它们的进程在唤醒后恢复运行，监控进程会重新连接到它们，而不是将时间间隔视为空闲。关机仍会停止正在运行的会话；有关如何恢复它们，请参阅[关机后会话显示为失败](#关机后会话显示为失败)。
 
 ### 行摘要
 
-每行的一行摘要是由一个[俳句级别模型](/en/model-config)生成的，因此无需打开完整记录，该行就能告诉您会话正在做什么、需要什么或产生了什么。当会话正在积极工作时，摘要最多每15秒刷新一次，外加每轮结束时刷新一次。
+每行的一行摘要是由一个[俳句级别模型](/zh/model-config)生成的，因此无需打开完整记录，该行就能告诉您会话正在做什么、需要什么或产生了什么。当会话正在积极工作时，摘要最多每15秒刷新一次，外加每轮结束时刷新一次。
 
-每次刷新都是通过您的常规提供商进行的一个短小的俳句级别请求，其计费和处理方式与会话本身相同，遵循相同的[数据使用条款](/en/data-usage)。
+每次刷新都是通过您的常规提供商进行的一个短小的俳句级别请求，其计费和处理方式与会话本身相同，遵循相同的[数据使用条款](/zh/data-usage)。
 
 ### 拉取请求状态
 
 当会话打开一个拉取请求时，行右边缘会出现一个 `PR #1234` 标签，在支持超链接的终端中会链接到该拉取请求。当您向该会话发送后续消息时，标签会持续显示，因此当行恢复为实时进度时，拉取请求仍然可见。
 
-当一个会话打开了多个拉取请求时，标签会显示计数，例如 `3 PRs`，颜色由最需要关注的打开的拉取请求决定。打开[查看面板](#peek-and-reply)可查看所有拉取请求。
+当一个会话打开了多个拉取请求时，标签会显示计数，例如 `3 PRs`，颜色由最需要关注的打开的拉取请求决定。打开[查看面板](#查看与回复)可查看所有拉取请求。
 
 拉取请求的编号颜色根据其状态而定：
 
@@ -156,7 +156,7 @@ Completed
 
 在选中的行上按 `回车键` 或 `→` 可进行附加。代理视图将被完整的交互式会话取代，就像您在该目录下运行了 `claude` 一样。当您附加时，Claude 会发布一个简短的回顾，说明您离开期间发生的事情。
 
-附加后，该会话的行为与任何其他 Claude Code 会话相同：每个[命令](/en/commands)、键盘快捷键和功能都有效。
+附加后，该会话的行为与任何其他 Claude Code 会话相同：每个[命令](/zh/commands)、键盘快捷键和功能都有效。
 
 在空的提示符处按 `←` 可分离并返回代理视图。如果某个对话框获得焦点且不响应 `←`，请按 `Ctrl+Z` 立即分离。
 
@@ -168,18 +168,18 @@ Completed
 
 ### 组织列表
 
-代理视图将需要输入的会话分组显示在顶部，`待审查` 和 `需要输入` 位于 `工作中` 和 `已完成` 之上。这些组名称与上面的[状态](#read-session-state)并非一一对应：当会话有打开的拉取请求时，它会移动到 `待审查`；`已完成` 则汇集了已完成、失败和停止的会话。按 `Ctrl+S` 可改为按目录分组。您的选择会在多次运行之间保持。
+代理视图将需要输入的会话分组显示在顶部，`待审查` 和 `需要输入` 位于 `工作中` 和 `已完成` 之上。这些组名称与上面的[状态](#读取会话状态)并非一一对应：当会话有打开的拉取请求时，它会移动到 `待审查`；`已完成` 则汇集了已完成、失败和停止的会话。按 `Ctrl+S` 可改为按目录分组。您的选择会在多次运行之间保持。
 
 在组内：
 
-*   按 `Ctrl+T` 可将会话固定在顶部，并在空闲时[保持其进程运行](#the-supervisor-process)
+*   按 `Ctrl+T` 可将会话固定在顶部，并在空闲时[保持其进程运行](#监督进程)
 *   按 `Shift+↑` 或 `Shift+↓` 可重新排列会话
 *   按 `Ctrl+R` 可重命名会话
 *   在组标题上按 `回车键` 可将其折叠
 
 要从列表中移除会话，按 `Ctrl+X` 停止它，并在两秒内再次按 `Ctrl+X` 将其删除。在组标题上按 `Ctrl+X` 会确认后删除该组中的每个会话。
 
-删除操作会将该会话从代理视图中移除。如果 Claude 为该会话[创建了工作树](#how-file-edits-are-isolated)，删除也会移除该工作树，包括其中任何未提交的更改，因此请先推送或提交您想要保留的工作。您自己创建并在其中启动会话的工作树将保留在原位。对话记录保留在您的本地机器上，并可通过 `claude --resume` 访问。
+删除操作会将该会话从代理视图中移除。如果 Claude 为该会话[创建了工作树](#文件编辑如何隔离)，删除也会移除该工作树，包括其中任何未提交的更改，因此请先推送或提交您想要保留的工作。您自己创建并在其中启动会话的工作树将保留在原位。对话记录保留在您的本地机器上，并可通过 `claude --resume` 访问。
 
 较早的已完成会话会折叠成一个 `… N more` 行以保持列表简短。失败的会话和有打开拉取请求的会话始终保持可见。
 
@@ -230,15 +230,15 @@ Completed
 
 | 输入                              | 效果                                                                                                                                            |
 | :-------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------- |
-| `<agent-name> <prompt>`           | 如果第一个词匹配一个自定义[子代理](/en/sub-agents)名称，则该子代理作为会话的主代理运行，使用其前置元数据中的配置                                  |
+| `<agent-name> <prompt>`           | 如果第一个词匹配一个自定义[子代理](/zh/sub-agents)名称，则该子代理作为会话的主代理运行，使用其前置元数据中的配置                                  |
 | `@<agent-name>`                   | 在提示词的任何位置提及一个自定义子代理，将其作为主代理运行                                                                                      |
 | `@<repo>`                         | 提及您打开代理视图所在目录下的一个仓库，在该仓库中运行会话                                                                                      |
-| `/<command>`                      | 建议[技能](/en/skills)和[命令](/en/commands)作为提示词进行分派                                                                                |
+| `/<command>`                      | 建议[技能](/zh/skills)和[命令](/zh/commands)作为提示词进行分派                                                                                |
 | `! <command>`                     | 运行 Shell 命令作为后台作业，而不是启动 Claude 会话。该作业会显示为一个您可以附加、查看和分离的行                                              |
 | `#<number>` 或拉取请求 URL         | 如果已有会话正在处理该 PR，则选中它而不是分派新会话                                                                                             |
 | `Shift+回车键`                    | 分派并立即附加到新会话                                                                                                                         |
 
-将重复性任务打包为[技能](/en/skills)后，您可以从代理视图反复启动相同的工作流程，而无需重新输入提示词。
+将重复性任务打包为[技能](/zh/skills)后，您可以从代理视图反复启动相同的工作流程，而无需重新输入提示词。
 
 当相同的 `@name` 既匹配子代理又匹配同级仓库时，子代理优先。裸词的首词匹配也适用，因此碰巧以您的某个子代理名称开头的提示词会分派该子代理，而不是将该词视为纯文本。当您想要明确表达时，请使用 `@` 形式，或者以不同的词开头提示词以避免匹配。
 
@@ -256,7 +256,7 @@ Completed
 
 运行 `/background` 或其别名 `/bg` 可将当前对话移入后台会话。传递一个提示词，例如 `/bg run the test suite and fix any failures`，可先给出额外指令。如果运行 `/bg` 时 Claude 正在响应，则响应会在后台会话中继续。
 
-从交互式会话转到后台会启动一个新进程，该进程从保存的对话恢复，因此正在运行的子代理、[监控器](/en/tools-reference#monitor-tool)和后台命令不会转移到它。当有上述任何一种在运行时，Claude 会在转到后台前要求您确认。一旦在后台，该会话可以启动新的子代理、监控器和后台命令，并且这些会在后续的分离和重新附加过程中持续运行。
+从交互式会话转到后台会启动一个新进程，该进程从保存的对话恢复，因此正在运行的子代理、[监控器](/zh/tools-reference#monitor-tool)和后台命令不会转移到它。当有上述任何一种在运行时，Claude 会在转到后台前要求您确认。一旦在后台，该会话可以启动新的子代理、监控器和后台命令，并且这些会在后续的分离和重新附加过程中持续运行。
 
 原始启动时的配置标志会延续到后台会话中，因此其 MCP 服务器、设置和回退模型保持有效：
 
@@ -267,9 +267,9 @@ Completed
 *   `--fallback-model`
 *   `--allow-dangerously-skip-permissions`
 
-您在会话期间通过 [`/add-dir`](/en/permissions#additional-directories-grant-file-access-not-configuration) 添加的目录也会延续。
+您在会话期间通过 [`/add-dir`](/zh/permissions#additional-directories-grant-file-access-not-configuration) 添加的目录也会延续。
 
-延续 `--allow-dangerously-skip-permissions` 使得 `bypassPermissions` 在后台会话中仍可访问，但它不会授予任何新权限。该模式仍然需要相同的首次交互式接受，如[权限模式、模型和努力](#permission-mode-model-and-effort)中所述，任何会话才能使用它。
+延续 `--allow-dangerously-skip-permissions` 使得 `bypassPermissions` 在后台会话中仍可访问，但它不会授予任何新权限。该模式仍然需要相同的首次交互式接受，如[权限模式、模型和努力](#权限模式模型和努力程度)中所述，任何会话才能使用它。
 
 ### 从 Shell
 
@@ -309,15 +309,15 @@ claude --bg --exec 'pytest -x'
 
 ### 文件编辑如何隔离
 
-每个后台会话，无论是从代理视图、`/bg`还是`claude --bg`启动，都从您的工作目录开始。在编辑文件之前，Claude会将会话移动到`.claude/worktrees/`下的隔离[git工作树](/en/worktrees)，这样并行会话可以读取相同的检出，但每个会话都写入自己的副本。
+每个后台会话，无论是从代理视图、`/bg`还是`claude --bg`启动，都从您的工作目录开始。在编辑文件之前，Claude会将会话移动到`.claude/worktrees/`下的隔离[git工作树](/zh/worktrees)，这样并行会话可以读取相同的检出，但每个会话都写入自己的副本。
 
 Claude会跳过工作树隔离的情况包括：
 
 * 会话已经位于已链接的git工作树中，无论是Claude在`.claude/worktrees/`下创建的还是您在其他地方使用`git worktree add`创建的
-* 工作目录不是git仓库且未配置[`WorktreeCreate`钩子](/en/hooks#worktreecreate)
+* 工作目录不是git仓库且未配置[`WorktreeCreate`钩子](/zh/hooks#worktreecreate)
 * 写入操作发生在工作目录之外
 
-要在git工作树不切实际的仓库中关闭工作树隔离，请将[`worktree.bgIsolation`](/en/settings#worktree-settings)设置为`"none"`。后台会话将直接编辑您的工作副本，而无需首先进入工作树。将此设置添加到项目的`.claude/settings.json`中：
+要在git工作树不切实际的仓库中关闭工作树隔离，请将[`worktree.bgIsolation`](/zh/settings#worktree-settings)设置为`"none"`。后台会话将直接编辑您的工作副本，而无需首先进入工作树。将此设置添加到项目的`.claude/settings.json`中：
 ```json
 {
   "worktree": {
@@ -329,39 +329,39 @@ Claude会跳过工作树隔离的情况包括：
 
   `worktree.bgIsolation` 设置要求 Claude Code v2.1.143 或更高版本。
 
-在 git 仓库之外，会话会直接写入工作目录且彼此之间不隔离，因此请避免派遣编辑相同文件的并行会话。如果你使用其他版本控制系统，请配置 [`WorktreeCreate` 钩子](/en/worktrees#non-git-version-control)，Claude 将以与处理 git 相同的方式隔离编辑。
+在 git 仓库之外，会话会直接写入工作目录且彼此之间不隔离，因此请避免派遣编辑相同文件的并行会话。如果你使用其他版本控制系统，请配置 [`WorktreeCreate` 钩子](/zh/worktrees#non-git-version-control)，Claude 将以与处理 git 相同的方式隔离编辑。
 
-在代理视图中删除会话（按两次 `Ctrl+X`）会移除 Claude 为其创建的工作树，包括任何未提交的更改，因此请先合并或推送你希望保留的更改。从 shell 中使用 [`claude rm`](#manage-sessions-from-the-shell) 删除会话时，会保留包含未提交更改的工作树，并打印其路径，以便你自行清理。你自己创建并在其中启动会话的工作树无论如何都会被保留。
+在代理视图中删除会话（按两次 `Ctrl+X`）会移除 Claude 为其创建的工作树，包括任何未提交的更改，因此请先合并或推送你希望保留的更改。从 shell 中使用 [`claude rm`](#从-shell) 删除会话时，会保留包含未提交更改的工作树，并打印其路径，以便你自行清理。你自己创建并在其中启动会话的工作树无论如何都会被保留。
 
 要查找会话的工作树路径，请查看会话详情或连接会话并检查其工作目录。
 
-要使子代理始终在自己的工作树中运行，无论其启动方式如何，请在其前置元数据中设置 [`isolation: worktree`](/en/sub-agents#supported-frontmatter-fields)。
+要使子代理始终在自己的工作树中运行，无论其启动方式如何，请在其前置元数据中设置 [`isolation: worktree`](/zh/sub-agents#supported-frontmatter-fields)。
 
 ### 设置模型
 
-代理视图标题中显示的模型名称是派遣时的默认值。你从输入框启动的新会话使用此模型，该模型来自用户设置中的 [`model` 设置](/en/settings#available-settings)。你可以通过 [`/model` 选择器](/en/model-config)选择模型来设置它，或直接编辑该设置。要在整个代理视图会话期间覆盖它，请在打开代理视图时传递 `--model` 参数。参阅 [权限模式、模型和努力程度](#permission-mode-model-and-effort)。
+代理视图标题中显示的模型名称是派遣时的默认值。你从输入框启动的新会话使用此模型，该模型来自用户设置中的 [`model` 设置](/zh/settings#available-settings)。你可以通过 [`/model` 选择器](/zh/model-config)选择模型来设置它，或直接编辑该设置。要在整个代理视图会话期间覆盖它，请在打开代理视图时传递 `--model` 参数。参阅 [权限模式、模型和努力程度](#权限模式模型和努力程度)。
 
 每个后台会话可以在不同的模型上运行。要覆盖单个会话的模型：
 
 * 从 shell 中，传递 `--model` 参数给 `claude --bg`。
 * 连接到运行中的会话，打开 `/model`，并在某个模型上按 `s` 键仅为该会话切换模型。如果会话被重新生成，此更改将保留。
-* 派遣一个[子代理](/en/sub-agents)，其前置元数据设置了 `model` 字段。
+* 派遣一个[子代理](/zh/sub-agents)，其前置元数据设置了 `model` 字段。
 
 ### 权限模式、模型和努力程度
 
-后台会话从其运行的目录读取[设置](/en/settings)，就像你从该目录启动 `claude` 一样。
+后台会话从其运行的目录读取[设置](/zh/settings)，就像你从该目录启动 `claude` 一样。
 
-[权限模式](/en/permissions)取决于你启动会话的方式。使用 `/bg` 或 `←` 将现有会话置于后台会保持当前的权限模式，因此你切换到 `acceptEdits` 或 `auto` 的会话在断开连接后仍保持该模式。从代理视图输入框派遣或从 shell 运行 `claude --bg` 时，使用该目录设置中的 `defaultMode`，或派遣的[子代理前置元数据](/en/sub-agents#supported-frontmatter-fields)中的 `permissionMode`。
+[权限模式](/zh/permissions)取决于你启动会话的方式。使用 `/bg` 或 `←` 将现有会话置于后台会保持当前的权限模式，因此你切换到 `acceptEdits` 或 `auto` 的会话在断开连接后仍保持该模式。从代理视图输入框派遣或从 shell 运行 `claude --bg` 时，使用该目录设置中的 `defaultMode`，或派遣的[子代理前置元数据](/zh/sub-agents#supported-frontmatter-fields)中的 `permissionMode`。
 
-你启动后台会话时使用的权限模式，在监督者稍后[停止并重启](#the-supervisor-process)会话进程时会保留。你使用 `claude --bg --dangerously-skip-permissions` 或 `claude --bg --permission-mode bypassPermissions` 启动的会话在重启后仍保持 `bypassPermissions`，而不是回退到目录的 `defaultMode`。
+你启动后台会话时使用的权限模式，在监督者稍后[停止并重启](#监督进程)会话进程时会保留。你使用 `claude --bg --dangerously-skip-permissions` 或 `claude --bg --permission-mode bypassPermissions` 启动的会话在重启后仍保持 `bypassPermissions`，而不是回退到目录的 `defaultMode`。
 
 要为从代理视图派遣的每个会话设置默认值，请在打开时传递 `--permission-mode`、`--model`、`--effort` 或 `--agent` 中的任意一个参数：
 ```bash
 claude agents --permission-mode plan --model opus --effort high
 ```
-`--agent` 设置在派发提示词未指定代理时使用的[子代理](/en/sub-agents)，无论是通过 `@name` 还是作为首个单词指定。如果已配置 [`agent` 设置](/en/settings#available-settings)，则默认使用该设置，否则使用内置的通用 `claude` 代理。在派发输入中指定子代理名称将覆盖两者。
+`--agent` 设置在派发提示词未指定代理时使用的[子代理](/zh/sub-agents)，无论是通过 `@name` 还是作为首个单词指定。如果已配置 [`agent` 设置](/zh/settings#available-settings)，则默认使用该设置，否则使用内置的通用 `claude` 代理。在派发输入中指定子代理名称将覆盖两者。
 
-`claude agents` 同样接受 `--dangerously-skip-permissions` 作为 `--permission-mode bypassPermissions` 的简写，以及 `--allow-dangerously-skip-permissions` 来使 `bypassPermissions` 在每次派发会话的 `Shift+Tab` 循环中可用（而无需以该模式启动）。两者都与[顶层 CLI 标志](/en/cli-reference)一致。
+`claude agents` 同样接受 `--dangerously-skip-permissions` 作为 `--permission-mode bypassPermissions` 的简写，以及 `--allow-dangerously-skip-permissions` 来使 `bypassPermissions` 在每次派发会话的 `Shift+Tab` 循环中可用（而无需以该模式启动）。两者都与[顶层 CLI 标志](/zh/cli-reference)一致。
 
 这些标志是在不同版本中添加的。早期版本会因未知选项错误而拒绝它们。
 
@@ -375,7 +375,7 @@ claude agents --permission-mode plan --model opus --effort high
 
 当前生效的默认值显示在派发输入框下方的页脚中。
 
-如果不使用这些标志，会话将使用该目录设置中的 `defaultMode` 或派发的[子代理前置信息](/en/sub-agents#supported-frontmatter-fields)中的 `permissionMode`，以及代理视图头部显示的模型。
+如果不使用这些标志，会话将使用该目录设置中的 `defaultMode` 或派发的[子代理前置信息](/zh/sub-agents#supported-frontmatter-fields)中的 `permissionMode`，以及代理视图头部显示的模型。
 
 在你首次以交互方式运行 `claude` 并接受该模式之前，使用 `bypassPermissions` 或 `auto` 会被拒绝，因为这些模式允许你未监控的会话无需批准即可执行操作。无论你是将该模式传递给 `claude agents` 还是 `claude --bg --permission-mode`，此规则同样适用。
 
@@ -385,10 +385,10 @@ claude agents --permission-mode plan --model opus --effort high
 
 | 标志                                                                                           | 效果                                                                         |
 | :--------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------- |
-| [`--settings <file-or-json>`](/en/settings)                                                    | 覆盖代理视图和派发会话的设置                                                 |
-| [`--add-dir <path>`](/en/permissions#additional-directories-grant-file-access-not-configuration) | 授予对额外目录的文件访问权限                                                 |
-| [`--plugin-dir <path>`](/en/plugins)                                                           | 从本地目录加载插件                                                           |
-| [`--mcp-config <file-or-json>`](/en/mcp)                                                       | 从配置文件或 JSON 字符串加载 MCP 服务器                                      |
+| [`--settings <file-or-json>`](/zh/settings)                                                    | 覆盖代理视图和派发会话的设置                                                 |
+| [`--add-dir <path>`](/zh/permissions#additional-directories-grant-file-access-not-configuration) | 授予对额外目录的文件访问权限                                                 |
+| [`--plugin-dir <path>`](/zh/plugins)                                                           | 从本地目录加载插件                                                           |
+| [`--mcp-config <file-or-json>`](/zh/mcp)                                                       | 从配置文件或 JSON 字符串加载 MCP 服务器                                      |
 | `--strict-mcp-config`                                                                          | 仅使用 `--mcp-config` 中的 MCP 服务器，忽略其他 MCP 配置                     |
 
 每个值重复一次 `--add-dir`、`--plugin-dir` 或 `--mcp-config`。`claude agents` 不支持空格分隔的形式，例如 `--add-dir a b c`。
@@ -412,11 +412,11 @@ claude agents --settings ./ci-settings.json --add-dir ../shared-lib
 | `claude respawn <id>`        | 重新启动会话（运行中或已停止），保留其对话内容不变，例如，为了使用更新的 Claude Code 二进制文件                                                                                                                                                                                                                                      |
 | `claude respawn --all`       | 重新启动所有正在运行的会话，例如，为了立即将所有会话迁移到更新的 Claude Code 二进制文件                                                                                                                                                                                                                                              |
 | `claude rm <id>`             | 从列表中删除会话。如果会话使用了 Claude 创建的工作树且没有未提交的更改，则删除该工作树；否则打印工作树路径以便您清理。保留您自己创建的工作树。对话记录保留在您的本地计算机上，并可通过 `claude --resume` 访问                                                                                                                         |
-| `claude daemon status`       | 打印[监督进程](#the-supervisor-process)的状态、版本、套接字目录和工作进程数量                                                                                                                                                                                                                                                        |
+| `claude daemon status`       | 打印[监督进程](#监督进程)的状态、版本、套接字目录和工作进程数量                                                                                                                                                                                                                                                        |
 
 ## 后台会话的托管方式
 
-代理视图中列出的每个会话都被视为后台会话，无论您当前是否附加到该会话。相比之下，直接运行 `claude` 启动的会话绑定到该终端，并在终端关闭时结束，除非您[将其发送到后台](#from-inside-a-session)。
+代理视图中列出的每个会话都被视为后台会话，无论您当前是否附加到该会话。相比之下，直接运行 `claude` 启动的会话绑定到该终端，并在终端关闭时结束，除非您[将其发送到后台](#从会话内部)。
 
 ### 监督进程
 
@@ -426,15 +426,15 @@ claude agents --settings ./ci-settings.json --add-dir ../shared-lib
 
 每个后台会话都是独立的 Claude Code 进程，由监督进程管理，而不是绑定到您的终端。正在积极工作、等待您输入或附加了终端的会话会保持其进程运行。正在运行的后台 Shell 命令、子代理、动态工作流或监控器都算作活动工作，因此像开发服务器这样的长时间运行的进程会保持会话存活。
 
-一旦会话完成并处于未附加状态约一小时，监督进程会停止其进程以释放资源。您使用 `Ctrl+T` [固定](#organize-the-list) 的会话除外，它在空闲时也会保持其进程运行。无论哪种情况，对话记录和状态都保留在磁盘上，下次您附加、查看或回复已停止的会话时，监督进程会从上次中断处启动一个新进程。当所有会话都完成且没有终端连接时，监督进程本身会退出，并在您下次需要时重新启动。
+一旦会话完成并处于未附加状态约一小时，监督进程会停止其进程以释放资源。您使用 `Ctrl+T` [固定](#组织列表) 的会话除外，它在空闲时也会保持其进程运行。无论哪种情况，对话记录和状态都保留在磁盘上，下次您附加、查看或回复已停止的会话时，监督进程会从上次中断处启动一个新进程。当所有会话都完成且没有终端连接时，监督进程本身会退出，并在您下次需要时重新启动。
 
 当主机内存不足时，监督进程会先停止空闲的未固定会话，只有在未释放内存的情况下才停止空闲的固定会话。
 
-监督进程监视磁盘上安装的 Claude Code 二进制文件，并在常规[自动更新程序](/en/setup#auto-updates)替换它后重新启动到新版本。这是本地文件监视，不是网络检查。后台会话是分离的进程，因此它们在重启期间保持运行，新的监督进程会重新连接到它们。空闲的固定会话也会在原地重新启动到新版本，以便无需重新附加即可应用更新。
+监督进程监视磁盘上安装的 Claude Code 二进制文件，并在常规[自动更新程序](/zh/setup#auto-updates)替换它后重新启动到新版本。这是本地文件监视，不是网络检查。后台会话是分离的进程，因此它们在重启期间保持运行，新的监督进程会重新连接到它们。空闲的固定会话也会在原地重新启动到新版本，以便无需重新附加即可应用更新。
 
 ### 状态存储位置
 
-会话状态存储在您的 Claude Code 配置目录下。如果您设置了 [`CLAUDE_CONFIG_DIR`](/en/env-vars)，监督进程会使用该目录而不是 `~/.claude`，并作为具有独立会话的独立实例运行。
+会话状态存储在您的 Claude Code 配置目录下。如果您设置了 [`CLAUDE_CONFIG_DIR`](/zh/env-vars)，监督进程会使用该目录而不是 `~/.claude`，并作为具有独立会话的独立实例运行。
 
 | 路径                             | 内容                                       |
 | :------------------------------- | :----------------------------------------- |
@@ -446,7 +446,7 @@ claude agents --settings ./ci-settings.json --add-dir ../shared-lib
 
 ### 关闭代理视图
 
-要完全关闭后台代理和代理视图，请将 `disableAgentView` [设置](/en/settings)设为 `true` 或设置 `CLAUDE_CODE_DISABLE_AGENT_VIEW` 环境变量。管理员可以通过[托管设置](/en/permissions#managed-settings)强制执行此操作。
+要完全关闭后台代理和代理视图，请将 `disableAgentView` [设置](/zh/settings)设为 `true` 或设置 `CLAUDE_CODE_DISABLE_AGENT_VIEW` 环境变量。管理员可以通过[托管设置](/zh/permissions#managed-settings)强制执行此操作。
 
 ## 故障排查
 
@@ -454,7 +454,7 @@ claude agents --settings ./ci-settings.json --add-dir ../shared-lib
 
 如果 `claude agents` 打印了一个数字，然后是您配置的子代理，然后退出，则代理视图在您的环境中不可用。早期版本并非在所有环境中都打开代理视图，包括通过 Bedrock、Vertex AI 或 Foundry 连接时。运行 `claude update` 以安装最新版本。
 
-如果更新后代理视图仍未打开，请检查它是否已被设置或环境变量[关闭](#turn-off-agent-view)。
+如果更新后代理视图仍未打开，请检查它是否已被设置或环境变量[关闭](#关闭代理视图)。
 
 ### 代理视图打开时没有会话
 
@@ -462,7 +462,7 @@ claude agents --settings ./ci-settings.json --add-dir ../shared-lib
 
 ### 无法打开代理，因为有后台任务正在运行
 
-如果按 `←` 将当前会话发送到后台显示 `Cannot open agents — N background task(s) running`，则该会话有正在进行的工作，例如子代理、动态工作流或后台 Shell 命令，并且该快捷键不会静默放弃它。运行 `/tasks` 查看正在运行的内容，然后运行 `/bg` 确认放弃它们。请参阅[从会话内部](#from-inside-a-session)了解发送到后台时会转移什么和不会转移什么。
+如果按 `←` 将当前会话发送到后台显示 `Cannot open agents — N background task(s) running`，则该会话有正在进行的工作，例如子代理、动态工作流或后台 Shell 命令，并且该快捷键不会静默放弃它。运行 `/tasks` 查看正在运行的内容，然后运行 `/bg` 确认放弃它们。请参阅[从会话内部](#从会话内部)了解发送到后台时会转移什么和不会转移什么。
 
 ### 提示词因太短被拒绝
 
@@ -476,11 +476,11 @@ claude agents --settings ./ci-settings.json --add-dir ../shared-lib
 
 ### 附加后会话响应缓慢
 
-一旦会话完成并处于未附加状态约一小时，监督进程会停止其进程以释放资源。附加会从上次中断处启动一个新进程，这需要一些时间。正在工作、等待您或[固定](#organize-the-list) 的会话不会以这种方式停止，因此请使用 `Ctrl+T` 固定会话以保持其响应性。
+一旦会话完成并处于未附加状态约一小时，监督进程会停止其进程以释放资源。附加会从上次中断处启动一个新进程，这需要一些时间。正在工作、等待您或[固定](#组织列表) 的会话不会以这种方式停止，因此请使用 `Ctrl+T` 固定会话以保持其响应性。
 
 ### `.claude/worktrees/` 目录已满
 
-在代理视图中删除会话会删除 Claude 为其创建的工作树。`claude rm` 会保留具有未提交更改的工作树并打印其路径。在项目目录中使用 `git worktree list` 列出剩余条目，并使用 `git worktree remove <path>` 删除每个条目。请参阅[清理工作树](/en/worktrees#clean-up-worktrees)。
+在代理视图中删除会话会删除 Claude 为其创建的工作树。`claude rm` 会保留具有未提交更改的工作树并打印其路径。在项目目录中使用 `git worktree list` 列出剩余条目，并使用 `git worktree remove <path>` 删除每个条目。请参阅[清理工作树](/zh/worktrees#clean-up-worktrees)。
 
 ## 限制
 
@@ -494,6 +494,6 @@ claude agents --settings ./ci-settings.json --add-dir ../shared-lib
 
 有关并行运行 Claude 的其他方法，请参阅：
 
-* [并行运行代理](/en/agents)：比较代理视图与子代理、代理团队和工作树
-* [代理团队](/en/agent-teams)：协调相互发送消息的多个会话
-* [网页版 Claude Code](/en/claude-code-on-the-web)：在托管的云环境中运行会话，而不是在本地运行
+* [并行运行代理](/zh/agents)：比较代理视图与子代理、代理团队和工作树
+* [代理团队](/zh/agent-teams)：协调相互发送消息的多个会话
+* [网页版 Claude Code](/zh/claude-code-on-the-web)：在托管的云环境中运行会话，而不是在本地运行

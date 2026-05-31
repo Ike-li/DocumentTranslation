@@ -8,7 +8,7 @@
 
 待办事项跟踪提供了一种结构化的方式来管理任务并向用户显示进度。Claude Agent SDK 包含内置的待办事项功能，有助于组织复杂的工作流程，并让用户随时了解任务进展。
 
-  从 TypeScript Agent SDK 0.3.142 和 Claude Code v2.1.142 开始，会话使用结构化任务工具 `TaskCreate`、`TaskUpdate`、`TaskGet` 和 `TaskList` 替代 `TodoWrite`。关于监控代码变更的方式，请参阅 [迁移到任务工具](#migrate-to-task-tools)。本页中的示例设置了 `CLAUDE_CODE_ENABLE_TASKS=0`，以便在尚未迁移的会话中继续显示 `TodoWrite`。
+  从 TypeScript Agent SDK 0.3.142 和 Claude Code v2.1.142 开始，会话使用结构化任务工具 `TaskCreate`、`TaskUpdate`、`TaskGet` 和 `TaskList` 替代 `TodoWrite`。关于监控代码变更的方式，请参阅 [迁移到任务工具](#迁移至任务工具)。本页中的示例设置了 `CLAUDE_CODE_ENABLE_TASKS=0`，以便在尚未迁移的会话中继续显示 `TodoWrite`。
 
 ### 待办事项生命周期
 
@@ -199,7 +199,7 @@ SDK 会自动为以下情况创建待办事项：
 | 项目结构：`{ content, status, activeForm }` | `TaskCreate` 输入：`{ subject, description, activeForm?, metadata? }`。`TaskUpdate` 输入：`{ taskId, status?, subject?, description?, activeForm?, addBlocks?, addBlockedBy?, owner?, metadata? }`。`status` 为 `"pending"`、`"in_progress"` 或 `"completed"`；设置 `status: "deleted"` 以删除 |
 | 直接渲染 `block.input.todos`           | 在多次调用间累积项目，或从 `TaskList` 工具结果中读取快照                                                                                                                                                                                                                     |
 
-分配的任务 ID 不在 `TaskCreate` 输入中。它在匹配的 `tool_result` 中作为 `{ task: { id, subject } }` 返回，因此请从结果块中捕获它以作为您映射的键。以下示例展示了对[监控待办事项更改](#monitoring-todo-changes)循环的最小化更改。要渲染完整列表，请在流中关注 `TaskList` 工具结果，或将 `TaskCreate` 结果和 `TaskUpdate` 输入累积到一个映射中：
+分配的任务 ID 不在 `TaskCreate` 输入中。它在匹配的 `tool_result` 中作为 `{ task: { id, subject } }` 返回，因此请从结果块中捕获它以作为您映射的键。以下示例展示了对[监控待办事项更改](#监控待办事项变化)循环的最小化更改。要渲染完整列表，请在流中关注 `TaskList` 工具结果，或将 `TaskCreate` 结果和 `TaskUpdate` 输入累积到一个映射中：
 
   ```typescript TypeScript
   import { query } from "@anthropic-ai/claude-agent-sdk";
@@ -240,7 +240,7 @@ SDK 会自动为以下情况创建待办事项：
 
 ## 相关文档
 
-* [TypeScript SDK 参考](/en/agent-sdk/typescript)
-* [Python SDK 参考](/en/agent-sdk/python)
-* [流式模式与单次模式](/en/agent-sdk/streaming-vs-single-mode)
-* [自定义工具](/en/agent-sdk/custom-tools)
+* [TypeScript SDK 参考](/zh/agent-sdk/typescript)
+* [Python SDK 参考](/zh/agent-sdk/python)
+* [流式模式与单次模式](/zh/agent-sdk/streaming-vs-single-mode)
+* [自定义工具](/zh/agent-sdk/custom-tools)

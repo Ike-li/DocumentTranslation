@@ -54,6 +54,10 @@ plugins:
 
 markdown_extensions:
   - admonition
+  - toc:
+      permalink: true
+      slugify: !!python/name:pymdownx.slugs.uslugify
+      toc_depth: 2-6
   - pymdownx.details
   - pymdownx.superfences
   - pymdownx.tabbed:

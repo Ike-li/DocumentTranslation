@@ -15,8 +15,8 @@
 
 您可以通过三种方式创建子代理：
 
-*   **编程方式**：在您的 `query()` 选项中使用 `agents` 参数 ([TypeScript](/en/agent-sdk/typescript#agentdefinition), [Python](/en/agent-sdk/python#agentdefinition))
-*   **基于文件系统的方式**：将代理定义为 `.claude/agents/` 目录中的 Markdown 文件（参见[将子代理定义为文件](/en/sub-agents)）
+*   **编程方式**：在您的 `query()` 选项中使用 `agents` 参数 ([TypeScript](/zh/agent-sdk/typescript#agentdefinition), [Python](/zh/agent-sdk/python#agentdefinition))
+*   **基于文件系统的方式**：将代理定义为 `.claude/agents/` 目录中的 Markdown 文件（参见[将子代理定义为文件](/zh/sub-agents)）
 *   **内置通用代理**：Claude 可以随时通过 Agent 工具调用内置的 `general-purpose` 子代理，无需您定义任何内容
 
 本指南重点介绍编程方式，这是 SDK 应用程序的推荐方法。
@@ -27,7 +27,7 @@
 
 ### 上下文隔离
 
-每个子代理都在其独立的新鲜会话中运行。中间的工具调用和结果保留在子代理内部；只有其最终消息会返回给父代理。有关子代理上下文中包含哪些内容的详细信息，请参阅[子代理继承什么](#what-subagents-inherit)。
+每个子代理都在其独立的新鲜会话中运行。中间的工具调用和结果保留在子代理内部；只有其最终消息会返回给父代理。有关子代理上下文中包含哪些内容的详细信息，请参阅[子代理继承什么](#子代理的继承规则)。
 
 **示例：** 一个 `research-assistant` 子代理可以探索数十个文件，而不会有任何这些内容累积在主对话中。父代理收到的是简洁的摘要，而不是子代理读取的每个文件。
 
@@ -172,13 +172,13 @@
 | `effort`          | `'low' \| 'medium' \| 'high' \| 'xhigh' \| 'max' \| number` | 否   | 此代理的推理努力级别                                                                                                                                           |
 | `permissionMode`  | `PermissionMode`                                            | 否   | 此代理内工具执行的权限模式                                                                                                                                     |
 
-在 Python SDK 中，这些字段名称使用 camelCase 以匹配传输格式。详情请参阅 [`AgentDefinition` 参考文档](/en/agent-sdk/python#agentdefinition)。
+在 Python SDK 中，这些字段名称使用 camelCase 以匹配传输格式。详情请参阅 [`AgentDefinition` 参考文档](/zh/agent-sdk/python#agentdefinition)。
 
   子代理不能生成自己的子代理。不要在子代理的 `tools` 数组中包含 `Agent`。
 
 ### 基于文件系统的定义（替代方案）
 
-您也可以通过在 `.claude/agents/` 目录中创建 Markdown 文件来定义子代理。有关此方法的详细信息，请参阅 [Claude Code 子代理文档](/en/sub-agents)。通过程序定义的代理优先于基于文件系统且同名的代理。
+您也可以通过在 `.claude/agents/` 目录中创建 Markdown 文件来定义子代理。有关此方法的详细信息，请参阅 [Claude Code 子代理文档](/zh/sub-agents)。通过程序定义的代理优先于基于文件系统且同名的代理。
 
   即使不自定义子代理，Claude 也能调用内置的 `general-purpose` 子代理。这对于委托研究或探索任务非常有用，无需创建专门的代理。请在 `allowedTools` 中包含 `Agent`，这样这些调用将自动批准，无需权限提示。
 
@@ -557,9 +557,9 @@ Claude 会根据任务内容和每个子代理的 `description`（描述）自�
 
 ## 通过动态工作流进行扩展
 
-子代理适用于每轮委派少量任务。对于需要协调数十到数百个代理的运行，请使用 `Workflow` 工具，该工具将编排逻辑移入脚本中，由运行时在对话上下文之外执行。关于工作流与逐轮子代理委派的区别，请参阅[动态工作流](/en/workflows)。
+子代理适用于每轮委派少量任务。对于需要协调数十到数百个代理的运行，请使用 `Workflow` 工具，该工具将编排逻辑移入脚本中，由运行时在对话上下文之外执行。关于工作流与逐轮子代理委派的区别，请参阅[动态工作流](/zh/workflows)。
 
-`Workflow` 工具在 TypeScript Agent SDK v0.3.149 及更高版本中可用。在 `allowedTools` 中包含 `Workflow` 以自动批准工作流运行。工具输入和输出模式请参阅 [TypeScript 参考](/en/agent-sdk/typescript#workflow)。
+`Workflow` 工具在 TypeScript Agent SDK v0.3.149 及更高版本中可用。在 `allowedTools` 中包含 `Workflow` 以自动批准工作流运行。工具输入和输出模式请参阅 [TypeScript 参考](/zh/agent-sdk/typescript#workflow)。
 
 ## 故障排除
 
@@ -581,6 +581,6 @@ Claude 会根据任务内容和每个子代理的 `description`（描述）自�
 
 ## 相关文档
 
-*   [Claude Code 子代理](/en/sub-agents)：全面的子代理文档，包括基于文件系统的定义。
-*   [动态工作流](/en/workflows)：通过脚本编排大量子代理，用于单个对话无法完成的大型任务。
-*   [SDK 概述](/en/agent-sdk/overview)：Claude Agent SDK 入门指南。
+*   [Claude Code 子代理](/zh/sub-agents)：全面的子代理文档，包括基于文件系统的定义。
+*   [动态工作流](/zh/workflows)：通过脚本编排大量子代理，用于单个对话无法完成的大型任务。
+*   [SDK 概述](/zh/agent-sdk/overview)：Claude Agent SDK 入门指南。

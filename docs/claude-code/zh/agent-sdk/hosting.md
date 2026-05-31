@@ -8,11 +8,11 @@
 
 Agent SDK 会生成并监督一个拥有 shell、工作目录和磁盘会话文件的 `claude` CLI 子进程。托管它不同于托管一个无状态的 API 包装器。每个运行的代理都是一个与本地状态绑定的长时进程，这决定了你如何分配资源、持久化会话以及跨租户进行扩展。
 
-本页面涵盖了在您自己的基础设施上进行自托管的内容：了解[子进程模型](#the-subprocess-model)，[选择会话模式](#choose-a-session-pattern)，[配置容器](#provision-the-container)，并处理如持久化、可观测性、认证和多租户隔离等[生产环境问题](#handle-production-concerns)。如需可部署的 Dockerfile 和 Kubernetes 清单，请参阅[托管食谱](https://github.com/anthropics/claude-cookbooks/tree/main/claude_agent_sdk/hosting)。
+本页面涵盖了在您自己的基础设施上进行自托管的内容：了解[子进程模型](#子进程模型)，[选择会话模式](#选择会话模式)，[配置容器](#配置容器)，并处理如持久化、可观测性、认证和多租户隔离等[生产环境问题](#处理生产问题)。如需可部署的 Dockerfile 和 Kubernetes 清单，请参阅[托管食谱](https://github.com/anthropics/claude-cookbooks/tree/main/claude_agent_sdk/hosting)。
 
 如果您不需要基础设施控制、自定义隔离或您自己的数据层，可以考虑使用 [托管代理](https://platform.claude.com/docs/en/managed-agents/overview)：这是一个托管的 REST API，由 Anthropic 运行代理和沙箱，您的应用程序发送事件并流式回传结果，无需操作任何托管基础设施。
 
-  关于超越基本沙箱化的安全加固，包括网络控制、凭证管理和隔离选项，请参阅 [Secure Deployment](/en/agent-sdk/secure-deployment)。
+  关于超越基本沙箱化的安全加固，包括网络控制、凭证管理和隔离选项，请参阅 [Secure Deployment](/zh/agent-sdk/secure-deployment)。
 
 ## 子进程模型
 
@@ -40,9 +40,9 @@ Agent SDK 会生成并监督一个拥有 shell、工作目录和磁盘会话文�
 | `CLAUDE.md` 记忆文件   | `~/.claude/CLAUDE.md`（用户层级），以及会话的工作目录（项目层级）                                |
 | 工作目录产物           | 会话的工作目录                                                                                   |
 
-要在不同主机间持久化会话记录，请配置一个 [`SessionStore` 适配器](/en/agent-sdk/session-storage)。记忆文件和其他工作目录产物需要它们自己的存储策略，例如挂载卷或对象存储同步。
+要在不同主机间持久化会话记录，请配置一个 [`SessionStore` 适配器](/zh/agent-sdk/session-storage)。记忆文件和其他工作目录产物需要它们自己的存储策略，例如挂载卷或对象存储同步。
 
-关于 API 层面会话、恢复和分叉如何工作，请参阅[会话](/en/agent-sdk/sessions)。
+关于 API 层面会话、恢复和分叉如何工作，请参阅[会话](/zh/agent-sdk/sessions)。
 
 ## 选择会话模式
 
@@ -69,11 +69,11 @@ for await (const message of query({ prompt, options: { maxTurns: 20 } })) {
 
 示例工作负载包括：对收发邮件进行分类和响应的邮件代理、通过容器端口为每位用户托管可编辑站点的站点构建器，以及处理来自 Slack 等平台持续流量的聊天机器人。
 
-该容器暴露 HTTP 或 WebSocket 端点，并将每个活跃会话映射到一个长期存在的查询及其背后的子进程。在 TypeScript 中，使用 [`streamInput()`](/en/agent-sdk/typescript#query-object) 向活跃会话添加轮次，并使用 [`startup()`](/en/agent-sdk/typescript#startup) 在接收流量前预热子进程。在 Python 中，使用 [`ClaudeSDKClient`](/en/agent-sdk/python#claudesdkclient) 保持会话在多个轮次间处于打开状态。请调整容器大小，使其能够容纳内存中的最大并发会话数。
+该容器暴露 HTTP 或 WebSocket 端点，并将每个活跃会话映射到一个长期存在的查询及其背后的子进程。在 TypeScript 中，使用 [`streamInput()`](/zh/agent-sdk/typescript#query-object) 向活跃会话添加轮次，并使用 [`startup()`](/zh/agent-sdk/typescript#startup) 在接收流量前预热子进程。在 Python 中，使用 [`ClaudeSDKClient`](/zh/agent-sdk/python#claudesdkclient) 保持会话在多个轮次间处于打开状态。请调整容器大小，使其能够容纳内存中的最大并发会话数。
 
 ### 混合会话
 
-临时容器在启动时从 [`SessionStore`](/en/agent-sdk/session-storage) 加载数据，并将更新持久化回存储。最适合交互次数较多但在交互间处于空闲状态的会话。容器会在空闲期间自动关闭，并在用户返回时重新启动。
+临时容器在启动时从 [`SessionStore`](/zh/agent-sdk/session-storage) 加载数据，并将更新持久化回存储。最适合交互次数较多但在交互间处于空闲状态的会话。容器会在空闲期间自动关闭，并在用户返回时重新启动。
 
 示例工作负载包括：需要间歇性检查的个人项目管理器、跨数小时暂停和恢复的深度研究，以及加载跨交互工单历史的客户支持代理。
 
@@ -109,13 +109,13 @@ for await (const message of query({ prompt, options: { maxTurns: 20 } })) {
       ...
   ```
 
-请参阅 [会话存储](/en/agent-sdk/session-storage) 以获取完整的 `SessionStore` 接口和参考适配器。
+请参阅 [会话存储](/zh/agent-sdk/session-storage) 以获取完整的 `SessionStore` 接口和参考适配器。
 
 ### 多代理容器
 
 在一个容器内运行多个 SDK 子进程。最适合需要紧密协作的代理，例如在共享环境中相互交互的多代理模拟。
 
-为每个代理分配自己的工作目录，以避免它们相互覆盖文件，并隔离设置加载，使得每个代理的 `CLAUDE.md` 文件不会跨代理泄露。有关具体选项，请参阅 [多租户隔离](#multi-tenant-isolation)。
+为每个代理分配自己的工作目录，以避免它们相互覆盖文件，并隔离设置加载，使得每个代理的 `CLAUDE.md` 文件不会跨代理泄露。有关具体选项，请参阅 [多租户隔离](#多租户隔离)。
 
 ## 配置容器
 
@@ -140,7 +140,7 @@ for await (const message of query({ prompt, options: { maxTurns: 20 } })) {
 * [Fly Machines](https://fly.io/docs/machines/)
 * [Vercel Sandbox](https://vercel.com/docs/functions/sandbox)
 
-关于自托管选项（如 Docker、gVisor 和 Firecracker）以及详细的隔离配置，请参阅 [隔离技术](/en/agent-sdk/secure-deployment#isolation-technologies)。
+关于自托管选项（如 Docker、gVisor 和 Firecracker）以及详细的隔离配置，请参阅 [隔离技术](/zh/agent-sdk/secure-deployment#isolation-technologies)。
 
 ### 运行时依赖
 
@@ -153,11 +153,11 @@ for await (const message of query({ prompt, options: { maxTurns: 20 } })) {
 
 ### 资源
 
-对于一个新启动的实例，每个代理 1 GiB 内存、5 GiB 磁盘和 1 个 CPU 是一个合理的起点。内存使用量会随着会话长度和工具活动而增长，因此请根据您实际需要的会话长度和并发数来规划资源，而不是基于空闲基准。有关如何计算每个主机的代理数量，请参阅 [扩展和并发](#scaling-and-concurrency)。
+对于一个新启动的实例，每个代理 1 GiB 内存、5 GiB 磁盘和 1 个 CPU 是一个合理的起点。内存使用量会随着会话长度和工具活动而增长，因此请根据您实际需要的会话长度和并发数来规划资源，而不是基于空闲基准。有关如何计算每个主机的代理数量，请参阅 [扩展和并发](#扩展与并发)。
 
 ### 网络
 
-SDK 需要出站 HTTPS 连接到 `api.anthropic.com`，或者在 Bedrock 或 Vertex 上运行时连接到您提供商的区域端点。如果您的代理使用 [MCP 服务器](/en/agent-sdk/mcp) 或外部工具，它们也需要出站访问这些端点。对于生产环境，通过强制实施域白名单、注入凭证和记录请求的出口代理来路由出站流量。有关完整模式，请参阅 [安全部署](/en/agent-sdk/secure-deployment)。
+SDK 需要出站 HTTPS 连接到 `api.anthropic.com`，或者在 Bedrock 或 Vertex 上运行时连接到您提供商的区域端点。如果您的代理使用 [MCP 服务器](/zh/agent-sdk/mcp) 或外部工具，它们也需要出站访问这些端点。对于生产环境，通过强制实施域白名单、注入凭证和记录请求的出口代理来路由出站流量。有关完整模式，请参阅 [安全部署](/zh/agent-sdk/secure-deployment)。
 
 对于入站流量，请在容器上暴露一个 HTTP 或 WebSocket 端口。您的应用程序在该端口上处理客户端请求，并在内部调用 SDK；子进程本身不监听网络。
 
@@ -167,7 +167,7 @@ SDK 需要出站 HTTPS 连接到 `api.anthropic.com`，或者在 Bedrock 或 Ver
 
 ### 会话和状态持久化
 
-默认的本地磁盘在重启、缩容或迁移到不同节点时会丢失。对于用户期望恢复的任何会话，请使用 [`SessionStore` 适配器](/en/agent-sdk/session-storage) 将对话记录镜像到持久存储。有关 S3、Redis 和 Postgres 适配器以及用于自行实现的合规性套件，请参阅 [参考实现](/en/agent-sdk/session-storage#reference-implementations)。
+默认的本地磁盘在重启、缩容或迁移到不同节点时会丢失。对于用户期望恢复的任何会话，请使用 [`SessionStore` 适配器](/zh/agent-sdk/session-storage) 将对话记录镜像到持久存储。有关 S3、Redis 和 Postgres 适配器以及用于自行实现的合规性套件，请参阅 [参考实现](/zh/agent-sdk/session-storage#reference-implementations)。
 
 关于 `SessionStore` 行为的三件事需要了解：
 
@@ -189,13 +189,13 @@ OTEL_LOGS_EXPORTER=otlp
 OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
 OTEL_EXPORTER_OTLP_ENDPOINT=http://collector.example.com:4318
 ```
-导出默认不包含提示词文本和工具输入。请参阅 [控制导出中的敏感数据](/en/agent-sdk/observability#control-sensitive-data-in-exports) 了解可选标志，并参阅 [可观测性](/en/agent-sdk/observability) 获取完整的信号目录。
+导出默认不包含提示词文本和工具输入。请参阅 [控制导出中的敏感数据](/zh/agent-sdk/observability#control-sensitive-data-in-exports) 了解可选标志，并参阅 [可观测性](/zh/agent-sdk/observability) 获取完整的信号目录。
 
 ### 认证与机密
 
 托管时需关注三个认证要点：
 
-* **Anthropic API**：子进程从其环境读取 `ANTHROPIC_API_KEY`。请从您的密钥管理器中提供，或设置 `ANTHROPIC_BASE_URL` 以通过在容器外注入密钥的代理路由模型调用。有关代理模式，请参阅 [凭证管理](/en/agent-sdk/secure-deployment#credential-management)；有关支持的认证方法，请参阅 [SDK 概述](/en/agent-sdk/overview#get-started)。
+* **Anthropic API**：子进程从其环境读取 `ANTHROPIC_API_KEY`。请从您的密钥管理器中提供，或设置 `ANTHROPIC_BASE_URL` 以通过在容器外注入密钥的代理路由模型调用。有关代理模式，请参阅 [凭证管理](/zh/agent-sdk/secure-deployment#credential-management)；有关支持的认证方法，请参阅 [SDK 概述](/zh/agent-sdk/overview#get-started)。
 * **入站请求**：在代理容器前端的网关处进行认证。代理应接收已预先认证的请求，不应成为验证用户 token 的组件。
 * **出站工具**：将工具凭证置于代理环境之外。通过代理路由出站调用，在请求离开容器后注入 API 密钥。代理执行调用；代理添加凭证。
 
@@ -207,15 +207,15 @@ OTEL_EXPORTER_OTLP_ENDPOINT=http://collector.example.com:4318
 ```text
 agents per host = (host RAM - overhead) / (per-session RAM ceiling)
 ```
-通过运行一个符合预期工具负载的目标长度会话来测量每个会话的资源上限，并记录峰值RSS。[资源](#resources)部分提到的1 GiB起始值是下限，而非上限。
+通过运行一个符合预期工具负载的目标长度会话来测量每个会话的资源上限，并记录峰值RSS。[资源](#资源)部分提到的1 GiB起始值是下限，而非上限。
 
 水平扩展路由取决于您的模式。对于长期运行的会话（容器承载多个会话的情况），可在负载均衡器后运行容器池，并通过对 `sessionId` 进行一致哈希来将会话固定到特定容器。固定会话将持续命中同一容器，因此也固定在同一运行子进程上，直到会话被驱逐或容器重启。
 
-单一会话中大规模并发[子代理](/en/agent-sdk/subagents)可能触发API速率限制。请将任务拆分为更小批次，而非一次性广泛派发。
+单一会话中大规模并发[子代理](/zh/agent-sdk/subagents)可能触发API速率限制。请将任务拆分为更小批次，而非一次性广泛派发。
 
 ### 成本
 
-Anthropic token成本通常比容器基础设施成本高出一个数量级甚至更多。最低配置的容器每小时运行成本约0.05美元，而单次长时间的代理会话可能消耗数美元的token。请参阅[成本跟踪](/en/agent-sdk/cost-tracking)了解按会话计费的token统计。
+Anthropic token成本通常比容器基础设施成本高出一个数量级甚至更多。最低配置的容器每小时运行成本约0.05美元，而单次长时间的代理会话可能消耗数美元的token。请参阅[成本跟踪](/zh/agent-sdk/cost-tracking)了解按会话计费的token统计。
 
 ### 多租户隔离
 
@@ -224,7 +224,7 @@ SDK默认行为从文件系统读取设置和 `CLAUDE.md` 记忆文件。在服�
 要在共享容器内隔离租户：
 
 *   在TypeScript中传递 `settingSources: []` 或在Python中传递 `setting_sources=[]`，以避免加载文件系统设置。
-*   在 `env` 中设置 `CLAUDE_CODE_DISABLE_AUTO_MEMORY=1`。`~/.claude/projects/<project>/memory/` 下的[自动记忆](/en/memory#auto-memory)无论如何都会加载到系统提示词中，不受 `settingSources` 控制。请参阅[settingSources 不控制的内容](/en/agent-sdk/claude-code-features#what-settingsources-does-not-control)了解其他无条件加载的输入。
+*   在 `env` 中设置 `CLAUDE_CODE_DISABLE_AUTO_MEMORY=1`。`~/.claude/projects/<project>/memory/` 下的[自动记忆](/zh/memory#auto-memory)无论如何都会加载到系统提示词中，不受 `settingSources` 控制。请参阅[settingSources 不控制的内容](/zh/agent-sdk/claude-code-features#what-settingsources-does-not-control)了解其他无条件加载的输入。
 *   将 `CLAUDE_CONFIG_DIR` 指向每个租户的专用目录，确保租户不共享 `~/.claude.json` 全局配置。
 *   使用每个租户的工作目录。在每次 `query()` 调用中显式传递 `cwd`。
 *   在代理层应用每个租户的出站规则，例如不同的出站IP、凭据或域名白名单，防止受损租户通过其他租户的出站策略窃取数据。
@@ -271,7 +271,7 @@ SDK默认行为从文件系统读取设置和 `CLAUDE.md` 记忆文件。在服�
       ...
   ```
 
-关于租户级别的网络控制，请参阅[安全部署](/en/agent-sdk/secure-deployment)。
+关于租户级别的网络控制，请参阅[安全部署](/zh/agent-sdk/secure-deployment)。
 
 ## 已知限制
 
@@ -282,12 +282,12 @@ SDK默认行为从文件系统读取设置和 `CLAUDE.md` 记忆文件。在服�
 | 无顶层会话超时                                      | 会话不会自动超时。在 `Options` 中设置 `maxTurns` 来限制代理在停止前进行的工具使用轮次。                                                                                                                                                                                                     |
 | 长会话期间内存增长                                  | 限制会话长度或定期回收子进程。参见[扩展与并发](#扩展与并发)。                                                                                                                                                                                                                                 |
 | 大规模并行子代理扇出可能触发速率限制                | 将工作分解为更小的批次，而不是进行一次性大范围分派。                                                                                                                                                                                                                                           |
-| 无子代理挂钟截止时间                                | 在每个[子代理](/en/agent-sdk/subagents)的 `AgentDefinition` 中使用 `maxTurns` 进行限制。仅对后台子代理，`CLAUDE_ASYNC_AGENT_STALL_TIMEOUT_MS` 设置一个停滞监视器，当 `run_in_background` 的子代理停止产生输出时会触发；这并非总运行时间截止时间。 |
+| 无子代理挂钟截止时间                                | 在每个[子代理](/zh/agent-sdk/subagents)的 `AgentDefinition` 中使用 `maxTurns` 进行限制。仅对后台子代理，`CLAUDE_ASYNC_AGENT_STALL_TIMEOUT_MS` 设置一个停滞监视器，当 `run_in_background` 的子代理停止产生输出时会触发；这并非总运行时间截止时间。 |
 
 ## 后续步骤
 
 * [托管实战指南](https://github.com/anthropics/claude-cookbooks/blob/main/claude_agent_sdk/07_Hosting_the_agent.ipynb)：包含可部署代码（用于 Docker、Modal 和 Kubernetes）的笔记本教程。
-* [会话存储](/en/agent-sdk/session-storage)：通过 `SessionStore` 适配器在不同主机间持久化对话记录。
-* [可观测性](/en/agent-sdk/observability)：将 OTEL 追踪、指标和日志导出到你的收集器。
-* [安全部署](/en/agent-sdk/secure-deployment)：网络控制、凭证管理和隔离加固。
-* [成本追踪](/en/agent-sdk/cost-tracking)：按会话进行 token 和成本核算。
+* [会话存储](/zh/agent-sdk/session-storage)：通过 `SessionStore` 适配器在不同主机间持久化对话记录。
+* [可观测性](/zh/agent-sdk/observability)：将 OTEL 追踪、指标和日志导出到你的收集器。
+* [安全部署](/zh/agent-sdk/secure-deployment)：网络控制、凭证管理和隔离加固。
+* [成本追踪](/zh/agent-sdk/cost-tracking)：按会话进行 token 和成本核算。

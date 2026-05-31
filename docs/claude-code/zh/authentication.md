@@ -10,7 +10,7 @@ Claude Code 支持多种认证方法，具体取决于您的设置。个人用�
 
 ## 登录 Claude Code
 
-[安装 Claude Code](/en/setup#install-claude-code) 后，在终端中运行 `claude`。首次启动时，Claude Code 会打开一个浏览器窗口供您登录。
+[安装 Claude Code](/zh/setup#install-claude-code) 后，在终端中运行 `claude`。首次启动时，Claude Code 会打开一个浏览器窗口供您登录。
 
 如果浏览器未自动打开，请按 `c` 将登录 URL 复制到剪贴板，然后将其粘贴到浏览器中。
 
@@ -20,22 +20,22 @@ Claude Code 支持多种认证方法，具体取决于您的设置。个人用�
 
 * **Claude Pro 或 Max 订阅**：使用您的 Claude.ai 帐户登录。在 [claude.com/pricing](https://claude.com/pricing?utm_source=claude_code\&utm_medium=docs\&utm_content=authentication_pro_max) 订阅。
 * **Claude for Teams 或 Enterprise**：使用您的团队管理员邀请您的 Claude.ai 帐户登录。
-* **Claude Console**：使用您的 Console 凭据登录。您的管理员必须已[邀请您](#claude-console-authentication)。
-* **云提供商**：如果您的组织使用 [Amazon Bedrock](/en/amazon-bedrock)、[Google Vertex AI](/en/google-vertex-ai) 或 [Microsoft Foundry](/en/microsoft-foundry)，请在运行 `claude` 前设置所需的环境变量。无需通过浏览器登录。
+* **Claude Console**：使用您的 Console 凭据登录。您的管理员必须已[邀请您](#登录-claude-code)。
+* **云提供商**：如果您的组织使用 [Amazon Bedrock](/zh/amazon-bedrock)、[Google Vertex AI](/zh/google-vertex-ai) 或 [Microsoft Foundry](/zh/microsoft-foundry)，请在运行 `claude` 前设置所需的环境变量。无需通过浏览器登录。
 
 要注销并重新认证，请在 Claude Code 提示符处输入 `/logout`。
 
-如果登录遇到问题，请参阅[认证故障排除](/en/troubleshoot-install#login-and-authentication)。
+如果登录遇到问题，请参阅[认证故障排除](/zh/troubleshoot-install#login-and-authentication)。
 
 ## 设置团队认证
 
 对于团队和组织，您可以通过以下方式之一配置 Claude Code 访问：
 
-* [Claude for Teams 或 Enterprise](#claude-for-teams-or-enterprise)，适用于大多数团队
-* [Claude Console](#claude-console-authentication)
-* [Amazon Bedrock](/en/amazon-bedrock)
-* [Google Vertex AI](/en/google-vertex-ai)
-* [Microsoft Foundry](/en/microsoft-foundry)
+* [Claude for Teams 或 Enterprise](#claude-for-teams-或-enterprise)，适用于大多数团队
+* [Claude Console](#登录-claude-code)
+* [Amazon Bedrock](/zh/amazon-bedrock)
+* [Google Vertex AI](/zh/google-vertex-ai)
+* [Microsoft Foundry](/zh/microsoft-foundry)
 
 ### Claude for Teams 或 Enterprise
 
@@ -82,8 +82,8 @@ Claude Code 支持多种认证方法，具体取决于您的设置。个人用�
     每位受邀用户需要：
 
     * 接受控制台邀请
-    * [检查系统要求](/en/setup#system-requirements)
-    * [安装 Claude Code](/en/setup#install-claude-code)
+    * [检查系统要求](/zh/setup#system-requirements)
+    * [安装 Claude Code](/zh/setup#install-claude-code)
     * 使用控制台账户凭据登录
 
 
@@ -92,15 +92,15 @@ Claude Code 支持多种认证方法，具体取决于您的设置。个人用�
 对于使用 Amazon Bedrock、Google Vertex AI 或 Microsoft Foundry 的团队：
 
 
-    请参阅 [Bedrock 文档](/en/amazon-bedrock)、[Vertex 文档](/en/google-vertex-ai) 或 [Microsoft Foundry 文档](/en/microsoft-foundry)。
+    请参阅 [Bedrock 文档](/zh/amazon-bedrock)、[Vertex 文档](/zh/google-vertex-ai) 或 [Microsoft Foundry 文档](/zh/microsoft-foundry)。
 
 
 
-    将环境变量和云凭证生成说明分发给您的用户。了解更多关于如何[管理配置](/en/settings)的信息。
+    将环境变量和云凭证生成说明分发给您的用户。了解更多关于如何[管理配置](/zh/settings)的信息。
 
 
 
-    用户可以[安装 Claude Code](/en/setup#install-claude-code)。
+    用户可以[安装 Claude Code](/zh/setup#install-claude-code)。
 
 
 ## 凭据管理
@@ -112,9 +112,9 @@ Claude Code 安全地管理您的认证凭据：
   * 在 Linux 上，凭据存储在 `~/.claude/.credentials.json` 中，文件权限为 `0600`。
   * 在 Windows 上，凭据存储在 `%USERPROFILE%\.claude\.credentials.json` 中，并继承您的用户配置文件目录的访问控制权限，该权限默认将文件限制为仅您的用户账户可访问。
   * 如果您在 Linux 或 Windows 上设置了 `CLAUDE_CONFIG_DIR` 环境变量，则 `.credentials.json` 文件会位于该目录下。
-  * Claude Code 通过 `/login` 和 `/logout` 管理 `.credentials.json`。要通过自定义 API 端点路由请求，请设置 [`ANTHROPIC_BASE_URL`](/en/env-vars) 环境变量。
+  * Claude Code 通过 `/login` 和 `/logout` 管理 `.credentials.json`。要通过自定义 API 端点路由请求，请设置 [`ANTHROPIC_BASE_URL`](/zh/env-vars) 环境变量。
 * **支持的认证类型**：Claude.ai 凭据、Claude API 凭据、Azure 认证、Bedrock 认证和 Vertex 认证。
-* **自定义凭据脚本**：[`apiKeyHelper`](/en/settings#available-settings) 设置可以配置为运行一个返回 API 密钥的 shell 脚本。
+* **自定义凭据脚本**：[`apiKeyHelper`](/zh/settings#available-settings) 设置可以配置为运行一个返回 API 密钥的 shell 脚本。
 * **刷新间隔**：默认情况下，`apiKeyHelper` 在 5 分钟后或收到 HTTP 401 响应时被调用。设置 `CLAUDE_CODE_API_KEY_HELPER_TTL_MS` 环境变量可自定义刷新间隔。
 * **助手响应缓慢提示**：如果 `apiKeyHelper` 返回密钥耗时超过 10 秒，Claude Code 会在提示栏中显示一条警告提示，展示已用时间。如果您经常看到此提示，请检查您的凭据脚本是否可以优化。
 
@@ -124,16 +124,16 @@ Claude Code 安全地管理您的认证凭据：
 
 当存在多个凭据时，Claude Code 按以下顺序选择：
 
-1.  云提供商凭据，当设置了 `CLAUDE_CODE_USE_BEDROCK`、`CLAUDE_CODE_USE_VERTEX` 或 `CLAUDE_CODE_USE_FOUNDRY` 时。设置方法请参见[第三方集成](/en/third-party-integrations)。
-2.  `ANTHROPIC_AUTH_TOKEN` 环境变量。作为 `Authorization: Bearer` 标头发送。当通过[LLM 网关或代理](/en/llm-gateway)路由且该网关/代理使用不记名令牌而非 Anthropic API 密钥进行认证时使用此变量。
+1.  云提供商凭据，当设置了 `CLAUDE_CODE_USE_BEDROCK`、`CLAUDE_CODE_USE_VERTEX` 或 `CLAUDE_CODE_USE_FOUNDRY` 时。设置方法请参见[第三方集成](/zh/third-party-integrations)。
+2.  `ANTHROPIC_AUTH_TOKEN` 环境变量。作为 `Authorization: Bearer` 标头发送。当通过[LLM 网关或代理](/zh/llm-gateway)路由且该网关/代理使用不记名令牌而非 Anthropic API 密钥进行认证时使用此变量。
 3.  `ANTHROPIC_API_KEY` 环境变量。作为 `X-Api-Key` 标头发送。当使用来自 [Claude 控制台](https://platform.claude.com)的密钥直接访问 Anthropic API 时使用此变量。在交互模式下，系统会提示您一次以批准或拒绝该密钥，您的选择会被记住。要稍后更改，请在 `/config` 中使用“使用自定义 API 密钥”开关。在非交互模式 (`-p`) 下，如果密钥存在则始终使用。
-4.  [`apiKeyHelper`](/en/settings#available-settings) 脚本输出。用于动态或轮换凭据，例如从保险库获取的短期令牌。
-5.  `CLAUDE_CODE_OAUTH_TOKEN` 环境变量。由 [`claude setup-token`](#generate-a-long-lived-token) 生成的长期 OAuth 令牌。用于无法进行浏览器登录的 CI 流水线和脚本。
+4.  [`apiKeyHelper`](/zh/settings#available-settings) 脚本输出。用于动态或轮换凭据，例如从保险库获取的短期令牌。
+5.  `CLAUDE_CODE_OAUTH_TOKEN` 环境变量。由 [`claude setup-token`](#生成长期令牌) 生成的长期 OAuth 令牌。用于无法进行浏览器登录的 CI 流水线和脚本。
 6.  来自 `/login` 的订阅 OAuth 凭据。这是 Claude Pro、Max、Team 和 Enterprise 用户的默认选项。
 
 如果您拥有有效的 Claude 订阅，但环境中同时设置了 `ANTHROPIC_API_KEY`，则在获得批准后 API 密钥将优先使用。如果该密钥属于已禁用或过期的组织，则可能导致认证失败。运行 `unset ANTHROPIC_API_KEY` 可回退到您的订阅，并使用 `/status` 确认当前生效的认证方法。
 
-[网页版 Claude Code](/en/claude-code-on-the-web) 始终使用您的订阅凭据。沙箱环境中的 `ANTHROPIC_API_KEY` 和 `ANTHROPIC_AUTH_TOKEN` 不会覆盖它们。
+[网页版 Claude Code](/zh/claude-code-on-the-web) 始终使用您的订阅凭据。沙箱环境中的 `ANTHROPIC_API_KEY` 和 `ANTHROPIC_AUTH_TOKEN` 不会覆盖它们。
 
 ### 生成长期令牌
 
@@ -147,6 +147,6 @@ claude setup-token
 ```bash
 export CLAUDE_CODE_OAUTH_TOKEN=your-token
 ```
-此令牌用于验证您的 Claude 订阅，需要 Pro、Max、Team 或 Enterprise 计划。它仅用于推理，无法建立 [Remote Control](/en/remote-control) 会话。
+此令牌用于验证您的 Claude 订阅，需要 Pro、Max、Team 或 Enterprise 计划。它仅用于推理，无法建立 [Remote Control](/zh/remote-control) 会话。
 
-[Bare 模式](/en/headless#start-faster-with-bare-mode) 不会读取 `CLAUDE_CODE_OAUTH_TOKEN`。如果您的脚本传入 `--bare`，请改用 `ANTHROPIC_API_KEY` 或 `apiKeyHelper` 进行身份验证。
+[Bare 模式](/zh/headless#start-faster-with-bare-mode) 不会读取 `CLAUDE_CODE_OAUTH_TOKEN`。如果您的脚本传入 `--bare`，请改用 `ANTHROPIC_API_KEY` 或 `apiKeyHelper` 进行身份验证。

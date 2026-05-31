@@ -4,7 +4,7 @@
 
 默认情况下，Agent SDK 会在 Claude 完成生成每个响应后，生成完整的 `AssistantMessage` 对象。要在文本和工具调用生成时接收增量更新，请在选项中设置 `include_partial_messages`（Python）或 `includePartialMessages`（TypeScript）为 `true`，以启用部分消息流式传输。
 
-  本页面介绍输出流式传输（实时接收token）。关于输入模式（如何发送消息），请参阅[向代理发送消息](/en/agent-sdk/streaming-vs-single-mode)。您也可以[通过命令行界面使用 Agent SDK 流式处理响应](/en/headless)。
+  本页面介绍输出流式传输（实时接收token）。关于输入模式（如何发送消息），请参阅[向代理发送消息](/zh/agent-sdk/streaming-vs-single-mode)。您也可以[通过命令行界面使用 Agent SDK 流式处理响应](/zh/headless)。
 
 ## 启用流式输出
 
@@ -367,12 +367,12 @@ ResultMessage - final result
 部分 SDK 功能与流式输出不兼容：
 
 * **扩展思考**：当您显式设置 `max_thinking_tokens`（Python）或 `maxThinkingTokens`（TypeScript）时，不会发出 `StreamEvent` 消息。您只会在每轮结束后收到完整消息。请注意，SDK 默认禁用思考功能，因此除非您启用它，否则流式输出可以正常工作。
-* **结构化输出**：JSON 结果仅出现在最终的 `ResultMessage.structured_output` 中，而非作为流式增量。详情请参见 [结构化输出](/en/agent-sdk/structured-outputs)。
+* **结构化输出**：JSON 结果仅出现在最终的 `ResultMessage.structured_output` 中，而非作为流式增量。详情请参见 [结构化输出](/zh/agent-sdk/structured-outputs)。
 
 ## 后续步骤
 
 既然您已经了解如何实时流式传输文本和工具调用，可以探索以下相关主题：
 
-* [交互式与一次性查询](/en/agent-sdk/streaming-vs-single-mode)：根据您的用例选择输入模式
-* [结构化输出](/en/agent-sdk/structured-outputs)：从代理获取类型化的 JSON 响应
-* [权限](/en/agent-sdk/permissions)：控制代理可以使用哪些工具
+* [交互式与一次性查询](/zh/agent-sdk/streaming-vs-single-mode)：根据您的用例选择输入模式
+* [结构化输出](/zh/agent-sdk/structured-outputs)：从代理获取类型化的 JSON 响应
+* [权限](/zh/agent-sdk/permissions)：控制代理可以使用哪些工具

@@ -11,8 +11,8 @@
 Claude for Enterprise 上的 ZDR 让企业客户可以在零数据保留的前提下使用 Claude Code，并享有以下管理能力：
 
 * 按用户的成本控制
-* [Analytics](/en/analytics) 仪表盘
-* [服务器托管设置](/en/server-managed-settings)
+* [Analytics](/zh/analytics) 仪表盘
+* [服务器托管设置](/zh/server-managed-settings)
 * 审计日志
 
 Claude for Enterprise 上的 Claude Code ZDR 仅适用于 Anthropic 的直接平台。对于在 Amazon Bedrock、Google Vertex AI 或 Microsoft Foundry 上部署的 Claude，请参考这些平台各自的数据保留政策。
@@ -31,13 +31,13 @@ ZDR 涵盖通过 Claude for Enterprise 上的 Claude Code 发起的模型推理�
 
 ### ZDR 不涵盖的内容
 
-即便组织启用了 ZDR，下列项目也不在覆盖范围内。它们遵循[标准数据保留政策](/en/data-usage#data-retention)：
+即便组织启用了 ZDR，下列项目也不在覆盖范围内。它们遵循[标准数据保留政策](/zh/data-usage#data-retention)：
 
 | 功能                  | 详情                                                                                                                                                                                                                                                     |
 | ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | claude.ai 上的 Chat        | 通过 Claude for Enterprise 网页界面进行的 Chat 对话不在 ZDR 覆盖范围内。                                                                                                                                                                                                  |
 | Cowork                   | Cowork 会话不在 ZDR 覆盖范围内。                                                                                                                                                                                                                     |
-| Claude Code Analytics    | 不会存储提示词或模型响应，但会收集生产力元数据，例如账号邮箱与使用统计。ZDR 组织无法使用贡献度指标；[analytics 仪表盘](/en/analytics) 仅显示使用情况指标。 |
+| Claude Code Analytics    | 不会存储提示词或模型响应，但会收集生产力元数据，例如账号邮箱与使用统计。ZDR 组织无法使用贡献度指标；[analytics 仪表盘](/zh/analytics) 仅显示使用情况指标。 |
 | 用户与席位管理 | 管理类数据，例如账号邮箱与席位分配，按标准政策保留。                                                                                                                                                                                                     |
 | 第三方集成 | 第三方工具、MCP 服务器或其他外部集成处理的数据不在 ZDR 覆盖范围内。请独立审阅这些服务的数据处理实践。                                                                                       |
 
@@ -47,8 +47,8 @@ ZDR 涵盖通过 Claude for Enterprise 上的 Claude Code 发起的模型推理�
 
 | 功能                                                             | 原因                                                                  |
 | ------------------------------------------------------------------- | ----------------------------------------------------------------------- |
-| [Claude Code on the Web](/en/claude-code-on-the-web)                | 需要服务端存储对话历史。                   |
-| 来自桌面应用的[远程会话](/en/desktop#remote-sessions) | 需要持久化包含提示词和补全的会话数据。 |
+| [Claude Code on the Web](/zh/claude-code-on-the-web)                | 需要服务端存储对话历史。                   |
+| 来自桌面应用的[远程会话](/zh/desktop#remote-sessions) | 需要持久化包含提示词和补全的会话数据。 |
 | 反馈提交（`/feedback`）                                   | 提交反馈会把对话数据发送到 Anthropic。               |
 
 无论客户端是否显示，这些功能都会在后端被屏蔽。如果你在 Claude Code 终端启动期间看到某个被禁用的功能，尝试使用时会返回错误，提示该组织的策略不允许此操作。

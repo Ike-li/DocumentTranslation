@@ -8,7 +8,7 @@
 
 Claude Agent SDK 为每次与 Claude 的交互提供详细的 token 使用信息。本指南说明了如何正确跟踪使用情况并理解成本报告，尤其是在处理并行工具使用和多步骤对话时。
 
-有关完整的 API 文档，请参阅 [TypeScript SDK 参考](/en/agent-sdk/typescript) 和 [Python SDK 参考](/en/agent-sdk/python)。
+有关完整的 API 文档，请参阅 [TypeScript SDK 参考](/zh/agent-sdk/typescript) 和 [Python SDK 参考](/zh/agent-sdk/python)。
 
   `total_cost_usd` 和 `costUSD` 字段是客户端估算值，并非权威计费数据。SDK 在本地根据构建时绑定的价格表计算这些字段，因此在以下情况下它们可能与实际计费金额存在偏差：
 
@@ -29,7 +29,7 @@ TypeScript 和 Python SDK 暴露相同的使用数据，但字段名称不同：
 
 成本追踪取决于理解 SDK 如何界定使用数据的范围：
 
-* **`query()` 调用：** 对 SDK `query()` 函数的一次调用。一次调用可能涉及多个步骤（Claude 响应、使用工具、获取结果、再次响应）。每次调用在结束时都会生成一个 [`result`](/en/agent-sdk/typescript#sdkresultmessage) 消息。
+* **`query()` 调用：** 对 SDK `query()` 函数的一次调用。一次调用可能涉及多个步骤（Claude 响应、使用工具、获取结果、再次响应）。每次调用在结束时都会生成一个 [`result`](/zh/agent-sdk/typescript#sdkresultmessage) 消息。
 * **步骤：** 在 `query()` 调用内部的一个单一的请求/响应周期。每个步骤都会生成带有 token 使用信息的助手消息。
 * **会话：** 一系列通过会话 ID（使用 `resume` 选项）关联的 `query()` 调用。会话中的每个 `query()` 调用独立报告其自身的成本。
 
@@ -42,12 +42,12 @@ TypeScript 和 Python SDK 暴露相同的使用数据，但字段名称不同：
 
 
 
-    当 `query()` 调用完成时，SDK 会发出包含 `total_cost_usd` 和累计 `usage` 的结果消息。该消息在 TypeScript（[`SDKResultMessage`](/en/agent-sdk/typescript#sdkresultmessage)）和 Python（[`ResultMessage`](/en/agent-sdk/python#resultmessage)）中均可用。如果您执行多次 `query()` 调用（例如在多轮会话中），每次结果仅反映该次调用的成本。若您只需要预估总成本，可以忽略分步使用量，直接读取此单一数值。
+    当 `query()` 调用完成时，SDK 会发出包含 `total_cost_usd` 和累计 `usage` 的结果消息。该消息在 TypeScript（[`SDKResultMessage`](/zh/agent-sdk/typescript#sdkresultmessage)）和 Python（[`ResultMessage`](/zh/agent-sdk/python#resultmessage)）中均可用。如果您执行多次 `query()` 调用（例如在多轮会话中），每次结果仅反映该次调用的成本。若您只需要预估总成本，可以忽略分步使用量，直接读取此单一数值。
 
 
 ## 获取查询的总成本
 
-结果消息（[TypeScript](/en/agent-sdk/typescript#sdkresultmessage), [Python](/en/agent-sdk/python#resultmessage)）标志着 `query()` 调用的代理循环结束。它包含 `total_cost_usd`，即该调用中所有步骤的累计预估成本。此功能适用于成功和错误的结果。如果你使用会话进行多次 `query()` 调用，每个结果仅反映该单次调用的成本。
+结果消息（[TypeScript](/zh/agent-sdk/typescript#sdkresultmessage), [Python](/zh/agent-sdk/python#resultmessage)）标志着 `query()` 调用的代理循环结束。它包含 `total_cost_usd`，即该调用中所有步骤的累计预估成本。此功能适用于成功和错误的结果。如果你使用会话进行多次 `query()` 调用，每个结果仅反映该单次调用的成本。
 
 以下示例遍历 `query()` 调用产生的消息流，并在 `result` 消息到达时打印总成本：
 
@@ -77,7 +77,7 @@ TypeScript 和 Python SDK 暴露相同的使用数据，但字段名称不同：
 
 ## 跟踪每一步和每个模型的使用情况
 
-本节示例中使用 TypeScript 字段名称。在 Python 中，对应的字段为 [`AssistantMessage.usage`](/en/agent-sdk/python#assistantmessage) 和 `AssistantMessage.message_id` 用于跟踪每一步的使用情况，[`ResultMessage.model_usage`](/en/agent-sdk/python#resultmessage) 用于按模型分组统计。
+本节示例中使用 TypeScript 字段名称。在 Python 中，对应的字段为 [`AssistantMessage.usage`](/zh/agent-sdk/python#assistantmessage) 和 `AssistantMessage.message_id` 用于跟踪每一步的使用情况，[`ResultMessage.model_usage`](/zh/agent-sdk/python#resultmessage) 用于按模型分组统计。
 
 ### 跟踪每一步的使用情况
 
@@ -112,7 +112,7 @@ console.log(`Output tokens: ${totalOutputTokens}`);
 ```
 ### 按模型分析使用情况
 
-结果消息包含 [`modelUsage`](/en/agent-sdk/typescript#modelusage)，这是一个映射，将模型名称映射到每个模型的 token 数量和成本。当您运行多个模型（例如，子代理使用 Haiku，主代理使用 Opus）并希望查看 token 分配情况时，此功能非常有用。
+结果消息包含 [`modelUsage`](/zh/agent-sdk/typescript#modelusage)，这是一个映射，将模型名称映射到每个模型的 token 数量和成本。当您运行多个模型（例如，子代理使用 Haiku，主代理使用 Opus）并希望查看 token 分配情况时，此功能非常有用。
 
 以下示例执行查询并打印所使用的每个模型的成本和 token 细分情况：
 ```typescript
@@ -209,13 +209,13 @@ Agent SDK 会自动使用[提示词缓存](https://platform.claude.com/docs/en/b
 *   `cache_creation_input_tokens`：用于创建新缓存条目的 token（费率高于标准输入 token）。
 *   `cache_read_input_tokens`：从现有缓存条目读取的 token（费率较低）。
 
-将这些字段与 `input_tokens` 分开跟踪，以了解缓存节省的成本。在 TypeScript 中，这些字段在 [`Usage`](/en/agent-sdk/typescript#usage) 对象上定义了类型。在 Python 中，它们作为键出现在 [`ResultMessage.usage`](/en/agent-sdk/python#resultmessage) 字典中（例如，`message.usage.get("cache_read_input_tokens", 0)`）。
+将这些字段与 `input_tokens` 分开跟踪，以了解缓存节省的成本。在 TypeScript 中，这些字段在 [`Usage`](/zh/agent-sdk/typescript#usage) 对象上定义了类型。在 Python 中，它们作为键出现在 [`ResultMessage.usage`](/zh/agent-sdk/python#resultmessage) 字典中（例如，`message.usage.get("cache_read_input_tokens", 0)`）。
 
 ### 将提示词缓存 TTL 延长至一小时
 
 当你使用 API 密钥进行身份验证，或在 Amazon Bedrock、Google Cloud Vertex AI 或 Microsoft Foundry 上运行时，SDK 缓存写入的条目默认使用 5 分钟的 TTL。如果你的工作负载针对相同的系统提示词和上下文运行许多短会话，且会话间隔超过 5 分钟，则缓存会在会话间过期，每个新会话都需要支付全额输入价格。
 
-若要请求缓存写入的 TTL 为 1 小时，请设置 [`ENABLE_PROMPT_CACHING_1H`](/en/env-vars) 环境变量。你可以在 shell 或容器环境中导出它，或者通过 `options.env` 传递。
+若要请求缓存写入的 TTL 为 1 小时，请设置 [`ENABLE_PROMPT_CACHING_1H`](/zh/env-vars) 环境变量。你可以在 shell 或容器环境中导出它，或者通过 `options.env` 传递。
 
 以下示例为在 Bedrock 上运行的代理启用 1 小时 TTL：
 
@@ -242,6 +242,6 @@ Agent SDK 会自动使用[提示词缓存](https://platform.claude.com/docs/en/b
 
 ## 相关文档
 
-* [TypeScript SDK参考文档](/en/agent-sdk/typescript) - 完整的API文档
-* [SDK概述](/en/agent-sdk/overview) - SDK入门指南
-* [SDK权限](/en/agent-sdk/permissions) - 管理工具权限
+* [TypeScript SDK参考文档](/zh/agent-sdk/typescript) - 完整的API文档
+* [SDK概述](/zh/agent-sdk/overview) - SDK入门指南
+* [SDK权限](/zh/agent-sdk/permissions) - 管理工具权限

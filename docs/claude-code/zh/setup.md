@@ -79,19 +79,19 @@ Claude Code 支持以下平台和配置：
 
 
 
-您也可以在 Debian、Fedora、RHEL 和 Alpine 上通过 [apt, dnf, 或 apk](/en/setup#install-with-linux-package-managers) 进行安装。
+您也可以在 Debian、Fedora、RHEL 和 Alpine 上通过 [apt, dnf, 或 apk](/zh/setup#install-with-linux-package-managers) 进行安装。
 
 安装完成后，在您想工作的项目中打开一个终端，然后启动 Claude Code：
 ```bash
 claude
 ```
-如果在安装过程中遇到任何问题，请参阅[故障排查安装与登录](/en/troubleshoot-install)。
+如果在安装过程中遇到任何问题，请参阅[故障排查安装与登录](/zh/troubleshoot-install)。
 
 ### 在 Windows 上设置
 
 您可以在 Windows 原生环境或 WSL 内运行 Claude Code。请根据您的项目位置和所需功能来选择：
 
-| 选项           | 要求                                                                   | [沙箱功能](/en/sandboxing) | 适用场景                                        |
+| 选项           | 要求                                                                   | [沙箱功能](/zh/sandboxing) | 适用场景                                        |
 | -------------- | ---------------------------------------------------------------------- | ------------------------ | ----------------------------------------------- |
 | 原生 Windows   | 无要求；[Git for Windows](https://git-scm.com/downloads/win) 可选      | 不支持                   | Windows 原生项目和工具                           |
 | WSL 2          | 需启用 WSL 2                                                           | 支持                     | Linux 工具链或需要沙箱命令执行                   |
@@ -99,14 +99,14 @@ claude
 
 **选项 1：原生 Windows**
 
-在 PowerShell 或 CMD 中运行安装命令。您不需要以管理员身份运行。安装 [Git for Windows](https://git-scm.com/downloads/win) 是可选的。它通过提供 Git Bash 来启用 [Bash 工具](/en/tools-reference#bash-tool-behavior)。
+在 PowerShell 或 CMD 中运行安装命令。您不需要以管理员身份运行。安装 [Git for Windows](https://git-scm.com/downloads/win) 是可选的。它通过提供 Git Bash 来启用 [Bash 工具](/zh/tools-reference#bash-tool-behavior)。
 
-从 PowerShell 还是 CMD 安装仅影响您运行的安装命令。在 PowerShell 中，您的提示符显示为 `PS C:\Users\YourName>`，而在 CMD 中则显示为 `C:\Users\YourName>`，没有 `PS`。如果您是终端新手，[终端指南](/en/terminal-guide#windows) 会逐步指导每个步骤。
+从 PowerShell 还是 CMD 安装仅影响您运行的安装命令。在 PowerShell 中，您的提示符显示为 `PS C:\Users\YourName>`，而在 CMD 中则显示为 `C:\Users\YourName>`，没有 `PS`。如果您是终端新手，[终端指南](/zh/terminal-guide#windows) 会逐步指导每个步骤。
 
 安装完成后，从任意终端启动 `claude`。
 
-* **未安装 Git for Windows** 时，Claude Code 通过 [PowerShell 工具](/en/tools-reference#powershell-tool) 运行 shell 命令。
-* **安装了 Git for Windows** 后，Claude Code 会使用 Git Bash 来运行 [Bash 工具](/en/tools-reference#bash-tool-behavior)。如果 Claude Code 找不到 Git Bash，请在您的 [settings.json 文件](/en/settings) 中设置路径。
+* **未安装 Git for Windows** 时，Claude Code 通过 [PowerShell 工具](/zh/tools-reference#powershell-tool) 运行 shell 命令。
+* **安装了 Git for Windows** 后，Claude Code 会使用 Git Bash 来运行 [Bash 工具](/zh/tools-reference#bash-tool-behavior)。如果 Claude Code 找不到 Git Bash，请在您的 [settings.json 文件](/zh/settings) 中设置路径。
   ```json
   {
     "env": {
@@ -114,11 +114,11 @@ claude
     }
   }
   ```
-当安装 Git for Windows 后，PowerShell 工具正作为与 Bash 并列的额外选项逐步推出。设置 `CLAUDE_CODE_USE_POWERSHELL_TOOL=1` 以选择加入，或设置为 `0` 以选择退出。有关设置和限制，请参阅 [PowerShell 工具](/en/tools-reference#powershell-tool)。
+当安装 Git for Windows 后，PowerShell 工具正作为与 Bash 并列的额外选项逐步推出。设置 `CLAUDE_CODE_USE_POWERSHELL_TOOL=1` 以选择加入，或设置为 `0` 以选择退出。有关设置和限制，请参阅 [PowerShell 工具](/zh/tools-reference#powershell-tool)。
 
 **选项 2：WSL**
 
-打开您的 WSL 发行版，并按照上方的[安装说明](#install-claude-code)运行 Linux 安装程序。您是在 WSL 终端内安装和启动 `claude`，而不是在 PowerShell 或 CMD 中。
+打开您的 WSL 发行版，并按照上方的[安装说明](#安装-claude-code)运行 Linux 安装程序。您是在 WSL 终端内安装和启动 `claude`，而不是在 PowerShell 或 CMD 中。
 
 ### Alpine Linux 和基于 musl 的发行版
 
@@ -128,7 +128,7 @@ claude
 ```bash
 apk add libgcc libstdc++ ripgrep
 ```
-请在你的 [`settings.json`](/en/settings#available-settings) 文件中将 `USE_BUILTIN_RIPGREP` 设置为 `0`：
+请在你的 [`settings.json`](/zh/settings#available-settings) 文件中将 `USE_BUILTIN_RIPGREP` 设置为 `0`：
 ```json
 {
   "env": {
@@ -142,21 +142,21 @@ apk add libgcc libstdc++ ripgrep
 ```bash
 claude --version
 ```
-如果执行失败并显示 `command not found` 或其他错误，请参阅[故障排除安装和登录](/en/troubleshoot-install)。
+如果执行失败并显示 `command not found` 或其他错误，请参阅[故障排除安装和登录](/zh/troubleshoot-install)。
 
-要对安装和配置进行更详细的检查，请运行 [`claude doctor`](/en/troubleshooting#get-more-help)：
+要对安装和配置进行更详细的检查，请运行 [`claude doctor`](/zh/troubleshooting#get-more-help)：
 ```bash
 claude doctor
 ```
 ## 认证
 
-Claude Code 需要 Pro、Max、Team、Enterprise 或 Console 账户。免费的 Claude.ai 计划不包含 Claude Code 访问权限。您也可以使用 [Amazon Bedrock](/en/amazon-bedrock)、[Google Vertex AI](/en/google-vertex-ai) 或 [Microsoft Foundry](/en/microsoft-foundry) 等第三方 API 提供商来使用 Claude Code。
+Claude Code 需要 Pro、Max、Team、Enterprise 或 Console 账户。免费的 Claude.ai 计划不包含 Claude Code 访问权限。您也可以使用 [Amazon Bedrock](/zh/amazon-bedrock)、[Google Vertex AI](/zh/google-vertex-ai) 或 [Microsoft Foundry](/zh/microsoft-foundry) 等第三方 API 提供商来使用 Claude Code。
 
-安装完成后，通过运行 `claude` 并按照浏览器提示登录。请参阅[认证](/en/authentication)了解所有账户类型和团队设置选项。
+安装完成后，通过运行 `claude` 并按照浏览器提示登录。请参阅[认证](/zh/authentication)了解所有账户类型和团队设置选项。
 
 ## 更新 Claude Code
 
-原生安装会在后台自动更新。您可以[配置发布渠道](#configure-release-channel)来控制是立即接收更新还是延迟按稳定计划更新，或者[完全禁用自动更新](#disable-auto-updates)。Homebrew、WinGet 和 [Linux 软件包管理器](#install-with-linux-package-managers) 安装方式默认需要手动更新。
+原生安装会在后台自动更新。您可以[配置发布渠道](#配置发布渠道)来控制是立即接收更新还是延迟按稳定计划更新，或者[完全禁用自动更新](#禁用自动更新)。Homebrew、WinGet 和 [Linux 软件包管理器](#alpine-linux-和基于-musl-的发行版) 安装方式默认需要手动更新。
 
 ### 自动更新
 
@@ -164,11 +164,11 @@ Claude Code 会在启动时以及运行期间定期检查更新。更新会在�
 
 运行 `claude doctor` 可查看最近一次更新尝试的结果。
 
-如果由于 npm 全局目录不可写而导致 npm 全局安装无法自动更新，Claude Code 会在启动时显示一次性通知，并且 `claude doctor` 会列出可用的修复方法。详见[安装过程中的权限错误](/en/troubleshoot-install#permission-errors-during-installation)。
+如果由于 npm 全局目录不可写而导致 npm 全局安装无法自动更新，Claude Code 会在启动时显示一次性通知，并且 `claude doctor` 会列出可用的修复方法。详见[安装过程中的权限错误](/zh/troubleshoot-install#permission-errors-during-installation)。
 
-  Homebrew、WinGet、apt、dnf 和 apk 安装方式默认不会自动更新；如需为 Homebrew 和 WinGet 启用自动更新，请参阅下文。要手动升级 Homebrew，请根据您安装的 cask 类型运行 `brew upgrade claude-code` 或 `brew upgrade claude-code@latest`。对于 WinGet，请运行 `winget upgrade Anthropic.ClaudeCode`。有关 Linux 包管理器，请参阅 [使用 Linux 包管理器安装](#install-with-linux-package-managers) 中的升级命令。
+  Homebrew、WinGet、apt、dnf 和 apk 安装方式默认不会自动更新；如需为 Homebrew 和 WinGet 启用自动更新，请参阅下文。要手动升级 Homebrew，请根据您安装的 cask 类型运行 `brew upgrade claude-code` 或 `brew upgrade claude-code@latest`。对于 WinGet，请运行 `winget upgrade Anthropic.ClaudeCode`。有关 Linux 包管理器，请参阅 [使用 Linux 包管理器安装](#alpine-linux-和基于-musl-的发行版) 中的升级命令。
 
-  若要让 Claude Code 为您在 Homebrew 或 WinGet 上运行升级命令，请将 [`CLAUDE_CODE_PACKAGE_MANAGER_AUTO_UPDATE`](/en/env-vars) 设置为 `1`。随后，当有新版本可用时，Claude Code 会在后台运行升级，并在成功时显示重新启动提示。该升级仅针对 Claude Code 软件包，不会影响您安装的其他软件。
+  若要让 Claude Code 为您在 Homebrew 或 WinGet 上运行升级命令，请将 [`CLAUDE_CODE_PACKAGE_MANAGER_AUTO_UPDATE`](/zh/env-vars) 设置为 `1`。随后，当有新版本可用时，Claude Code 会在后台运行升级，并在成功时显示重新启动提示。该升级仅针对 Claude Code 软件包，不会影响您安装的其他软件。
 
   在 WinGet 上，当 Claude Code 正在运行时升级可能会失败，因为 Windows 会锁定可执行文件。在这种情况下，Claude Code 会改为显示手动升级命令。apt、dnf 和 apk 仍然需要手动升级，因为这些命令需要提升权限。
 
@@ -183,13 +183,13 @@ Claude Code 会在启动时以及运行期间定期检查更新。更新会在�
 * `"latest"`（默认值）：新功能发布后立即获取
 * `"stable"`：使用通常约一周前发布的版本，跳过存在重大回退的发布
 
-可通过 `/config` → **自动更新渠道** 进行配置，或将其添加至您的 [settings.json 文件](/en/settings)：
+可通过 `/config` → **自动更新渠道** 进行配置，或将其添加至您的 [settings.json 文件](/zh/settings)：
 ```json
 {
   "autoUpdatesChannel": "stable"
 }
 ```
-对于企业部署，您可以通过[托管设置](/en/permissions#managed-settings)在整个组织中强制使用一致的发布渠道。
+对于企业部署，您可以通过[托管设置](/zh/permissions#managed-settings)在整个组织中强制使用一致的发布渠道。
 
 Homebrew 安装方式通过 cask 名称选择渠道，而非此设置：`claude-code` 跟踪稳定版，`claude-code@latest` 跟踪最新版。
 
@@ -199,18 +199,18 @@ Homebrew 安装方式通过 cask 名称选择渠道，而非此设置：`claude-
 
 通过 `/config` 从 `"latest"` 切换到 `"stable"` 时，系统会提示您选择保持当前版本还是允许降级。选择保持当前版本会将 `minimumVersion` 设置为该版本。切换回 `"latest"` 则会清除该设置。
 
-请将其添加到您的 [settings.json 文件](/en/settings) 中以显式锁定最低版本：
+请将其添加到您的 [settings.json 文件](/zh/settings) 中以显式锁定最低版本：
 ```json
 {
   "autoUpdatesChannel": "stable",
   "minimumVersion": "2.1.100"
 }
 ```
-在[托管设置](/en/permissions#managed-settings)中，这会强制执行一个组织范围的最低要求，用户和项目设置无法覆盖该要求。
+在[托管设置](/zh/permissions#managed-settings)中，这会强制执行一个组织范围的最低要求，用户和项目设置无法覆盖该要求。
 
 ### 禁用自动更新
 
-在 [`settings.json`](/en/settings#available-settings) 文件的 `env` 键中，将 `DISABLE_AUTOUPDATER` 设置为 `"1"`：
+在 [`settings.json`](/zh/settings#available-settings) 文件的 `env` 键中，将 `DISABLE_AUTOUPDATER` 设置为 `"1"`：
 ```json
 {
   "env": {
@@ -218,7 +218,7 @@ Homebrew 安装方式通过 cask 名称选择渠道，而非此设置：`claude-
   }
 }
 ```
-`DISABLE_AUTOUPDATER` 只会停止后台检查；`claude update` 和 `claude install` 仍然有效。要阻止所有更新路径，包括手动更新，请设置 [`DISABLE_UPDATES`](/en/env-vars)。当你通过自己的渠道分发 Claude Code 并且需要用户停留在你提供的版本时，使用此选项。
+`DISABLE_AUTOUPDATER` 只会停止后台检查；`claude update` 和 `claude install` 仍然有效。要阻止所有更新路径，包括手动更新，请设置 [`DISABLE_UPDATES`](/zh/env-vars)。当你通过自己的渠道分发 Claude Code 并且需要用户停留在你提供的版本时，使用此选项。
 
 ### 手动更新
 
@@ -232,7 +232,7 @@ claude update
 
 ### 安装特定版本
 
-原生安装程序接受特定版本号或发布通道（`latest` 或 `stable`）。您在安装时选择的通道将成为自动更新的默认通道。有关更多信息，请参阅[配置发布通道](#configure-release-channel)。
+原生安装程序接受特定版本号或发布通道（`latest` 或 `stable`）。您在安装时选择的通道将成为自动更新的默认通道。有关更多信息，请参阅[配置发布通道](#配置发布渠道)。
 
 要安装最新版本（默认）：
 
@@ -298,7 +298,7 @@ claude update
 
 Claude Code 发布了经过签名的 apt、dnf 和 apk 仓库。要使用滚动通道，请将 `stable` 替换为 `latest`。通过包管理器安装的版本不会通过 Claude Code 自动更新；更新会随您常规的系统升级流程送达。
 
-所有仓库均使用 [Claude Code 发布签名密钥](#binary-integrity-and-code-signing) 进行签名。在信任该密钥之前，请按照每个选项卡中的说明进行验证。
+所有仓库均使用 [Claude Code 发布签名密钥](#安装-claude-code) 进行签名。在信任该密钥之前，请按照每个选项卡中的说明进行验证。
 
 
     针对Debian和Ubuntu系统。如需使用滚动版渠道，请将`deb`行中的两处`stable`均予修改：一处是URL路径，另一处是套件名称。
@@ -361,11 +361,11 @@ npm install -g @anthropic-ai/claude-code
 ```
 该 npm 包安装的原生二进制文件与独立安装程序相同。npm 通过如 `@anthropic-ai/claude-code-darwin-arm64` 这样的平台可选依赖来拉取二进制文件，并通过后安装步骤将其链接到位。安装的 `claude` 二进制文件本身不会调用 Node。
 
-支持的 npm 安装平台包括 `darwin-arm64`、`darwin-x64`、`linux-x64`、`linux-arm64`、`linux-x64-musl`、`linux-arm64-musl`、`win32-x64` 和 `win32-arm64`。您的包管理器必须允许可选依赖。如果安装后缺少二进制文件，请参阅[故障排除](/en/troubleshoot-install#native-binary-not-found-after-npm-install)。
+支持的 npm 安装平台包括 `darwin-arm64`、`darwin-x64`、`linux-x64`、`linux-arm64`、`linux-x64-musl`、`linux-arm64-musl`、`win32-x64` 和 `win32-arm64`。您的包管理器必须允许可选依赖。如果安装后缺少二进制文件，请参阅[故障排除](/zh/troubleshoot-install#native-binary-not-found-after-npm-install)。
 
 要升级 npm 安装，请运行 `npm install -g @anthropic-ai/claude-code@latest`。请避免使用 `npm update -g`，因为它会遵循原始安装时的 semver 范围，可能无法更新到最新版本。
 
-  请勿使用 `sudo npm install -g`，因为这可能导致权限问题和安全风险。如果遇到权限错误，请参阅[故障排除权限错误](/en/troubleshoot-install#permission-errors-during-installation)。
+  请勿使用 `sudo npm install -g`，因为这可能导致权限问题和安全风险。如果遇到权限错误，请参阅[故障排除权限错误](/zh/troubleshoot-install#permission-errors-during-installation)。
 
 ### 二进制完整性与代码签名
 
@@ -443,11 +443,11 @@ npm install -g @anthropic-ai/claude-code
 
 * **macOS**：由"Anthropic PBC"签名并经苹果公司公证。可通过 `codesign --verify --verbose ./claude` 进行验证。
 * **Windows**：由"Anthropic, PBC"签名。可通过 `Get-AuthenticodeSignature .\claude.exe` 进行验证。
-* **Linux**：二进制文件没有单独的代码签名。如果你直接从 `claude-code-releases` 存储桶下载或使用原生安装程序，请使用上述清单签名验证完整性。如果你通过 [apt、dnf 或 apk](#使用-linux-软件包管理器安装) 安装，你的包管理器会使用仓库签名密钥自动验证签名。
+* **Linux**：二进制文件没有单独的代码签名。如果你直接从 `claude-code-releases` 存储桶下载或使用原生安装程序，请使用上述清单签名验证完整性。如果你通过 [apt、dnf 或 apk](#使用-linux-包管理器安装) 安装，你的包管理器会使用仓库签名密钥自动验证签名。
 
 ## 卸载 Claude Code
 
-要移除 Claude Code，请根据你的安装方法遵循相应说明。如果之后 `claude` 仍能运行，你可能还有第二个安装版本或来自旧版安装程序的残留 shell 别名。请参阅[检查冲突的安装](/en/troubleshoot-install#check-for-conflicting-installations)以查找并移除它。
+要移除 Claude Code，请根据你的安装方法遵循相应说明。如果之后 `claude` 仍能运行，你可能还有第二个安装版本或来自旧版安装程序的残留 shell 别名。请参阅[检查冲突的安装](/zh/troubleshoot-install#check-for-conflicting-installations)以查找并移除它。
 
 ### 原生安装
 
@@ -519,7 +519,7 @@ npm uninstall -g @anthropic-ai/claude-code
 
   删除配置文件将会移除所有您的设置、已允许的工具、MCP 服务器配置以及会话历史记录。
 
-VS Code 扩展、JetBrains 插件和桌面应用同样会写入 `~/.claude/` 目录。如果其中任何一个仍然安装，该目录会在下次运行时被重新创建。若要完全移除 Claude Code，请在删除这些文件前，先卸载 [VS Code 扩展](/en/vs-code#uninstall-the-extension)、JetBrains 插件和桌面应用。
+VS Code 扩展、JetBrains 插件和桌面应用同样会写入 `~/.claude/` 目录。如果其中任何一个仍然安装，该目录会在下次运行时被重新创建。若要完全移除 Claude Code，请在删除这些文件前，先卸载 [VS Code 扩展](/zh/vs-code#uninstall-the-extension)、JetBrains 插件和桌面应用。
 
 要移除 Claude Code 的设置和缓存数据：
 

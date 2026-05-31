@@ -6,7 +6,7 @@
 
 > 在代理会话期间跟踪文件更改，并将文件恢复到任何先前状态
 
-文件检查点跟踪代理会话期间通过 Write、Edit 和 NotebookEdit 工具所做的文件修改，允许您将文件回溯到任何先前状态。想要尝试一下？跳转到[交互示例](#try-it-out)。
+文件检查点跟踪代理会话期间通过 Write、Edit 和 NotebookEdit 工具所做的文件修改，允许您将文件回溯到任何先前状态。想要尝试一下？跳转到[交互示例](#尝试一下)。
 
 使用检查点，您可以：
 
@@ -177,9 +177,9 @@
 
     设置了 `replay-user-messages` 选项后（如上所示），响应流中的每个用户消息都会附带一个用作检查点的 UUID。
 
-    对于大多数使用场景，只需捕获第一个用户消息的 UUID（`message.uuid`）；回溯至此可将所有文件恢复到原始状态。如需存储多个检查点并回溯至中间状态，请参阅[多个恢复点](#multiple-restore-points)。
+    对于大多数使用场景，只需捕获第一个用户消息的 UUID（`message.uuid`）；回溯至此可将所有文件恢复到原始状态。如需存储多个检查点并回溯至中间状态，请参阅[多个恢复点](#多个恢复点)。
 
-    捕获会话 ID（`message.session_id`）是可选的；仅当您希望在流处理完成后稍后回溯时才需要它。如果您在仍在处理消息时就立即调用 `rewindFiles()`（如[在风险操作前设置检查点](#checkpoint-before-risky-operations)中的示例所示），则可以跳过捕获会话 ID。
+    捕获会话 ID（`message.session_id`）是可选的；仅当您希望在流处理完成后稍后回溯时才需要它。如果您在仍在处理消息时就立即调用 `rewindFiles()`（如[在风险操作前设置检查点](#在高风险操作前设置检查点)中的示例所示），则可以跳过捕获会话 ID。
 
       ```python Python
       checkpoint_id = None
@@ -213,7 +213,7 @@
 
 
 
-    要在流完成之后进行回退，请使用空提示词恢复会话，并使用您的检查点 UUID 调用 `rewind_files()`（Python）或 `rewindFiles()`（TypeScript）。您也可以在流进行过程中进行回退；请参阅[在风险操作前设置检查点](#checkpoint-before-risky-operations)了解相关模式。
+    要在流完成之后进行回退，请使用空提示词恢复会话，并使用您的检查点 UUID 调用 `rewind_files()`（Python）或 `rewindFiles()`（TypeScript）。您也可以在流进行过程中进行回退；请参阅[在风险操作前设置检查点](#在高风险操作前设置检查点)了解相关模式。
 
       ```python Python
       async with ClaudeSDKClient(
@@ -448,7 +448,7 @@
 
 这个完整示例会创建一个小型工具文件，让代理添加文档注释，向您展示更改内容，然后询问您是否要回退。
 
-在开始之前，请确保您已安装 [Claude Agent SDK](/en/agent-sdk/quickstart)。
+在开始之前，请确保您已安装 [Claude Agent SDK](/zh/agent-sdk/quickstart)。
 
 
     创建一个名为 `utils.py` (Python) 或 `utils.ts` (TypeScript) 的新文件，并粘贴以下代码：
@@ -740,7 +740,7 @@
 
 ## 后续步骤
 
-* **[会话](/en/agent-sdk/sessions)**：了解如何恢复会话，这是流式传输完成后进行回溯所必需的操作。涵盖会话 ID、会话恢复及会话分叉等内容。
-* **[权限](/en/agent-sdk/permissions)**：配置 Claude 可以使用哪些工具以及如何批准文件修改。当您希望更精细地控制编辑发生时机时，此功能非常实用。
-* **[TypeScript SDK 参考](/en/agent-sdk/typescript)**：完整的 API 参考文档，包括 `query()` 和 `rewindFiles()` 方法的所有选项。
-* **[Python SDK 参考](/en/agent-sdk/python)**：完整的 API 参考文档，包括 `ClaudeAgentOptions` 和 `rewind_files()` 方法的所有选项。
+* **[会话](/zh/agent-sdk/sessions)**：了解如何恢复会话，这是流式传输完成后进行回溯所必需的操作。涵盖会话 ID、会话恢复及会话分叉等内容。
+* **[权限](/zh/agent-sdk/permissions)**：配置 Claude 可以使用哪些工具以及如何批准文件修改。当您希望更精细地控制编辑发生时机时，此功能非常实用。
+* **[TypeScript SDK 参考](/zh/agent-sdk/typescript)**：完整的 API 参考文档，包括 `query()` 和 `rewindFiles()` 方法的所有选项。
+* **[Python SDK 参考](/zh/agent-sdk/python)**：完整的 API 参考文档，包括 `ClaudeAgentOptions` 和 `rewind_files()` 方法的所有选项。

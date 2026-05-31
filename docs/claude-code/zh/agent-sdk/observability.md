@@ -15,7 +15,7 @@
 
 Agent SDK 可以将此数据作为 OpenTelemetry 轨迹、指标和日志事件导出到任何接受 OpenTelemetry 协议 (OTLP) 的后端，例如 Honeycomb、Datadog、Grafana、Langfuse 或自托管收集器。
 
-本指南解释了 SDK 如何发出遥测数据、如何配置导出，以及数据到达后端后如何标记和过滤。若要从 SDK 响应流中直接读取 token 使用量和成本，而不是导出到后端，请参阅[跟踪成本和使用情况](/en/agent-sdk/cost-tracking)。
+本指南解释了 SDK 如何发出遥测数据、如何配置导出，以及数据到达后端后如何标记和过滤。若要从 SDK 响应流中直接读取 token 使用量和成本，而不是导出到后端，请参阅[跟踪成本和使用情况](/zh/agent-sdk/cost-tracking)。
 
 ## SDK 如何产生遥测数据流
 
@@ -34,7 +34,7 @@ CLI 导出三个独立的 OpenTelemetry 信号。每个信号都有自己的启�
 | 日志事件   | 每个提示词、API 请求、API 错误和工具结果的结构化记录                        | `OTEL_LOGS_EXPORTER`                                                |
 | 轨迹       | 每个交互、模型请求、工具调用和钩子（测试版）的跨度                           | `OTEL_TRACES_EXPORTER` 加上 `CLAUDE_CODE_ENHANCED_TELEMETRY_BETA=1` |
 
-有关指标名称、事件名称和属性的完整列表，请参阅 Claude Code [监控](/en/monitoring-usage)参考。Agent SDK 发出相同的数据，因为它运行相同的 CLI。跨度名称列在下方的[读取代理轨迹](#read-agent-traces)中。
+有关指标名称、事件名称和属性的完整列表，请参阅 Claude Code [监控](/zh/monitoring-usage)参考。Agent SDK 发出相同的数据，因为它运行相同的 CLI。跨度名称列在下方的[读取代理轨迹](#读取代理跟踪数据)中。
 
 ## 启用遥测导出
 
@@ -134,13 +134,13 @@ CLI 会批量处理遥测数据并定期导出。在进程正常退出时，它�
 * **`claude_code.interaction`：** 封装代理循环的单次循环，从接收提示词到生成响应。
 * **`claude_code.llm_request`：** 封装对 Claude API 的每次调用，包含模型名称、延迟和 token 计数等属性。
 * **`claude_code.tool`：** 封装每次工具调用，包含用于权限等待的子级 span (`claude_code.tool.blocked_on_user`) 和执行本身的 span (`claude_code.tool.execution`)。
-* **`claude_code.hook`：** 封装每次[钩子](/en/agent-sdk/hooks)执行。除上述变量外，还需要详细的 beta 跟踪配置 (`ENABLE_BETA_TRACING_DETAILED=1` 和 `BETA_TRACING_ENDPOINT`)。
+* **`claude_code.hook`：** 封装每次[钩子](/zh/agent-sdk/hooks)执行。除上述变量外，还需要详细的 beta 跟踪配置 (`ENABLE_BETA_TRACING_DETAILED=1` 和 `BETA_TRACING_ENDPOINT`)。
 
 `llm_request`、`tool` 和 `hook` span 是外围 `claude_code.interaction` span 的子级。当代理通过 Task 工具生成子代理时，该子代理的 `llm_request` 和 `tool` span 将嵌套在父代理的 `claude_code.tool` span 下，因此整个委托链会显示为一个跟踪记录。
 
-默认情况下，Span 会携带 `session.id` 属性。当您对同一个[会话](/en/agent-sdk/sessions)进行多次 `query()` 调用时，在后端根据 `session.id` 进行筛选，即可将它们视为一条时间线。如果 `OTEL_METRICS_INCLUDE_SESSION_ID` 设置为假值，则该属性将被省略。
+默认情况下，Span 会携带 `session.id` 属性。当您对同一个[会话](/zh/agent-sdk/sessions)进行多次 `query()` 调用时，在后端根据 `session.id` 进行筛选，即可将它们视为一条时间线。如果 `OTEL_METRICS_INCLUDE_SESSION_ID` 设置为假值，则该属性将被省略。
 
-  追踪功能目前处于测试版。Span 名称和属性可能在版本更新时发生变化。请参阅监控参考中的[追踪（测试版）](/en/monitoring-usage#traces-beta)部分，了解追踪导出器配置变量。
+  追踪功能目前处于测试版。Span 名称和属性可能在版本更新时发生变化。请参阅监控参考中的[追踪（测试版）](/zh/monitoring-usage#traces-beta)部分，了解追踪导出器配置变量。
 
 ## 将链路追踪关联到您的应用
 
@@ -148,7 +148,7 @@ SDK 会自动将 W3C 追踪上下文传播到 CLI 子进程。当您在应用中
 
 启用追踪上下文传播后，CLI 也会将 `TRACEPARENT` 转发给其运行的每个 Bash 和 PowerShell 命令。如果通过 Bash 工具启动的命令发出自身的 OpenTelemetry span，这些 span 会嵌套在包裹该命令的 `claude_code.tool.execution` span 下。
 
-当您在 `options.env` 中显式设置 `TRACEPARENT` 时，自动注入会被跳过，因此您可以按需固定特定的父级上下文。交互式 CLI 会话会完全忽略传入的 `TRACEPARENT`；仅 Agent SDK 和 `claude -p` 运行会遵守它。完整的 span 和属性参考请查阅监控参考文档中的 [链路追踪（测试版）](/en/monitoring-usage#traces-beta)。
+当您在 `options.env` 中显式设置 `TRACEPARENT` 时，自动注入会被跳过，因此您可以按需固定特定的父级上下文。交互式 CLI 会话会完全忽略传入的 `TRACEPARENT`；仅 Agent SDK 和 `claude -p` 运行会遵守它。完整的 span 和属性参考请查阅监控参考文档中的 [链路追踪（测试版）](/zh/monitoring-usage#traces-beta)。
 
 ## 为代理添加遥测标签
 
@@ -180,9 +180,9 @@ SDK 会自动将 W3C 追踪上下文传播到 CLI 子进程。当您在应用中
 
 ## 将操作归属于您的最终用户
 
-CLI 会基于调用 Anthropic 所使用的凭据，为每个事件附加[身份属性](/en/monitoring-usage#standard-attributes)。当您构建一个为来自单一部署的多个最终用户提供服务的应用程序时，这些属性标识的是您服务的凭据，而非代理所代表行动的最终用户。
+CLI 会基于调用 Anthropic 所使用的凭据，为每个事件附加[身份属性](/zh/monitoring-usage#standard-attributes)。当您构建一个为来自单一部署的多个最终用户提供服务的应用程序时，这些属性标识的是您服务的凭据，而非代理所代表行动的最终用户。
 
-为使工具调用和 MCP 活动可归属于您应用程序的最终用户，请在每次 `query()` 调用时，将最终用户身份作为资源属性注入。在插值之前，应对值进行百分比编码，因为 `OTEL_RESOURCE_ATTRIBUTES` [保留了逗号、空格和等号](/en/monitoring-usage#multi-team-organization-support)。以下示例将请求用户和租户附加到单个请求产生的每个 span 和事件：
+为使工具调用和 MCP 活动可归属于您应用程序的最终用户，请在每次 `query()` 调用时，将最终用户身份作为资源属性注入。在插值之前，应对值进行百分比编码，因为 `OTEL_RESOURCE_ATTRIBUTES` [保留了逗号、空格和等号](/zh/monitoring-usage#multi-team-organization-support)。以下示例将请求用户和租户附加到单个请求产生的每个 span 和事件：
 
   ```python Python
   from urllib.parse import quote
@@ -205,7 +205,7 @@ CLI 会基于调用 Anthropic 所使用的凭据，为每个事件附加[身份�
   };
   ```
 
-附加最终用户身份后，`tool_decision`、`tool_result`、`mcp_server_connection` 和 `permission_mode_changed` 事件将形成可转发至安全信息与事件管理（SIEM）平台的每用户审计跟踪。请查阅监控参考文档中的 [审计安全事件](/en/monitoring-usage#audit-security-events) 章节，获取完整的安全相关事件列表及其包含的属性。
+附加最终用户身份后，`tool_decision`、`tool_result`、`mcp_server_connection` 和 `permission_mode_changed` 事件将形成可转发至安全信息与事件管理（SIEM）平台的每用户审计跟踪。请查阅监控参考文档中的 [审计安全事件](/zh/monitoring-usage#audit-security-events) 章节，获取完整的安全相关事件列表及其包含的属性。
 
 ## 在导出中控制敏感数据
 
@@ -215,15 +215,15 @@ CLI 会基于调用 Anthropic 所使用的凭据，为每个事件附加[身份�
 | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `OTEL_LOG_USER_PROMPTS=1` | `claude_code.user_prompt` 事件及 `claude_code.interaction` 跨度上的提示词文本                                                                                                                                                                                                                                                                                                                                                                                |
 | `OTEL_LOG_TOOL_DETAILS=1` | `claude_code.tool_result` 事件上的工具输入参数（文件路径、shell 命令、搜索模式）                                                                                                                                                                                                                                                                                                                                                                            |
-| `OTEL_LOG_TOOL_CONTENT=1` | 作为 `claude_code.tool` 跨度事件的完整工具输入和输出主体，在 60 KB 处截断。需启用 [追踪](#read-agent-traces) 功能                                                                                                                                                                                                                                                                                                                                            |
+| `OTEL_LOG_TOOL_CONTENT=1` | 作为 `claude_code.tool` 跨度事件的完整工具输入和输出主体，在 60 KB 处截断。需启用 [追踪](#读取代理跟踪数据) 功能                                                                                                                                                                                                                                                                                                                                            |
 | `OTEL_LOG_RAW_API_BODIES` | 作为 `claude_code.api_request_body` 和 `claude_code.api_response_body` 日志事件的完整 Anthropic Messages API 请求和响应 JSON。设置为 `1` 表示在 60 KB 处截断的内联主体，或 `file:<dir>` 表示磁盘上未截断的主体并在事件中包含 `body_ref` 路径。主体包含整个对话历史，并且扩展思考内容会被编辑。启用此选项即表示同意显示上述三个变量会暴露的所有内容 |
 
-除非您的可观测性管道被批准存储代理处理的数据，否则请勿设置这些变量。请查阅监控参考文档中的 [安全与隐私](/en/monitoring-usage#security-and-privacy) 章节，获取完整的属性列表和编辑行为。
+除非您的可观测性管道被批准存储代理处理的数据，否则请勿设置这些变量。请查阅监控参考文档中的 [安全与隐私](/zh/monitoring-usage#security-and-privacy) 章节，获取完整的属性列表和编辑行为。
 
 ## 相关文档
 
 以下指南涵盖了监控和部署代理的相关主题：
 
-*   [跟踪成本与用量](/en/agent-sdk/cost-tracking)：无需外部后端即可从消息流中读取 token 和成本数据。
-*   [托管 Agent SDK](/en/agent-sdk/hosting)：在容器中部署代理，您可以在环境层面设置 OpenTelemetry 变量。
-*   [监控](/en/monitoring-usage)：CLI 发出的每个环境变量、指标和事件的完整参考。
+*   [跟踪成本与用量](/zh/agent-sdk/cost-tracking)：无需外部后端即可从消息流中读取 token 和成本数据。
+*   [托管 Agent SDK](/zh/agent-sdk/hosting)：在容器中部署代理，您可以在环境层面设置 OpenTelemetry 变量。
+*   [监控](/zh/monitoring-usage)：CLI 发出的每个环境变量、指标和事件的完整参考。

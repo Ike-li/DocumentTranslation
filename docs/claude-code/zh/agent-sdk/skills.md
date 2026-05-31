@@ -24,7 +24,7 @@
 
 与子代理（可编程定义）不同，技能必须创建为文件系统工件。SDK 不提供用于注册技能的编程 API。
 
-  技能通过文件系统设置源进行发现。使用默认的 `query()` 选项时，SDK 会加载用户和项目来源，因此 `~/.claude/skills/`、`<cwd>/.claude/skills/` 以及从 `<cwd>` 到仓库根目录间任何父目录中的 `.claude/skills/` 下的技能均可用。若显式设置 `settingSources`，请包含 `'user'` 或 `'project'` 以保留技能发现功能，或使用 [`plugins` 选项](/en/agent-sdk/plugins) 从特定路径加载技能。
+  技能通过文件系统设置源进行发现。使用默认的 `query()` 选项时，SDK 会加载用户和项目来源，因此 `~/.claude/skills/`、`<cwd>/.claude/skills/` 以及从 `<cwd>` 到仓库根目录间任何父目录中的 `.claude/skills/` 下的技能均可用。若显式设置 `settingSources`，请包含 `'user'` 或 `'project'` 以保留技能发现功能，或使用 [`plugins` 选项](/zh/agent-sdk/plugins) 从特定路径加载技能。
 
 ## 通过 SDK 使用技能
 
@@ -101,7 +101,7 @@
 ```
 有关创建技能的完整指南，包括 SKILL.md 结构、多文件技能及示例，请参阅：
 
-* [Claude Code 中的代理技能](/en/skills)：包含示例的完整指南
+* [Claude Code 中的代理技能](/zh/skills)：包含示例的完整指南
 * [代理技能最佳实践](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices)：编写指南和命名约定
 
 ## 工具限制
@@ -232,7 +232,7 @@ Claude 会根据您的请求描述自动调用相关技能。
   };
   ```
 
-更多关于 `settingSources`/`setting_sources` 的详细信息，请参阅 [TypeScript SDK 参考文档](/en/agent-sdk/typescript#settingsource) 或 [Python SDK 参考文档](/en/agent-sdk/python#settingsource)。
+更多关于 `settingSources`/`setting_sources` 的详细信息，请参阅 [TypeScript SDK 参考文档](/zh/agent-sdk/typescript#settingsource) 或 [Python SDK 参考文档](/zh/agent-sdk/python#settingsource)。
 
 **检查工作目录**：SDK 会从 `cwd` 选项指定的目录以及直至仓库根目录的每一个父目录中的 `.claude/skills/` 文件夹加载技能。请确保 `cwd` 指向包含 `.claude/skills/` 的目录或其子目录，且位于同一仓库内：
 
@@ -272,21 +272,21 @@ ls ~/.claude/skills/*/SKILL.md
 
 ### 其他故障排查
 
-关于技能的一般故障排查（YAML 语法、调试等），请参见 [Claude Code 技能故障排查部分](/en/skills#troubleshooting)。
+关于技能的一般故障排查（YAML 语法、调试等），请参见 [Claude Code 技能故障排查部分](/zh/skills#troubleshooting)。
 
 ## 相关文档
 
 ### 技能指南
 
-* [Claude Code 中的 Agent 技能](/en/skills)：完整的技能指南，包含创建、示例和故障排查
+* [Claude Code 中的 Agent 技能](/zh/skills)：完整的技能指南，包含创建、示例和故障排查
 * [Agent 技能概述](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview)：概念性概述、优势与架构
 * [Agent 技能最佳实践](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices)：编写高效技能的指南
 * [Agent 技能示例手册](https://platform.claude.com/cookbook/skills-notebooks-01-skills-introduction)：示例技能和模板
 
 ### SDK 资源
 
-* [SDK 中的子代理](/en/agent-sdk/subagents)：类似的基于文件系统的代理，提供编程选项
-* [SDK 中的斜杠命令](/en/agent-sdk/slash-commands)：用户调用的命令
-* [SDK 概述](/en/agent-sdk/overview)：通用 SDK 概念
-* [TypeScript SDK 参考](/en/agent-sdk/typescript)：完整的 API 文档
-* [Python SDK 参考](/en/agent-sdk/python)：完整的 API 文档
+* [SDK 中的子代理](/zh/agent-sdk/subagents)：类似的基于文件系统的代理，提供编程选项
+* [SDK 中的斜杠命令](/zh/agent-sdk/slash-commands)：用户调用的命令
+* [SDK 概述](/zh/agent-sdk/overview)：通用 SDK 概念
+* [TypeScript SDK 参考](/zh/agent-sdk/typescript)：完整的 API 文档
+* [Python SDK 参考](/zh/agent-sdk/python)：完整的 API 文档

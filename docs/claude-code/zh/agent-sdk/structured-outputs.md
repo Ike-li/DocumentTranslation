@@ -6,9 +6,9 @@
 
 > 使用 JSON Schema、Zod 或 Pydantic 从代理工作流中返回经过验证的 JSON。在多轮工具使用后获得类型安全的结构化数据。
 
-结构化输出让您可以定义希望从代理获得的确切数据结构。代理可以使用所需的任何工具完成任务，最终您仍将获得与您的模式匹配的、经过验证的 JSON。为所需结构定义一个 [JSON Schema](https://json-schema.org/understanding-json-schema/about)，SDK 将根据它验证输出，若不匹配则会重新提示。如果在重试次数限制内验证仍未成功，结果将是错误而非结构化数据；请参阅[错误处理](#error-handling)。
+结构化输出让您可以定义希望从代理获得的确切数据结构。代理可以使用所需的任何工具完成任务，最终您仍将获得与您的模式匹配的、经过验证的 JSON。为所需结构定义一个 [JSON Schema](https://json-schema.org/understanding-json-schema/about)，SDK 将根据它验证输出，若不匹配则会重新提示。如果在重试次数限制内验证仍未成功，结果将是错误而非结构化数据；请参阅[错误处理](#错误处理)。
 
-要实现完整的类型安全，请使用 [Zod](#type-safe-schemas-with-zod-and-pydantic) (TypeScript) 或 [Pydantic](#type-safe-schemas-with-zod-and-pydantic) (Python) 来定义您的模式，并获取强类型的对象返回。
+要实现完整的类型安全，请使用 [Zod](#使用-zod-和-pydantic-实现类型安全模式) (TypeScript) 或 [Pydantic](#使用-zod-和-pydantic-实现类型安全模式) (Python) 来定义您的模式，并获取强类型的对象返回。
 
 ## 为何需要结构化输出？
 
@@ -395,4 +395,4 @@
 
 * [JSON Schema documentation](https://json-schema.org/)：学习使用嵌套对象、数组、枚举和验证约束定义复杂模式的 JSON Schema 语法
 * [API Structured Outputs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs)：直接在 Claude API 中使用结构化输出进行无需工具使用的单轮请求
-* [Custom tools](/en/agent-sdk/custom-tools)：为您的代理提供自定义工具，以便在返回结构化输出之前的执行期间调用
+* [Custom tools](/zh/agent-sdk/custom-tools)：为您的代理提供自定义工具，以便在返回结构化输出之前的执行期间调用
