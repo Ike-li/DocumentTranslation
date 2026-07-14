@@ -1,49 +1,49 @@
-name: Check Doc Updates
+# name: Check Doc Updates
 
-# 每天定时检测官方文档是否更新；有变更则建 Issue 提醒。
-# 注意：此工作流不翻译（翻译在本地用程序化 MIMO key 进行）。
+# # 每天定时检测官方文档是否更新；有变更则建 Issue 提醒。
+# # 注意：此工作流不翻译（翻译在本地用程序化 MIMO key 进行）。
 
-on:
-  schedule:
-    - cron: '0 0 * * *' # 每天 UTC 00:00
-  workflow_dispatch:
+# on:
+#   schedule:
+#     - cron: '0 0 * * *' # 每天 UTC 00:00
+#   workflow_dispatch:
 
-permissions:
-  contents: write # 提交更新后的 hash 缓存
-  issues: write # 创建提醒 Issue
+# permissions:
+#   contents: write # 提交更新后的 hash 缓存
+#   issues: write # 创建提醒 Issue
 
-jobs:
-  check:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+# jobs:
+#   check:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: '20'
+#           cache: 'npm'
 
-      - name: Install dependencies
-        run: npm ci
+#       - name: Install dependencies
+#         run: npm ci
 
-      - name: Detect changes
-        id: changes
-        run: npm run detect-changes
+#       - name: Detect changes
+#         id: changes
+#         run: npm run detect-changes
 
-      - name: Create reminder issue
-        if: steps.changes.outputs.has_changes == 'true'
-        uses: peter-evans/create-issue-from-file@v5
-        with:
-          title: '📢 官方文档有更新，请本地运行 npm run sync 翻译'
-          content-filepath: ./changes.md
-          labels: doc-update
+#       - name: Create reminder issue
+#         if: steps.changes.outputs.has_changes == 'true'
+#         uses: peter-evans/create-issue-from-file@v5
+#         with:
+#           title: '📢 官方文档有更新，请本地运行 npm run sync 翻译'
+#           content-filepath: ./changes.md
+#           labels: doc-update
 
-      - name: Commit updated hash cache
-        if: steps.changes.outputs.has_changes == 'true'
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add cache/*/doc-hashes.json
-          git commit -m "chore: update doc hash cache" && git push || echo "no change to commit"
+#       - name: Commit updated hash cache
+#         if: steps.changes.outputs.has_changes == 'true'
+#         run: |
+#           git config user.name "github-actions[bot]"
+#           git config user.email "github-actions[bot]@users.noreply.github.com"
+#           git add cache/*/doc-hashes.json
+#           git commit -m "chore: update doc hash cache" && git push || echo "no change to commit"
